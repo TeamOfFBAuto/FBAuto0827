@@ -162,12 +162,31 @@
     
     //搜索遮罩
     [_table showRefreshHeader:YES];
+    
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateAllParams:) name:UPDATE_CARSOURCE_PARAMS object:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//更新筛选条件及列表内容
+- (void)updateAllParams:(NSNotification *)notification
+{
+    if ((![_car isEqualToString:@"000000000"])|| _spot_future || _color_in || _color_out || _carfrom || _usertype || _province || _city) {
+        
+        NSLog(@"更新");
+        
+        [self clearSearchCondition];
+        
+        [_table showRefreshHeader:NO];
+    }else
+    {
+        NSLog(@"不更新");
+    }
 }
 
 /**

@@ -20,6 +20,8 @@
 
 #define NEED_REQUEST_CAR_BRAND @"NEED_REQUEST_CAR_BRAND" //需要请求车型数据
 
+#define UPDATE_CARSOURCE_PARAMS @"UPDATE_CARSOURCE_PARAMS" //更新车源列表筛选条件
+
 typedef void(^ urlRequestBlock)(NSDictionary *result,NSError *erro);
 
 @interface LCWTools : NSObject<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
