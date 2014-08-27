@@ -1,0 +1,211 @@
+PODS:
+  - AFNetworking (2.3.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.3.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.3.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.3.1)
+  - AFNetworking/Security (2.3.1)
+  - AFNetworking/Serialization (2.3.1)
+  - AFNetworking/UIKit (2.3.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - ASIHTTPRequest (1.8.2):
+    - ASIHTTPRequest/ASIWebPageRequest
+    - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/Core
+    - ASIHTTPRequest/S3
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/CloudFiles (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/Core (1.8.2):
+    - Reachability
+  - ASIHTTPRequest/S3 (1.8.2):
+    - ASIHTTPRequest/Core
+  - CocoaAsyncSocket (7.3.5)
+  - CocoaLumberjack (1.6.5.1):
+    - CocoaLumberjack/Core
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (1.6.5.1)
+  - CocoaLumberjack/Extensions (1.6.5.1):
+    - CocoaLumberjack/Core
+  - GDataXML-HTML (1.1.0)
+  - iCarousel (1.7.6)
+  - JSONKit (1.5pre)
+  - MBProgressHUD (0.8)
+  - Reachability (3.1.1)
+  - RegexKitLite (4.0)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.7.1)
+  - UMeng (2.2.1)
+  - XMPPFramework (3.6.4):
+    - XMPPFramework/Authentication
+    - XMPPFramework/BandwidthMonitor
+    - XMPPFramework/Categories
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/GoogleSharedStatus
+    - XMPPFramework/KissXML
+    - XMPPFramework/ProcessOne
+    - XMPPFramework/Reconnect
+    - XMPPFramework/Roster
+    - XMPPFramework/SystemInputActivityMonitor
+    - XMPPFramework/Utilities
+    - XMPPFramework/XEP-0009
+    - XMPPFramework/XEP-0012
+    - XMPPFramework/XEP-0016
+    - XMPPFramework/XEP-0045
+    - XMPPFramework/XEP-0054
+    - XMPPFramework/XEP-0059
+    - XMPPFramework/XEP-0060
+    - XMPPFramework/XEP-0065
+    - XMPPFramework/XEP-0066
+    - XMPPFramework/XEP-0082
+    - XMPPFramework/XEP-0085
+    - XMPPFramework/XEP-0100
+    - XMPPFramework/XEP-0106
+    - XMPPFramework/XEP-0115
+    - XMPPFramework/XEP-0136
+    - XMPPFramework/XEP-0153
+    - XMPPFramework/XEP-0172
+    - XMPPFramework/XEP-0184
+    - XMPPFramework/XEP-0199
+    - XMPPFramework/XEP-0202
+    - XMPPFramework/XEP-0203
+    - XMPPFramework/XEP-0223
+    - XMPPFramework/XEP-0224
+    - XMPPFramework/XEP-0297
+    - XMPPFramework/XEP-0308
+  - XMPPFramework/Authentication (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/BandwidthMonitor (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Categories (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Core (3.6.4):
+    - CocoaAsyncSocket (~> 7.3.1)
+    - CocoaLumberjack (~> 1.6.2)
+    - XMPPFramework/Authentication
+    - XMPPFramework/Categories
+    - XMPPFramework/KissXML
+    - XMPPFramework/Utilities
+  - XMPPFramework/CoreDataStorage (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/GoogleSharedStatus (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/KissXML (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/ProcessOne (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Reconnect (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Roster (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/SystemInputActivityMonitor (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/Utilities (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0009 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0012 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0016 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0045 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0054 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/Roster
+    - XMPPFramework/XEP-0153
+  - XMPPFramework/XEP-0059 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0060 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0065 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0066 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0082 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0085 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0100 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0106 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0115 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+  - XMPPFramework/XEP-0136 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0085
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0153 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0054
+  - XMPPFramework/XEP-0172 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0184 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0199 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0202 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0203 (3.6.4):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0223 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0224 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0297 (3.6.4):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0308 (3.6.4):
+    - XMPPFramework/Core
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.0)
+  - ASIHTTPRequest
+  - GDataXML-HTML (~> 1.1.0)
+  - iCarousel (~> 1.7.6)
+  - JSONKit
+  - MBProgressHUD (~> 0.8)
+  - RegexKitLite (~> 4.0)
+  - SDWebImage (~> 3.6)
+  - UMeng (~> 2.2.1)
+  - XMPPFramework (~> 3.6.4)
+
+SPEC CHECKSUMS:
+  AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
+  ASIHTTPRequest: 2c8335b49410c0e2ad42829c438e74d454b77590
+  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
+  GDataXML-HTML: 3f6537789b55edbc4d83283566f9779abd9680bc
+  iCarousel: c35a4e26b3c657847e523012b593e70ddbd84992
+  JSONKit: efef3bbd3372ff33f96b9c6f34cf4fe18e74ab69
+  MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
+  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+  RegexKitLite: 761b4944f23cb8fe20697b2e47be0689fd832c09
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  UMeng: e5b6c6a06215aeba33cb59159341ab3d6d292935
+  XMPPFramework: 15ca7fcceb7d22c2580ecf6f6e69744dbe2ba25b
+
+COCOAPODS: 0.33.1
