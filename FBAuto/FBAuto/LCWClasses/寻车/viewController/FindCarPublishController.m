@@ -14,7 +14,7 @@
 #import "FBFindCarDetailController.h"
 #import "DXAlertView.h"
 
-@interface FindCarPublishController ()<UITextFieldDelegate>
+@interface FindCarPublishController ()<UITextViewDelegate>
 {
     MBProgressHUD *loadingHub;
     UIScrollView *bigBgScroll;//背景scroll
@@ -26,12 +26,12 @@
     int _spot_future;// 现货或者期货id
     int _color_out;// 外观颜色id
     int _color_in;// 内饰颜色id
-    int _carfrom;// 汽车规格id（美规，中规）
+    int _carfrom;// 汽车版本id（美规，中规）
     int _deposit;//定金
     int _province;
     int _city;
     NSString *_cardiscrib;// 车源描述
-    UITextField *descriptionTF;
+    UITextView *descriptionTF;
 }
 
 @end
@@ -71,7 +71,7 @@
     _spot_future = 0;// 现货或者期货id
     _color_out = 0;// 外观颜色id
     _color_in = 0;// 内饰颜色id
-    _carfrom = 0;// 汽车规格id（美规，中规）
+    _carfrom = 0;// 汽车版本id（美规，中规）
     _deposit = 0;//定金
     
     if (self.actionStyle == Find_Action_Add) {
@@ -93,10 +93,15 @@
 
 - (void)createSection
 {
+    //    NSArray *titles1 = @[@"地区",@"车型"];
+    NSArray *titles1 = @[@"车型"];
+    //    NSArray *titles2 = @[@"地区",@"版本",@"库存",@"外观色",@"内饰色",@"定金"];
+    NSArray *titles2 = @[@"地区",@"版本",@"库存",@"外观色",@"内饰色"];
+    
     UILabel *firstLabel = [self createLabelFrame:CGRectMake(10, 0, 300, 45) text:@"必填" alignMent:NSTextAlignmentLeft textColor:[UIColor colorWithHexString:@"818181"]];
     [bigBgScroll addSubview:firstLabel];
     
-    UIView *firstBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstLabel.bottom, 320 - 20, 45 * 2)];
+    UIView *firstBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstLabel.bottom, 320 - 20, 45 * titles1.count)];
     firstBgView.backgroundColor = [UIColor clearColor];
     firstBgView.layer.borderWidth = 1.0;
     firstBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
@@ -105,36 +110,36 @@
     UILabel *secondLabel = [self createLabelFrame:CGRectMake(10, firstBgView.bottom, 300, 45) text:@"选填" alignMent:NSTextAlignmentLeft textColor:[UIColor colorWithHexString:@"818181"]];
     [bigBgScroll addSubview:secondLabel];
     
-    UIView *secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, secondLabel.bottom, 320 - 20, 45 * 6)];
+    UIView *secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, secondLabel.bottom, 320 - 20, 45 * (titles1.count + titles2.count) + 45)];
     secondBgView.backgroundColor = [UIColor clearColor];
     secondBgView.layer.borderWidth = 1.0;
     secondBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
     [bigBgScroll addSubview:secondBgView];
     
-    NSArray *titles1 = @[@"地区",@"车型"];
+
     for (int i = 0; i < titles1.count; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(0, 45 * i, secondBgView.width, 45) title:[titles1 objectAtIndex:i] target:self action:@selector(clickToParams:) sectionStyle:Section_Normal image:nil];
         btn.tag = 100 + i;
         [firstBgView addSubview:btn];
     }
     
-    NSArray *titles2 = @[@"规格",@"期现",@"外观色",@"内饰色",@"定金"];
+
     for (int i = 0; i < titles2.count; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(0, 45 * i, secondBgView.width, 45) title:[titles2 objectAtIndex:i] target:self action:@selector(clickToParams:) sectionStyle:Section_Normal image:nil];
-        btn.tag = 100 + i + 2;
+        btn.tag = 100 + i + 2 - 1;
         btn.contentLabel.text = @"不限";
         [secondBgView addSubview:btn];
     }
     
     //车源描述，需要输入
     
-    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(0, 45*5, 300, 0.5)];
+    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(0, 45*titles2.count, 300, 0.5)];
     line2.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
     [secondBgView addSubview:line2];
     
-    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*5, 100, 45.f) text:@"寻车描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
+    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*titles2.count, 100, 45.f) text:@"寻车描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
     
-    descriptionTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45 * 5, 175, 45)];
+    descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * titles2.count + 5, 220, 45 * 2 - 10)];
     descriptionTF.delegate = self;
     descriptionTF.backgroundColor = [UIColor clearColor];
     [secondBgView addSubview:descriptionTF];
@@ -166,20 +171,53 @@
 
 #pragma - mark 价格输入框
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
     [UIView animateWithDuration:0.5 animations:^{
         
-        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 251 : 400);
+        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 251 : 400 - 100);
     }];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        bigBgScroll.contentOffset = CGPointMake(0, 0);
+//    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 45 : 145);
+//        bigBgScroll.scrollEnabled = YES;
+        
+    }];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound )
+    {
+        return YES;
+    }
+    [descriptionTF resignFirstResponder];
+    return NO;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 251 : 400);
+//    }];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        bigBgScroll.contentOffset = CGPointMake(0, 0);
-    }];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        bigBgScroll.contentOffset = CGPointMake(0, 0);
+//    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -201,14 +239,15 @@
     DATASTYLE aStyle = 0;
     NSString *title = @"";
     
+    NSLog(@"btn tag %d",btn.tag);
     switch (btn.tag) {
-        case 100:
+        case 101:
         {
             aStyle = Data_Area;
             title = @"地区";
         }
             break;
-        case 101:
+        case 100:
         {
             aStyle = Data_Car_Brand;
             title = @"车型";
@@ -217,13 +256,13 @@
         case 102:
         {
             aStyle = Data_Standard;
-            title = @"规格";
+            title = @"版本";
         }
             break;
         case 103:
         {
             aStyle = Data_Timelimit;
-            title = @"期限";
+            title = @"库存";
         }
             break;
         case 104:
@@ -332,13 +371,13 @@
 
 - (void)clickToPublish:(UIButton *)btn
 {
-    Section_Button *btn1 = (Section_Button *)[bigBgScroll viewWithTag:100];
-    if (btn1.contentLabel.text == nil || [btn1.contentLabel.text isEqualToString:@""]) {
-        [self alertText:@"请选择地区"];
-        return;
-    }
+//    Section_Button *btn1 = (Section_Button *)[bigBgScroll viewWithTag:100];
+//    if (btn1.contentLabel.text == nil || [btn1.contentLabel.text isEqualToString:@""]) {
+//        [self alertText:@"请选择地区"];
+//        return;
+//    }
     
-    Section_Button *btn2 = (Section_Button *)[bigBgScroll viewWithTag:101];
+    Section_Button *btn2 = (Section_Button *)[bigBgScroll viewWithTag:100];
     if (btn2.contentLabel.text == nil || [btn2.contentLabel.text isEqualToString:@""]) {
         [self alertText:@"请选择车型"];
         return;
@@ -363,6 +402,13 @@
     
     NSString *descrip = descriptionTF.text;
     descrip = descrip ? descrip : @"无";
+    
+    NSString *area = [self labelWithTag:101].text;
+    if ([area isEqualToString:@"不限"]) {
+        _province = 9999;
+        _city = 9999;
+    }
+    
     NSString *url = @"";
     
     NSLog(@"发布列表 %@",url);
@@ -397,9 +443,13 @@
         alert.rightBlock = ^(){
             NSLog(@"取消");
             
-            int infoId = [[result objectForKey:@"datainfo"]integerValue];
+            if (self.actionStyle == Find_Action_Add)
+            {
+                int infoId = [[result objectForKey:@"datainfo"]integerValue];
+                
+                [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
+            }
             
-            [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
             
         };
         
@@ -433,11 +483,11 @@
         NSDictionary *dic = [dataInfo objectAtIndex:0];
         
         //        //参数
-        [self labelWithTag:101].text = [dic objectForKey:@"car_name"];
+        [self labelWithTag:100].text = [dic objectForKey:@"car_name"];
         
         _car = [dic objectForKey:@"car"];
         
-        [self labelWithTag:100].text  =[self showForText:[NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]]] ;
+        [self labelWithTag:101].text  =[self showForText:[NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]]] ;
         
         _province = [FBCityData cityIdForName:[dic objectForKey:@"province"]];
         _city = [FBCityData cityIdForName:[dic objectForKey:@"city"]];

@@ -31,6 +31,7 @@
 #import "FBFindCarDetailController.h"
 
 #import "DXAlertView.h"
+#import "GuserZyViewController.h"
 
 #define MESSAGE_PAGE_SIZE 10
 
@@ -1114,7 +1115,12 @@
 
 - (void)clickToHome:(UIButton *)btn
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    GuserZyViewController *personal = [[GuserZyViewController alloc]init];
+    personal.title = self.chatWithUserName ? self.chatWithUserName : self.chatUserId;
+    personal.userId = self.chatUserId;
+    [self.navigationController pushViewController:personal animated:YES];
 }
 
 #pragma - mark 发送图片

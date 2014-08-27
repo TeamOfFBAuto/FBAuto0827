@@ -57,13 +57,13 @@
             break;
         case Data_Standard:
         {
-            title = @"规格";
+            title = @"版本";
             self.dataArray = self.haveLimit ? MENU_STANDARD : MENU_STANDARD_2;
         }
             break;
         case Data_Timelimit:
         {
-            title = @"期限";
+            title = @"库存";
             self.dataArray = self.haveLimit ? MENU_TIMELIMIT : MENU_TIMELIMIT_2;
         }
             break;

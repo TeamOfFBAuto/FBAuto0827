@@ -71,6 +71,8 @@
     successBlock = completionBlock;
     failBlock = failedBlock;
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     NSString *newStr = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSLog(@"requestUrl %@",newStr);
@@ -135,6 +137,8 @@
             failBlock(failDic,connectionError);
             
         }
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
     }];
 

@@ -42,7 +42,7 @@
     RefreshTableView *_table;
     
     Menu_Advanced *menu_Advanced;//高级
-    Menu_Normal *menu_Standard;//规格
+    Menu_Normal *menu_Standard;//规格（版本）
     Menu_Normal *menu_Source;//来源
     Menu_Normal *menu_Timelimit;//期限
     Menu_Car *menu_Car;//车型选择
@@ -188,11 +188,11 @@
     [menu_Advanced removeFromSuperview];
     menu_Advanced = nil;//高级
     [menu_Standard removeFromSuperview];
-    menu_Standard = nil;//规格
+    menu_Standard = nil;//规格 版本
     [menu_Source removeFromSuperview];
     menu_Source = nil;//来源
     [menu_Timelimit removeFromSuperview];
-    menu_Timelimit = nil;//期限
+    menu_Timelimit = nil;//期限（库存）
     [menu_Car removeFromSuperview];
     menu_Car = nil;//车型选择
     
@@ -297,7 +297,7 @@
     menuBgView.backgroundColor = [UIColor colorWithHexString:@"ff9c00"];
     [self.view addSubview:menuBgView];
     
-    NSArray *items = @[@"车型",@"规格",@"来源",@"期限",@"高级"];
+    NSArray *items = @[@"车型",@"版本",@"来源",@"库存",@"高级"];
     
     CGFloat everyWidth = (320 - 4) / items.count;//每个需要的宽度
     CGFloat needWidth = 0.0;
@@ -637,7 +637,7 @@
  *  @param spot_future 现货或者期货id（如果不选择时为0）
  *  @param color_out   外观颜色id（如果不选择时为0）
  *  @param color_in    内饰颜色id（如果不选择时为0）
- *  @param carfrom     汽车规格id（美规，中规，如果不选择时为0）
+ *  @param carfrom     汽车版本id（美规，中规，如果不选择时为0）
  *  @param usertype    用户类型id（商家或者个人，如果不选择时为0）
  *  @param province    省份id （如果不选择时为0）
  *  @param city        城市id（如果不选择时为0）

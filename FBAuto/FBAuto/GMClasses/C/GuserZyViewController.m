@@ -344,7 +344,9 @@
         CarSourceClass *car = _dataArray[indexPath.row-4];
         fbdetailvc.infoId = car.id;
         fbdetailvc.isHiddenUeserInfo = YES;
-        
+        fbdetailvc.style = Navigation_Special;
+        fbdetailvc.navigationTitle = @"详情";
+        fbdetailvc.carId = car.car;
         [self.navigationController pushViewController:fbdetailvc animated:YES];
     }
     

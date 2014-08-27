@@ -33,7 +33,7 @@
 
 #define KFistSectionHeight 110 //上部分高度
 
-@interface SendCarViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate,UIScrollViewDelegate,UITextFieldDelegate>
+@interface SendCarViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate>
 {
     UIImageView *navigationBgView;
     
@@ -53,7 +53,7 @@
     QBImagePickerController * imagePickerController;
     
     UITextField *priceTF;//价格输入
-    UITextField *descriptionTF;//车源描述输入
+    UITextView *descriptionTF;//车源描述输入
     
     //车源列表参数
     NSString *_car;//  车型id
@@ -516,6 +516,43 @@
 
 #pragma - mark 价格输入框
 
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    isShowKeyboard = YES;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 : 150 + 101 + 45);
+        bigBgScroll.scrollEnabled = NO;
+    }];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (isShowKeyboard) {
+        return;
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        bigBgScroll.contentOffset = CGPointMake(0, bigBgScroll.contentSize.height - bigBgScroll.height);
+        bigBgScroll.scrollEnabled = YES;
+
+    }];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound )
+    {
+        return YES;
+    }
+    
+    isShowKeyboard = NO;
+    [priceTF resignFirstResponder];
+    [descriptionTF resignFirstResponder];
+    return NO;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     
     isShowKeyboard = YES;
@@ -689,7 +726,7 @@
     pubBtnFrame.origin.y = secondBgView.bottom + 16;
     publish.frame = pubBtnFrame;
     
-    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10);
+    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10 + iPhone5 ? 0 : 45 * 2);
 }
 
 
@@ -883,13 +920,13 @@
 
 - (void)createSecondSection
 {
-    secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstBgView.bottom, 320 - 20, 45 * 7)];
+    secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstBgView.bottom, 320 - 20, 45 * 7 + 45 * 1)];
     secondBgView.backgroundColor = [UIColor clearColor];
     secondBgView.layer.borderWidth = 1.0;
     secondBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
     [bigBgScroll addSubview:secondBgView];
     
-    NSArray *titles = @[@"车型",@"规格",@"期现",@"外观颜色",@"内饰颜色"];
+    NSArray *titles = @[@"车型",@"版本",@"库存",@"外观颜色",@"内饰颜色"];
     for (int i = 0; i < 5; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(0, 45 * i, secondBgView.width, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToParams:) sectionStyle:Section_Normal image:nil];
         btn.tag = 100 + i;
@@ -920,9 +957,11 @@
     
     [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*6, 100, 45.f) text:@"车源描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
     
-    descriptionTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45 * 6, 175, 45)];
+    descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * 6 + 5, 200 + 10 + 10, 45 * 2 - 10)];
     descriptionTF.delegate = self;
     descriptionTF.backgroundColor = [UIColor clearColor];
+    descriptionTF.font = [UIFont systemFontOfSize:16];
+//    descriptionTF.text = @"阿卡涉及到卡里就SD卡辣椒水宽带连接阿卡丽四大皆空垃圾SD卡垃圾SD卡垃圾是考虑到久爱时空考虑时间阿克拉结SD卡垃圾收点卡啦";
     [secondBgView addSubview:descriptionTF];
 
     
@@ -968,13 +1007,13 @@
         case 101:
         {
             aStyle = Data_Standard;
-            title = @"规格";
+            title = @"版本";
         }
             break;
         case 102:
         {
             aStyle = Data_Timelimit;
-            title = @"期限";
+            title = @"库存";
         }
             break;
         case 103:
@@ -1086,11 +1125,11 @@
                 
             }else if (i == 1)
             {
-                [self alertText:@"请选择规格"];
+                [self alertText:@"请选择版本"];
                 
             }else if (i == 2)
             {
-                [self alertText:@"请选择期限"];
+                [self alertText:@"请选择库存"];
                 
             }else if (i == 3)
             {

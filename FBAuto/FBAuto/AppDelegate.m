@@ -86,7 +86,7 @@
     
     fabuCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"发布" image:[UIImage imageNamed:@"fabu_down46_46"] tag:1];
     
-    searchCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"寻车" image:[UIImage imageNamed:@"xunche_down46_46"] tag:2];
+    searchCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"求购" image:[UIImage imageNamed:@"xunche_down46_46"] tag:2];
     
     perSonalVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"个人中心" image:[UIImage imageNamed:@"geren_down46_46"] tag:3];
     
@@ -317,6 +317,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    //图标显示
+    application.applicationIconBadgeNumber = 0;
+    
     [[XMPPServer shareInstance]loginTimes:10 loginBack:^(BOOL result) {
         if (result) {
             NSLog(@"连接并且登录成功");
