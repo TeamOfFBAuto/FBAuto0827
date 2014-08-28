@@ -63,7 +63,7 @@
     
     CGPoint point = [touch locationInView:self];
     
-    if (point.x < 120) {
+    if (point.x < 100) {
         
         return;
     }
@@ -76,7 +76,7 @@
     
     CGPoint point = [touch locationInView:self];
     
-    if (point.x < 120) {
+    if (point.x < 100) {
         
         return;
     }

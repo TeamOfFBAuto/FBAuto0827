@@ -68,6 +68,10 @@
     NSString *_photo;// 图片id（用逗号隔开）
     
     NSString *build_time;//生产日期
+    
+    int _car_custom;//（1自定义车型 0非自定义车型）
+    
+    NSString *_carname_custom;//自定义车型名称部分
 
     
     MBProgressHUD *loadingHub;
@@ -186,13 +190,13 @@
     
     if (self.actionStyle == Action_Add) {
         
-        url = [NSString stringWithFormat:@"%@&authkey=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=0&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_ADD_SOURCE,[GMAPI getAuthkey],_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,@"",_photo];
+        url = [NSString stringWithFormat:@"%@&authkey=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=%d&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_ADD_SOURCE,[GMAPI getAuthkey],_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,_car_custom,_carname_custom,_photo];
         
         NSLog(@"发布车源 %@",url);
         
     }else if (self.actionStyle == Action_Edit)
     {
-        url = [NSString stringWithFormat:@"%@&authkey=%@&cid=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=0&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_EDIT,[GMAPI getAuthkey],self.infoId,_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,@"",_photo];
+        url = [NSString stringWithFormat:@"%@&authkey=%@&cid=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=%d&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_EDIT,[GMAPI getAuthkey],self.infoId,_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,_car_custom,_carname_custom,_photo];
         
         NSLog(@"修改车源 %@",url);
     }
@@ -295,7 +299,13 @@
         //车辆图片
         
         [self labelWithTag:100].text = [dic objectForKey:@"car_name"];
-        _car = [dic objectForKey:@"car"];
+        
+//        _car = [dic objectForKey:@"car"];
+        
+        //修改车源信息进来 _car 都置为 000000000 （后台默认不修改）
+        
+        _car = @"000000000";
+        
         [self labelWithTag:101].text = [dic objectForKey:@"carfrom"];
         _carfrom = (int)[MENU_STANDARD indexOfObject:[dic objectForKey:@"carfrom"]];
         
@@ -813,6 +823,17 @@
             case Data_Car_Style:
             {
                 _car = paramId;
+                _carname_custom = @"";
+                _car_custom = 0;
+            }
+                break;
+                
+            case Data_Car_Type_Custom:
+            case Data_Car_Style_Custom:
+            {
+                _car = paramId;
+                _carname_custom = paramName;
+                _car_custom = 1;//是自定义
             }
                 break;
             case Data_Standard:

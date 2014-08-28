@@ -339,8 +339,9 @@
     return YES;
 }
 
-#pragma - mark 内容滑动到最后一条
-
+/**
+ *  内容滑动到最后一条
+ */
 - (void)scrollToBottom
 {
     if (messages.count > 1) {
@@ -349,7 +350,10 @@
         
     }
 }
-#pragma - mark 缩放图片
+
+/**
+ *   缩放图片
+ */
 
 -(UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
 {
@@ -364,7 +368,10 @@
 #pragma mark - 网络请求
 #pragma mark
 
-#pragma - mark 获取用户在线状态
+/**
+ *  获取用户在线状态
+ *
+ */
 
 - (NSString *)requestUserState:(NSString *)userId
 {
@@ -445,7 +452,9 @@
     }];
 }
 
-#pragma - mark XMPP发送消息
+/**
+ *  XMPP发送消息
+ */
 
 - (void)xmppSendMessage:(NSString *)messageText
 {
@@ -469,6 +478,14 @@
         if (tag == 1) {
             
             NSLog(@"发送成功");
+            
+            
+            //本地记录最新一条聊天消息
+            
+//            [FBCityData updateCurrentUserPhone:self.chatWithUser fromUserPhone:[GMAPI getUserPhoneNumber] fromName:[GMAPI getUsername] fromId:[GMAPI getUid] newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
+            
+            
+            [FBCityData updateCurrentUserPhone:[GMAPI getUserPhoneNumber] fromUserPhone:self.chatWithUser fromName:self.chatWithUserName fromId:self.chatUserId newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
             
             if (weakSelf.isShare) {
                 
@@ -960,11 +977,10 @@
 #pragma mark - 事件处理
 #pragma mark
 
-
-
-#pragma - mark 验证是否登录成功,否则自动登录再fasong
-
-//发送图片时aImage不为空
+/**
+ *  验证是否登录成功,否则自动登录再发送
+ *  @param aImage 发送图片时aImage不为空
+ */
 
 - (void)xmppAuthenticatedWithMessage:(NSString *)text MessageType:(MESSAGE_TYPE)type image:(UIImage *)aImage
 {

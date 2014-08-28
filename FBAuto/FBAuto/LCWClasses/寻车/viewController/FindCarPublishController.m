@@ -32,6 +32,10 @@
     int _city;
     NSString *_cardiscrib;// 车源描述
     UITextView *descriptionTF;
+    
+    int _car_custom;//（1自定义车型 0非自定义车型）
+    
+    NSString *_carname_custom;//自定义车型名称部分
 }
 
 @end
@@ -308,6 +312,17 @@
             case Data_Car_Style:
             {
                 _car = paramId;
+                _carname_custom = @"";
+                _car_custom = 0;
+            }
+                break;
+                
+            case Data_Car_Type_Custom:
+            case Data_Car_Style_Custom:
+            {
+                _car = paramId;
+                _carname_custom = paramName;
+                _car_custom = 1;//是自定义
             }
                 break;
             case Data_Standard:
@@ -417,7 +432,7 @@
     if (self.actionStyle == Find_Action_Add) {
         
         url = [NSString stringWithFormat:
-               @"%@&authkey=%@&province=%d&city=%d&car=%@&spot_future=%d&color_out=%d&color_in=%d&deposit=%d&carfrom=%d&cardiscrib=%@",FBAUTO_FINDCAR_PUBLISH,[GMAPI getAuthkey],_province,_city,_car,_spot_future,_color_out,_color_in,_deposit,_carfrom,descrip];
+               @"%@&authkey=%@&province=%d&city=%d&car=%@&spot_future=%d&color_out=%d&color_in=%d&deposit=%d&carfrom=%d&cardiscrib=%@&car_custom=%d&carname_custom=%@",FBAUTO_FINDCAR_PUBLISH,[GMAPI getAuthkey],_province,_city,_car,_spot_future,_color_out,_color_in,_deposit,_carfrom,descrip,_car_custom,_carname_custom];
         
     }else if (self.actionStyle == Find_Action_Edit) {
         

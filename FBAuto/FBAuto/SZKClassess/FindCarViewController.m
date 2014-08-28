@@ -163,7 +163,7 @@
 
 - (void)conditionViews
 {
-    menu_Advanced = [[Menu_Advanced alloc]initWithFrontView:menuBgView contentStyle:Content_Out_In];
+    menu_Advanced = [[Menu_Advanced alloc]initWithFrontView:menuBgView contentStyle:Content_In];
     
     [menu_Advanced selectBlock:^(BlockStyle style, NSString *colorName, NSString *colorId) {
         
@@ -204,11 +204,15 @@
         
     }];
     
-    menu_Timelimit = [[Menu_Normal alloc]initWithFrontView:menuBgView menuStyle:Menu_Money];
+    menu_Timelimit = [[Menu_Normal alloc]initWithFrontView:menuBgView menuStyle:Menu_Color_Out];
     [menu_Timelimit selectNormalBlock:^(MenuStyle style, NSString *select) {
         NSLog(@"%@",select);
         
-        _spot_future = [select intValue];
+//        _spot_future = [select intValue];
+        
+        NSLog(@"选择颜色:外观 %@",select);
+        
+        _color_out = [select intValue];
         
         [self updateParam];
     }];
@@ -321,7 +325,8 @@
     menuBgView.backgroundColor = [UIColor colorWithHexString:@"ff9c00"];
     [self.view addSubview:menuBgView];
     
-    NSArray *items = @[@"车型",@"版本",@"地区",@"定金",@"更多"];
+//    NSArray *items = @[@"车型",@"版本",@"地区",@"定金",@"更多"];
+    NSArray *items = @[@"车型",@"版本",@"地区",@"外观",@"更多"];
     
     CGFloat everyWidth = (320 - 4) / items.count;//每个需要的宽度
     CGFloat needWidth = 0.0;
@@ -419,7 +424,7 @@
     _car = (_car == nil) ? @"000000000" : _car;
     NSString *url = [NSString stringWithFormat:@"%@&car=%@&deposit=%d&color_out=%d&color_in=%d&carfrom=%d&province=%d&city=%d&spot_future=%d&page=%d&ps=%d",FBAUTO_FINDCAR_LIST,_car,_deposit,_color_out,_color_in,_carfrom,_province,_city,_spot_future,_table.pageNum,KPageSize];
     
-    __weak typeof(FindCarViewController *)weakSelf = self;
+//    __weak typeof(FindCarViewController *)weakSelf = self;
     
     LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestCompletion:^(NSDictionary *result, NSError *erro) {

@@ -437,7 +437,7 @@
     sqlite3 *db = [DataBase openDB];
     sqlite3_stmt *stmt = nil;
     
-    int result1= sqlite3_prepare_v2(db, "select * from xmppMessage where currentUser = ? order by time asc", -1, &stmt, nil);
+    int result1= sqlite3_prepare_v2(db, "select * from xmppMessage where currentUser != 0 order by time asc", -1, &stmt, nil);
     
     NSMutableArray *resultArr = [NSMutableArray array];
     

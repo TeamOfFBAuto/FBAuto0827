@@ -38,10 +38,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-//    CGRect thirdFrame = self.bottomBgView.frame;
-//    thirdFrame.origin.y = self.view.bottom - 75 - 44 - 20;
-//    self.bottomBgView.frame = thirdFrame;
-    
     [self createViews];
     
     [self getSingleCarInfoWithId:self.infoId];
@@ -94,7 +90,13 @@
         
         nameLabel.text = carName;
         
-        [self labelWithTag:109].text  =[self showForText:[NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]]] ;
+        NSString *area = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        
+        if ([area isEqualToString:@"不限不限"]) {
+            area = @"不限";
+        }
+        
+        [self labelWithTag:109].text  =[self showForText:area] ;
         [self labelWithTag:110].text  = [self showForText:[dic objectForKey:@"carfrom"]];
         [self labelWithTag:111].text  = [self showForText:[dic objectForKey:@"spot_future"]];
         [self labelWithTag:112].text  = [self showForText:[dic objectForKey:@"color_out"]];
@@ -121,7 +123,8 @@
         self.nameLabel.text = [dic objectForKey:@"username"];
         self.saleTypeBtn.titleLabel.text = [dic objectForKey:@"usertype"];//商家类型
         self.phoneNumLabel.text = [dic objectForKey:@"phone"];
-        self.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        
+        self.addressLabel.text = area;
         
         [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
         

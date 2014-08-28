@@ -61,6 +61,10 @@
             {
                 dataArray = MENU_HIGHT_TITLE_MORE;
                 
+            }else if (aContentStyle == Content_In)
+            {
+                dataArray = @[@"内饰颜色"];
+                
             }else
             {
                 
@@ -514,8 +518,18 @@
         if (indexPath.row == 0) {
             NSLog(@"外观颜色");
             
-            [self reloadColorTableWithArray:MENU_HIGHT_OUTSIDE_CORLOR];
-            blockStyle = Select_Out_Color;
+            if (contentStyle == Content_In) {
+                
+                [self reloadColorTableWithArray:MENU_HIGHT_INSIDE_CORLOR];
+                blockStyle = Select_In_Color;
+                
+            }else
+            {
+                [self reloadColorTableWithArray:MENU_HIGHT_OUTSIDE_CORLOR];
+                blockStyle = Select_Out_Color;
+            }
+            
+            
         }
         
         if (indexPath.row == 1) {
