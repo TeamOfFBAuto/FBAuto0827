@@ -31,6 +31,8 @@
 
 #import "DXAlertView.h"
 
+#import "LDatePicker.h"
+
 #define KFistSectionHeight 110 //上部分高度
 
 @interface SendCarViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate>
@@ -65,9 +67,12 @@
     NSString *_cardiscrib;// 车源描述
     NSString *_photo;// 图片id（用逗号隔开）
     
-    BOOL isShowKeyboard;//键盘是否已经显示
+    NSString *build_time;//生产日期
+
     
     MBProgressHUD *loadingHub;
+    
+    LDatePicker *datePicker;
 }
 
 @end
@@ -83,16 +88,16 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (IOS7_OR_LATER) {
-        
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    }
-    
-}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    if (IOS7_OR_LATER) {
+//        
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+//    }
+//    
+//}
 
 -(id)initWithStyle:(ActionStyle)aStyle
 {
@@ -162,9 +167,12 @@
     [hud hide:YES afterDelay:1];
 }
 
-#pragma - mark 网络请求
+#pragma mark - 网络请求
 
-#pragma - mark 发布车源
+/**
+ *  发布车源
+ */
+#pragma - mark
 
 - (void)publishCarSource
 {
@@ -178,13 +186,13 @@
     
     if (self.actionStyle == Action_Add) {
         
-        url = [NSString stringWithFormat:@"%@&authkey=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&photo=%@",FBAUTO_CARSOURCE_ADD_SOURCE,[GMAPI getAuthkey],_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,_photo];
+        url = [NSString stringWithFormat:@"%@&authkey=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=0&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_ADD_SOURCE,[GMAPI getAuthkey],_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,@"",_photo];
         
         NSLog(@"发布车源 %@",url);
         
     }else if (self.actionStyle == Action_Edit)
     {
-        url = [NSString stringWithFormat:@"%@&authkey=%@&cid=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&photo=%@",FBAUTO_CARSOURCE_EDIT,[GMAPI getAuthkey],self.infoId,_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,_photo];
+        url = [NSString stringWithFormat:@"%@&authkey=%@&cid=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&build_time=%@&car_custom=0&carname_custom=%@&photo=%@",FBAUTO_CARSOURCE_EDIT,[GMAPI getAuthkey],self.infoId,_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,build_time,@"",_photo];
         
         NSLog(@"修改车源 %@",url);
     }
@@ -198,7 +206,7 @@
         
         [loadingHub hide:NO];
         
-//        [self showMBProgressWithText:[result objectForKey:@"errinfo"]];
+        //        [self showMBProgressWithText:[result objectForKey:@"errinfo"]];
         
         [self refreshUI];
         
@@ -207,20 +215,28 @@
         
         alert.rightBlock = ^(){
             NSLog(@"取消");
+           
+            if (self.actionStyle == Action_Add)
+            {
+                int infoId = [[result objectForKey:@"datainfo"]integerValue];
+                
+                [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
+            }
             
-            int infoId = [[result objectForKey:@"datainfo"]integerValue];
             
-            [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
             
         };
-
+        
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+
+    [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
     
 }
 
-#pragma - mark 编辑车源
+/**
+ *  编辑车源
+ */
 
 - (void)editeCarSource
 {
@@ -245,32 +261,18 @@
         [weakSelf refreshUI];
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+    
     }];
     
 }
 
 /**
- *  跳转到 车源详情页
+ *  获取单个车源信息
  *
- *  @param infoId 车源信息id
- *  @param car    汽车编码
+ *  @param carId 信息id
  */
-
-- (void)clickToDetail:(NSString *)infoId
-{
-    FBDetail2Controller *detail = [[FBDetail2Controller alloc]init];
-    detail.style = Navigation_Special;
-    detail.navigationTitle = @"详情";
-    detail.infoId = infoId;
-    detail.carId = _car;
-    detail.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detail animated:YES];
-    
-}
-
-#pragma - mark 网络请求
-
 - (void)getSingleCarInfoWithId:(NSString *)carId
 {
     NSString *url = [NSString stringWithFormat:FBAUTO_CARSOURCE_SINGLE_SOURE,carId];
@@ -309,6 +311,10 @@
         
         _color_in = (int)[MENU_HIGHT_INSIDE_CORLOR indexOfObject:[dic objectForKey:@"color_in"]];
         
+        [self labelWithTag:105].text = [dic objectForKey:@"build_time"];
+        
+        build_time = [dic objectForKey:@"build_time"];
+        
         priceTF.text = [dic objectForKey:@"price"];
         descriptionTF.text = [dic objectForKey:@"cardiscrib"];
         
@@ -328,59 +334,15 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
-    }];
-}
-
-- (UILabel *)labelWithTag:(int)aTag
-{
-    Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:aTag];
-    return btn.contentLabel;
-}
-
-
-#pragma - mark 发布成功之后 UI复原
-
-- (void)refreshUI
-{
-    
-    [photosArray removeAllObjects];
-    
-    for (PhotoImageView *aImageV in photoViewArray) {
-        [aImageV removeFromSuperview];
-    }
-    [photoViewArray removeAllObjects];
-
-    
-    [UIView animateWithDuration:0.5 animations:^{
         
-        if (photosArray.count == 0) {
-            [self moveAddPhotoBtnToLeft:NO];
-            [self controlPageControlDisplay:NO showPage:0 sumPage:0];
-        }
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+    
     }];
-    
-    CGSize scrollSize = photosScroll.contentSize;
-    scrollSize.width = photoViewArray.count * (90 + 15);
-    photosScroll.contentSize = scrollSize;
-    
-    
-    priceTF.text = @"";
-    descriptionTF.text = @"";
-    
-    for (int i = 0; i < 5; i ++) {
-        Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:100 + i];
-        btn.contentLabel.text = @"";
-    }
-    
-    if (self.actionStyle == Action_Edit) {
-        [self performSelector:@selector(clickToBack:) withObject:nil afterDelay:0.5];
-    }
-    
 }
 
-#pragma - mark 图片上传
-
+/**
+ *  图片上传
+ */
 - (void)postImages:(NSArray *)allImages
 {
     [loadingHub show:YES];
@@ -426,7 +388,7 @@
     [uploadImageRequest setRequestMethod:@"POST"];
     
     [uploadImageRequest setResponseEncoding:NSUTF8StringEncoding];
-
+    
     [uploadImageRequest setPostValue:[GMAPI getAuthkey] forKey:@"authkey"];
     
     [uploadImageRequest setPostFormat:ASIMultipartFormDataPostFormat];
@@ -496,7 +458,7 @@
                 
             });
         }
-
+        
         
     }];
     
@@ -506,98 +468,47 @@
         NSLog(@"uploadFail %@",weakRequst.responseString);
         
         [loadingHub hide:YES];
-        
-        [LCWTools showMBProgressWithText:@"上传失败，重新发布" addToView:self.view];
+                
+        [LCWTools showDXAlertViewWithText:@"上传失败，重新发布"];
         
     }];
-
-}
-
-
-#pragma - mark 价格输入框
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    isShowKeyboard = YES;
     
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 : 150 + 101 + 45);
-        bigBgScroll.scrollEnabled = NO;
-    }];
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
-    if (isShowKeyboard) {
-        return;
-    }
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        bigBgScroll.contentOffset = CGPointMake(0, bigBgScroll.contentSize.height - bigBgScroll.height);
-        bigBgScroll.scrollEnabled = YES;
 
-    }];
-}
+#pragma mark - 视图创建
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+/**
+ *  时间选择器
+ */
+
+- (void)createDatePicker
 {
-    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound )
-    {
-        return YES;
+    if (!datePicker) {
+        datePicker = [[LDatePicker alloc] init];
     }
     
-    isShowKeyboard = NO;
-    [priceTF resignFirstResponder];
-    [descriptionTF resignFirstResponder];
-    return NO;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    
-    isShowKeyboard = YES;
-    
-    [UIView animateWithDuration:0.5 animations:^{
+    [datePicker showDateBlock:^(NSString *dateString) {
         
-        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 : 150 + 101);
-        bigBgScroll.scrollEnabled = NO;
+        NSLog(@"dateBlock %@",dateString);
+        
+        Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:105];
+        btn.contentLabel.text = dateString;
+        
+        build_time = dateString;
     }];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (isShowKeyboard) {
-        return;
-    }
-    [UIView animateWithDuration:0.5 animations:^{
-        
-        bigBgScroll.contentOffset = CGPointMake(0, 0);
-        bigBgScroll.scrollEnabled = YES;
-    }];
-}
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    isShowKeyboard = NO;
-    [priceTF resignFirstResponder];
-    [descriptionTF resignFirstResponder];
-    return YES;
-}
-
-- (void)clickToHideKeyboard
-{
-    isShowKeyboard = NO;
-    [priceTF resignFirstResponder];
-    [descriptionTF resignFirstResponder];
-}
-
-#pragma - mark 创建 PageControl
+/**
+ *  创建 PageControl
+ */
 
 - (void)createPageControl
 {
     pageControl = [[DDPageControl alloc] init] ;
 	[pageControl setCenter: CGPointMake(firstBgView.center.x, firstBgView.height-10.0f + 30)] ;
-//	[pageControl addTarget: self action: @selector(pageControlClicked:) forControlEvents: UIControlEventValueChanged] ;
+    //	[pageControl addTarget: self action: @selector(pageControlClicked:) forControlEvents: UIControlEventValueChanged] ;
 	[pageControl setDefersCurrentPageDisplay: YES] ;
 	[pageControl setType: DDPageControlTypeOnFullOffEmpty] ;
 	[pageControl setOnColor: [UIColor colorWithHexString:@"ff9c00"]];
@@ -609,65 +520,9 @@
     pageControl.hidden = YES;
 }
 
-//控制是否显示
-
-- (void)controlPageControlDisplay:(BOOL)isShow showPage:(NSInteger)pageNum sumPage:(NSInteger)sum
-{
-    if (sum % 2 == 0) {
-        sum = sum / 2;
-    }else
-    {
-        sum = (sum / 2) + 1;
-    }
-   
-    pageControl.hidden = !isShow;
-    [pageControl setNumberOfPages:sum];
-	[pageControl setCurrentPage: pageNum];
-    
-//    [self pageControlClicked:pageControl];
-}
-
-
-#pragma mark -
-#pragma mark DDPageControl triggered actions
-
-- (void)pageControlClicked:(id)sender
-{
-	DDPageControl *thePageControl = (DDPageControl *)sender ;
-	
-	// we need to scroll to the new index
-	[photosScroll setContentOffset: CGPointMake(photosScroll.bounds.size.width * thePageControl.currentPage, photosScroll.contentOffset.y) animated: YES] ;
-}
-
-
-#pragma mark -
-#pragma mark UIScrollView delegate methods
-
-- (void)scrollViewDidScroll:(UIScrollView *)aScrollView
-{
-	CGFloat pageWidth = photosScroll.bounds.size.width ;
-    float fractionalPage = photosScroll.contentOffset.x / pageWidth ;
-	NSInteger nearestNumber = lround(fractionalPage) ;
-	
-	if (pageControl.currentPage != nearestNumber)
-	{
-		pageControl.currentPage = nearestNumber ;
-		
-		// if we are dragging, we want to update the page control directly during the drag
-		if (photosScroll.dragging)
-			[pageControl updateCurrentPageDisplay] ;
-	}
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)aScrollView
-{
-	// if we are animating (triggered by clicking on the page control), we update the page control
-	[pageControl updateCurrentPageDisplay] ;
-}
-
-
-#pragma - mark 添加图片部分
-
+/**
+ *  添加图片部分
+ */
 - (void)createFirstSection
 {
     firstBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, KFistSectionHeight)];
@@ -692,145 +547,101 @@
     
     [self createPageControl];
 }
+/**
+ *  条件选择部分
+ */
+
+- (void)createSecondSection
+{
+    secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstBgView.bottom, 320 - 20, 45 * 7 + 45 * 2)];
+    secondBgView.backgroundColor = [UIColor clearColor];
+    secondBgView.layer.borderWidth = 1.0;
+    secondBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
+    [bigBgScroll addSubview:secondBgView];
+    
+    NSArray *titles = @[@"车型",@"版本",@"库存",@"外观颜色",@"内饰颜色",@"生产日期"];
+    for (int i = 0; i < titles.count; i ++) {
+        Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(0, 45 * i, secondBgView.width, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToParams:) sectionStyle:Section_Normal image:nil];
+        btn.tag = 100 + i;
+        [secondBgView addSubview:btn];
+    }
+    
+    //价格特殊处理，需要输入
+    
+    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(0, 45 * titles.count, 300, 0.5)];
+    line1.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
+    [secondBgView addSubview:line1];
+    
+    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45* titles.count, 100, 45.f) text:@"价格" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
+    
+    priceTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45* titles.count, 175, 45)];
+    priceTF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    priceTF.delegate = self;
+    priceTF.backgroundColor = [UIColor clearColor];
+    [secondBgView addSubview:priceTF];
+    
+    [secondBgView addSubview:[self createLabelFrame:CGRectMake(300 - 35 - 10, 45* titles.count, 35, 45.f) text:@"万元" alignMent:NSTextAlignmentRight textColor:[UIColor colorWithHexString:@"c7c7cc"]]];
+    
+    //车源描述，需要输入
+    
+    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(0, 45 * (titles.count + 1), 300, 1)];
+    line2.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
+    [secondBgView addSubview:line2];
+    
+    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45 * (titles.count + 1), 100, 45.f) text:@"车源描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
+    
+    descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * (titles.count + 1) + 5, 200 + 10 + 10, 45 * 2 - 10)];
+    descriptionTF.delegate = self;
+    descriptionTF.backgroundColor = [UIColor clearColor];
+    descriptionTF.font = [UIFont systemFontOfSize:16];
+    //    descriptionTF.text = @"阿卡涉及到卡里就SD卡辣椒水宽带连接阿卡丽四大皆空垃圾SD卡垃圾SD卡垃圾是考虑到久爱时空考虑时间阿克拉结SD卡垃圾收点卡啦";
+    [secondBgView addSubview:descriptionTF];
+    
+    
+    //发布按钮
+    
+    publish = [UIButton buttonWithType:UIButtonTypeCustom];
+    publish.frame = CGRectMake(10, secondBgView.bottom + 16, 300, 50);
+    [publish setTitle:@"发布" forState:UIControlStateNormal];
+    [publish setBackgroundImage:[UIImage imageNamed:@"huquyanzhengma_kedianji600_100"] forState:UIControlStateNormal];
+    [publish addTarget:self action:@selector(clickToPublish:) forControlEvents:UIControlEventTouchUpInside];
+    [bigBgScroll addSubview:publish];
+    
+    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10 + 200);
+}
+
+- (UILabel *)createLabelFrame:(CGRect)aFrame text:(NSString *)text alignMent:(NSTextAlignment)align textColor:(UIColor *)color
+{
+    UILabel *priceLabel = [[UILabel alloc]initWithFrame:aFrame];
+    priceLabel.backgroundColor = [UIColor clearColor];
+    priceLabel.text = text;
+    priceLabel.textAlignment = align;
+    priceLabel.font = [UIFont systemFontOfSize:14];
+    priceLabel.textColor = color;
+    return priceLabel;
+}
+
+
+#pragma mark - 事件处理
+
 
 /**
- *  一定 添加图片按钮位置 以及 第一部分高度调整
+ *  跳转到 车源详情页
  *
- *  @param isLeft 是否在左边
- */
-- (void)moveAddPhotoBtnToLeft:(BOOL)isLeft
-{
-    CGFloat x = 0.0;
-    CGFloat newHeight = 0.0;
-    if (isLeft) {
-        x = 10.f;
-        newHeight = KFistSectionHeight + 30.f;
-    }else
-    {
-        x = 160 - addPhotoBtn.width/2.0;
-        newHeight = KFistSectionHeight;
-    }
-    CGRect photoFrame = addPhotoBtn.frame;
-    photoFrame.origin.x = x;
-    addPhotoBtn.frame = photoFrame;
-    
-    CGRect firstFrame = firstBgView.frame;
-    firstFrame.size.height = newHeight;
-    firstBgView.frame = firstFrame;
-    
-    CGRect secondFrame = secondBgView.frame;
-    secondFrame.origin.y = firstBgView.bottom;
-    secondBgView.frame = secondFrame;
-    
-    CGRect pubBtnFrame = publish.frame;
-    pubBtnFrame.origin.y = secondBgView.bottom + 16;
-    publish.frame = pubBtnFrame;
-    
-    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10 + iPhone5 ? 0 : 45 * 2);
-}
-
-
-//添加图片,移动scrollView 和 添加图片按钮 (并且控制是否显示 点)
-
-- (void)updateScrollViewAndPhotoButton:(UIImage *)aImage imageUrl:(NSString *)imageUrl
-{
-    if (aImage == nil && imageUrl == Nil) {
-        return;
-    }
-    
-    [self moveAddPhotoBtnToLeft:YES];
-    
-    CGSize scrollSize = photosScroll.contentSize;
-    CGFloat scrollSizeWidth = scrollSize.width;
-    
-    __weak typeof (UIScrollView *)weakScroll = photosScroll;
-    __weak typeof (NSMutableArray *)weakPhotoArray = photosArray;
-    __weak typeof (NSMutableArray *)weakPhotoViewArray = photoViewArray;
-    __weak typeof (SendCarViewController *)weakSelf = self;
-    
-    
-    PhotoImageView *newImageV= [[PhotoImageView alloc]initWithFrame:CGRectMake(scrollSizeWidth + 15,0, 90, 90) image:aImage deleteBlock:^(UIImageView *deleteImageView, UIImage *deleteImage) {
-        
-        
-        int deleteIndex = (int)[weakPhotoViewArray indexOfObject:deleteImageView];
-        [weakPhotoArray removeObjectAtIndex:deleteIndex];
-        
-        [weakPhotoViewArray removeObject:deleteImageView];
-//        [weakPhotoArray removeObject:aImage];
-        [deleteImageView removeFromSuperview];
-        
-        
-
-        
-        weakScroll.contentSize = CGSizeMake(weakPhotoViewArray.count * (90 + 15), weakScroll.contentSize.height);
-        
-        [UIView animateWithDuration:0.5 animations:^{
-
-            for (int i = 0; i < photoViewArray.count; i ++) {
-                PhotoImageView *newImageV = (PhotoImageView *)[photoViewArray objectAtIndex:i];
-                CGRect aFrame = newImageV.frame;
-                aFrame.origin.x = 15 + (90 + 15) * i;
-                newImageV.frame = aFrame;
-            }
-            
-            if (weakPhotoViewArray.count == 0) {
-                [weakSelf moveAddPhotoBtnToLeft:NO];
-                [self controlPageControlDisplay:NO showPage:0 sumPage:0];
-            }else
-            {
-                [self controlPageControlDisplay:YES showPage:weakPhotoArray.count sumPage:weakPhotoArray.count];
-            }
-            
-        }];
-        
-    }];
-    
-    //有可能是图片的网络地址
-    
-    if (imageUrl) {
-        
-        [newImageV sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"detail_test"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
-//            [photosArray addObject:image];
-            
-        }];
-    }else
-    {
-        [photosArray addObject:aImage];
-    }
-    
-    [photosScroll addSubview:newImageV];
-    [photoViewArray addObject:newImageV];
-    
-    [self controlPageControlDisplay:YES showPage:photosArray.count sumPage:photosArray.count];
-    
-    scrollSize.width = photoViewArray.count * (90 + 15);
-    photosScroll.contentSize = scrollSize;
-}
-
-/**
- *  添加图片按钮
+ *  @param infoId 车源信息id
+ *  @param car    汽车编码
  */
 
-- (UIButton *)addPhotoButton
+- (void)clickToDetail:(NSString *)infoId
 {
-    UIButton *addPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
-    addPhoto.frame = CGRectMake(0, 0, 90, 90);
-    [addPhoto addTarget:self action:@selector(clickToAddPhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [addPhoto setBackgroundImage:[UIImage imageNamed:@"zhaoxiangji180_180"] forState:UIControlStateNormal];
-    [self.view addSubview:addPhoto];
-//    addPhoto.center = firstBgView.center;
+    FBDetail2Controller *detail = [[FBDetail2Controller alloc]init];
+    detail.style = Navigation_Special;
+    detail.navigationTitle = @"详情";
+    detail.infoId = infoId;
+    detail.carId = _car;
+    detail.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:detail animated:YES];
     
-    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 63, addPhoto.width, 20)];
-    title.text = @"添加照片";
-    title.textColor = [UIColor colorWithHexString:@"8c8c8c"];
-    title.font = [UIFont boldSystemFontOfSize:13];
-    title.textAlignment = NSTextAlignmentCenter;
-    [addPhoto addSubview:title];
-    
-    title.center = CGPointMake(addPhoto.width/2.0, title.center.y);
-    
-    return addPhoto;
 }
 
 /**
@@ -916,81 +727,9 @@
 }
 
 
-#pragma - mark 条件选择部分
-
-- (void)createSecondSection
-{
-    secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstBgView.bottom, 320 - 20, 45 * 7 + 45 * 1)];
-    secondBgView.backgroundColor = [UIColor clearColor];
-    secondBgView.layer.borderWidth = 1.0;
-    secondBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
-    [bigBgScroll addSubview:secondBgView];
-    
-    NSArray *titles = @[@"车型",@"版本",@"库存",@"外观颜色",@"内饰颜色"];
-    for (int i = 0; i < 5; i ++) {
-        Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(0, 45 * i, secondBgView.width, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToParams:) sectionStyle:Section_Normal image:nil];
-        btn.tag = 100 + i;
-        [secondBgView addSubview:btn];
-    }
-    
-    //价格特殊处理，需要输入
-    
-    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(0, 45*5, 300, 0.5)];
-    line1.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
-    [secondBgView addSubview:line1];
-    
-    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*5, 100, 45.f) text:@"价格" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
-    
-    priceTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45 * 5, 175, 45)];
-    priceTF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    priceTF.delegate = self;
-    priceTF.backgroundColor = [UIColor clearColor];
-    [secondBgView addSubview:priceTF];
-    
-    [secondBgView addSubview:[self createLabelFrame:CGRectMake(300 - 35 - 10, 45 * 5, 35, 45.f) text:@"万元" alignMent:NSTextAlignmentRight textColor:[UIColor colorWithHexString:@"c7c7cc"]]];
-    
-    //车源描述，需要输入
-    
-    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(0, 45*6, 300, 1)];
-    line2.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
-    [secondBgView addSubview:line2];
-    
-    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*6, 100, 45.f) text:@"车源描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
-    
-    descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * 6 + 5, 200 + 10 + 10, 45 * 2 - 10)];
-    descriptionTF.delegate = self;
-    descriptionTF.backgroundColor = [UIColor clearColor];
-    descriptionTF.font = [UIFont systemFontOfSize:16];
-//    descriptionTF.text = @"阿卡涉及到卡里就SD卡辣椒水宽带连接阿卡丽四大皆空垃圾SD卡垃圾SD卡垃圾是考虑到久爱时空考虑时间阿克拉结SD卡垃圾收点卡啦";
-    [secondBgView addSubview:descriptionTF];
-
-    
-    //发布按钮
-    
-    publish = [UIButton buttonWithType:UIButtonTypeCustom];
-    publish.frame = CGRectMake(10, secondBgView.bottom + 16, 300, 50);
-    [publish setTitle:@"发布" forState:UIControlStateNormal];
-    [publish setBackgroundImage:[UIImage imageNamed:@"huquyanzhengma_kedianji600_100"] forState:UIControlStateNormal];
-    [publish addTarget:self action:@selector(clickToPublish:) forControlEvents:UIControlEventTouchUpInside];
-    [bigBgScroll addSubview:publish];
-    
-    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10);
-}
-
-- (UILabel *)createLabelFrame:(CGRect)aFrame text:(NSString *)text alignMent:(NSTextAlignment)align textColor:(UIColor *)color
-{
-    UILabel *priceLabel = [[UILabel alloc]initWithFrame:aFrame];
-    priceLabel.backgroundColor = [UIColor clearColor];
-    priceLabel.text = text;
-    priceLabel.textAlignment = align;
-    priceLabel.font = [UIFont systemFontOfSize:14];
-    priceLabel.textColor = color;
-    return priceLabel;
-}
-
-
-
-#pragma - mark 进入发布车源参数页面
+/**
+ *  进入发布车源参数页面
+ */
 
 - (void)clickToParams:(Section_Button *)btn
 {
@@ -1028,10 +767,24 @@
             title = @"内饰颜色";
         }
             break;
-        case 105:
+        case 106:
         {
             aStyle = Data_Price;
             title = @"价格";
+        }
+            break;
+        case 105:
+        {
+            NSLog(@"生产日期");
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 : 150 + 101);
+            }];
+            
+            [self createDatePicker];
+            
+            return;
         }
             break;
             
@@ -1093,8 +846,9 @@
     [self.navigationController pushViewController:base animated:YES];
 }
 
-#pragma - mark 发布车源
-
+/**
+ *  发布车源
+ */
 - (void)clickToPublish:(UIButton *)btn
 {
 //    if (photosArray.count <= 0)
@@ -1113,7 +867,7 @@
         return;
     }
     
-    for (int i = 0; i < 5; i ++) {
+    for (int i = 0; i < 6; i ++) {
         
         Section_Button *btn1 = (Section_Button *)[secondBgView viewWithTag:100 + i];
         
@@ -1138,6 +892,9 @@
             }else if (i == 4)
             {
                 [self alertText:@"请选择内饰颜色"];
+            }else if (i == 5)
+            {
+                [self alertText:@"请选择生产日期"];
             }
             
             return;
@@ -1156,12 +913,307 @@
         [self alertText:@"价格需要输入有效数字"];
     }
 }
+- (UILabel *)labelWithTag:(int)aTag
+{
+    Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:aTag];
+    return btn.contentLabel;
+}
+
+/**
+ *  发布成功之后 UI复原
+ */
+- (void)refreshUI
+{
+    
+    [photosArray removeAllObjects];
+    
+    for (PhotoImageView *aImageV in photoViewArray) {
+        [aImageV removeFromSuperview];
+    }
+    [photoViewArray removeAllObjects];
+    
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        if (photosArray.count == 0) {
+            [self moveAddPhotoBtnToLeft:NO];
+            [self controlPageControlDisplay:NO showPage:0 sumPage:0];
+        }
+    }];
+    
+    CGSize scrollSize = photosScroll.contentSize;
+    scrollSize.width = photoViewArray.count * (90 + 15);
+    photosScroll.contentSize = scrollSize;
+    
+    
+    priceTF.text = @"";
+    descriptionTF.text = @"";
+    
+    for (int i = 0; i < 5; i ++) {
+        Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:100 + i];
+        btn.contentLabel.text = @"";
+    }
+    
+    if (self.actionStyle == Action_Edit) {
+        [self performSelector:@selector(clickToBack:) withObject:nil afterDelay:0.5];
+    }
+    
+}
+
+/**
+ *  缩放图片
+ */
+-(UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
+{
+    UIGraphicsBeginImageContext(CGSizeMake(image.size.width*scaleSize,image.size.height*scaleSize));
+    [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height *scaleSize)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
+
+
+//控制是否显示
+
+- (void)controlPageControlDisplay:(BOOL)isShow showPage:(NSInteger)pageNum sumPage:(NSInteger)sum
+{
+    if (sum % 2 == 0) {
+        sum = sum / 2;
+    }else
+    {
+        sum = (sum / 2) + 1;
+    }
+    
+    pageControl.hidden = !isShow;
+    [pageControl setNumberOfPages:sum];
+	[pageControl setCurrentPage: pageNum];
+    
+    //    [self pageControlClicked:pageControl];
+}
+
+- (void)pageControlClicked:(id)sender
+{
+	DDPageControl *thePageControl = (DDPageControl *)sender ;
+	
+	// we need to scroll to the new index
+	[photosScroll setContentOffset: CGPointMake(photosScroll.bounds.size.width * thePageControl.currentPage, photosScroll.contentOffset.y) animated: YES] ;
+}
+
+
+/**
+ *  一定 添加图片按钮位置 以及 第一部分高度调整
+ *
+ *  @param isLeft 是否在左边
+ */
+- (void)moveAddPhotoBtnToLeft:(BOOL)isLeft
+{
+    CGFloat x = 0.0;
+    CGFloat newHeight = 0.0;
+    if (isLeft) {
+        x = 10.f;
+        newHeight = KFistSectionHeight + 30.f;
+    }else
+    {
+        x = 160 - addPhotoBtn.width/2.0;
+        newHeight = KFistSectionHeight;
+    }
+    CGRect photoFrame = addPhotoBtn.frame;
+    photoFrame.origin.x = x;
+    addPhotoBtn.frame = photoFrame;
+    
+    CGRect firstFrame = firstBgView.frame;
+    firstFrame.size.height = newHeight;
+    firstBgView.frame = firstFrame;
+    
+    CGRect secondFrame = secondBgView.frame;
+    secondFrame.origin.y = firstBgView.bottom;
+    secondBgView.frame = secondFrame;
+    
+    CGRect pubBtnFrame = publish.frame;
+    pubBtnFrame.origin.y = secondBgView.bottom + 16;
+    publish.frame = pubBtnFrame;
+    
+//    bigBgScroll.contentSize = CGSizeMake(320, firstBgView.height + secondBgView.height + 16 + publish.height + 10 + iPhone5 ? 0 : 45 * 2);
+}
+
+
+//添加图片,移动scrollView 和 添加图片按钮 (并且控制是否显示 点)
+
+- (void)updateScrollViewAndPhotoButton:(UIImage *)aImage imageUrl:(NSString *)imageUrl
+{
+    if (aImage == nil && imageUrl == Nil) {
+        return;
+    }
+    
+    [self moveAddPhotoBtnToLeft:YES];
+    
+    CGSize scrollSize = photosScroll.contentSize;
+    CGFloat scrollSizeWidth = scrollSize.width;
+    
+    __weak typeof (UIScrollView *)weakScroll = photosScroll;
+    __weak typeof (NSMutableArray *)weakPhotoArray = photosArray;
+    __weak typeof (NSMutableArray *)weakPhotoViewArray = photoViewArray;
+    __weak typeof (SendCarViewController *)weakSelf = self;
+    
+    
+    PhotoImageView *newImageV= [[PhotoImageView alloc]initWithFrame:CGRectMake(scrollSizeWidth + 15,0, 90, 90) image:aImage deleteBlock:^(UIImageView *deleteImageView, UIImage *deleteImage) {
+        
+        
+        int deleteIndex = (int)[weakPhotoViewArray indexOfObject:deleteImageView];
+        [weakPhotoArray removeObjectAtIndex:deleteIndex];
+        
+        [weakPhotoViewArray removeObject:deleteImageView];
+        //        [weakPhotoArray removeObject:aImage];
+        [deleteImageView removeFromSuperview];
+        
+        
+        
+        
+        weakScroll.contentSize = CGSizeMake(weakPhotoViewArray.count * (90 + 15), weakScroll.contentSize.height);
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            for (int i = 0; i < photoViewArray.count; i ++) {
+                PhotoImageView *newImageV = (PhotoImageView *)[photoViewArray objectAtIndex:i];
+                CGRect aFrame = newImageV.frame;
+                aFrame.origin.x = 15 + (90 + 15) * i;
+                newImageV.frame = aFrame;
+            }
+            
+            if (weakPhotoViewArray.count == 0) {
+                [weakSelf moveAddPhotoBtnToLeft:NO];
+                [self controlPageControlDisplay:NO showPage:0 sumPage:0];
+            }else
+            {
+                [self controlPageControlDisplay:YES showPage:weakPhotoArray.count sumPage:weakPhotoArray.count];
+            }
+            
+        }];
+        
+    }];
+    
+    //有可能是图片的网络地址
+    
+    if (imageUrl) {
+        
+        [newImageV sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"detail_test"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            
+            //            [photosArray addObject:image];
+            
+        }];
+    }else
+    {
+        [photosArray addObject:aImage];
+    }
+    
+    [photosScroll addSubview:newImageV];
+    [photoViewArray addObject:newImageV];
+    
+    [self controlPageControlDisplay:YES showPage:photosArray.count sumPage:photosArray.count];
+    
+    scrollSize.width = photoViewArray.count * (90 + 15);
+    photosScroll.contentSize = scrollSize;
+}
+
+/**
+ *  添加图片按钮
+ */
+
+- (UIButton *)addPhotoButton
+{
+    UIButton *addPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
+    addPhoto.frame = CGRectMake(0, 0, 90, 90);
+    [addPhoto addTarget:self action:@selector(clickToAddPhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [addPhoto setBackgroundImage:[UIImage imageNamed:@"zhaoxiangji180_180"] forState:UIControlStateNormal];
+    [self.view addSubview:addPhoto];
+    //    addPhoto.center = firstBgView.center;
+    
+    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 63, addPhoto.width, 20)];
+    title.text = @"添加照片";
+    title.textColor = [UIColor colorWithHexString:@"8c8c8c"];
+    title.font = [UIFont boldSystemFontOfSize:13];
+    title.textAlignment = NSTextAlignmentCenter;
+    [addPhoto addSubview:title];
+    
+    title.center = CGPointMake(addPhoto.width/2.0, title.center.y);
+    
+    return addPhoto;
+}
 
 - (void)alertText:(NSString *)text
 {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:text delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
+
+#pragma mark - delegate
+
+#pragma - mark 价格输入框
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 + 45 + 45 : 150 + 101 + 45 + 45);
+    }];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        bigBgScroll.contentOffset = CGPointMake(0, 150);
+//    }];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound )
+    {
+        return YES;
+    }
+    
+    [priceTF resignFirstResponder];
+    [descriptionTF resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        bigBgScroll.contentOffset = CGPointMake(0, iPhone5 ? 200 + 45 : 150 + 101 + 45 + 45);
+
+    }];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        bigBgScroll.contentOffset = CGPointMake(0, 0);
+//    }];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+
+    [priceTF resignFirstResponder];
+    [descriptionTF resignFirstResponder];
+    return YES;
+}
+
+- (void)clickToHideKeyboard
+{
+    [priceTF resignFirstResponder];
+    [descriptionTF resignFirstResponder];
+}
+
 
 #pragma - mark imagePicker 代理
 
@@ -1241,17 +1293,29 @@
 {
     
 }
+#pragma mark -
+#pragma mark UIScrollView delegate methods
 
-
-#pragma mark- 缩放图片
-
--(UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView
 {
-    UIGraphicsBeginImageContext(CGSizeMake(image.size.width*scaleSize,image.size.height*scaleSize));
-    [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height *scaleSize)];
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return scaledImage;
+	CGFloat pageWidth = photosScroll.bounds.size.width ;
+    float fractionalPage = photosScroll.contentOffset.x / pageWidth ;
+	NSInteger nearestNumber = lround(fractionalPage) ;
+	
+	if (pageControl.currentPage != nearestNumber)
+	{
+		pageControl.currentPage = nearestNumber ;
+		
+		// if we are dragging, we want to update the page control directly during the drag
+		if (photosScroll.dragging)
+			[pageControl updateCurrentPageDisplay] ;
+	}
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)aScrollView
+{
+	// if we are animating (triggered by clicking on the page control), we update the page control
+	[pageControl updateCurrentPageDisplay] ;
 }
 
 

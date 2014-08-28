@@ -102,6 +102,10 @@
         [self labelWithTag:114].text  = [self depositWithText:[dic objectForKey:@"deposit"]];
         [self labelWithTag:115].text  = [[dic objectForKey:@"cardiscrib"] isEqualToString:@""] ? @"无" : [dic objectForKey:@"cardiscrib"];
         
+        [self labelWithTag:115].numberOfLines = 0;
+        [self labelWithTag:115].lineBreakMode = NSLineBreakByCharWrapping;
+        [self labelWithTag:115].height = [LCWTools heightForText:[self labelWithTag:115].text width:200 font:14];
+//        [self labelWithTag:115].backgroundColor = [UIColor orangeColor];
         
         for (int i = 1; i < 8; i ++) {
             UILabel *label = [self labelWithTag:108 + i];
@@ -126,7 +130,8 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -234,11 +239,13 @@
         
         NSLog(@"添加收藏 result %@, erro%@",result,[result objectForKey:@"errinfo"]);
         
-        [LCWTools showMBProgressWithText:[result objectForKey:@"errinfo"] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[result objectForKey:@"errinfo"]];
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        
     }];
     
     

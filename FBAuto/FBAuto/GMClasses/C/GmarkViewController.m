@@ -183,7 +183,8 @@
         
         NSLog(@"failDic %@",failDic);
         
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
         if (_tableview.isReloadData) {
             

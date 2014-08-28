@@ -67,6 +67,8 @@ typedef void(^ urlRequestBlock)(NSDictionary *result,NSError *erro);
 
 + (void)showMBProgressWithText:(NSString *)text addToView:(UIView *)aView;
 
++(void)showDXAlertViewWithText:(NSString *)text;
+
 + (NSString *)NSStringNotNull:(NSString *)text;
 
 #pragma mark - 计算宽度、高度

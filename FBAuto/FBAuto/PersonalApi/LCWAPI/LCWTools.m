@@ -19,6 +19,8 @@
 
 #import "CarClass.h"
 
+#import "DXAlertView.h"
+
 @implementation LCWTools
 
 + (id)shareInstance
@@ -442,6 +444,21 @@
     hud.yOffset = 150.f;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:1.5];
+}
+
++(void)showDXAlertViewWithText:(NSString *)text
+{
+    DXAlertView *alert = [[DXAlertView alloc]initWithTitle:text contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
+    [alert show];
+    
+    alert.leftBlock = ^(){
+        NSLog(@"确定");
+        
+    };
+    alert.rightBlock = ^(){
+        NSLog(@"取消");
+        
+    };
 }
 
 #pragma - mark 非空字符串

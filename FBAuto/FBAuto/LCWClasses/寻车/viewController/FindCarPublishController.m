@@ -142,6 +142,7 @@
     descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * titles2.count + 5, 220, 45 * 2 - 10)];
     descriptionTF.delegate = self;
     descriptionTF.backgroundColor = [UIColor clearColor];
+    descriptionTF.font = [UIFont systemFontOfSize:16];
     [secondBgView addSubview:descriptionTF];
     
     
@@ -433,7 +434,6 @@
         
         [loadingHub hide:NO];
         
-//        [LCWTools showMBProgressWithText:[result objectForKey:@"errinfo"] addToView:weakSelf.view];
         [weakSelf refreshUI];
         
         
@@ -455,7 +455,7 @@
         
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:weakSelf.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
     
 }
@@ -516,7 +516,7 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 

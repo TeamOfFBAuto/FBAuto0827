@@ -118,7 +118,8 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -319,9 +320,10 @@
         [xmppServer sendMessage:weakAlert.inputTextView.text toUser:user shareLink:[self.shareContent objectForKey:@"infoId"] messageBlock:^(NSDictionary *params, int tag) {
             
             if (tag == 1) {
-                [LCWTools showMBProgressWithText:@"分享成功" addToView:weakSelf.view];
+                
+                [LCWTools showDXAlertViewWithText:@"分享成功"];
             }else{
-                [LCWTools showMBProgressWithText:@"分享失败" addToView:weakSelf.view];
+                [LCWTools showDXAlertViewWithText:@"分享失败"];
             }
             
         }];

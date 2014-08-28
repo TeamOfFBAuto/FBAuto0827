@@ -446,7 +446,7 @@
         
         NSLog(@"failDic %@",failDic);
         
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
         
         int errocode = [[failDic objectForKey:@"errocode"]integerValue];
@@ -503,7 +503,7 @@
             
         }else
         {
-            [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+            [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         }
     }];
     

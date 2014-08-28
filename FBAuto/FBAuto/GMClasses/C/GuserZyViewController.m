@@ -180,7 +180,7 @@
         
         NSLog(@"failDic %@",failDic);
         
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
         if (_tableView.isReloadData) {
             
@@ -228,18 +228,7 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        //        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
-        
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:[failDic objectForKey:ERROR_INFO] contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
-        [alert show];
-        
-        alert.leftBlock = ^(){
-            NSLog(@"确定");
-        };
-        alert.rightBlock = ^(){
-            NSLog(@"取消");
-            
-        };
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 

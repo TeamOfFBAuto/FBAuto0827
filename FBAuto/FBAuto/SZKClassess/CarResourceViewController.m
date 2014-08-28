@@ -469,7 +469,8 @@
 //            [_table loadFail];
         }else
         {
-            [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+            
+            [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         }
     }];
     
@@ -547,7 +548,7 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -713,7 +714,7 @@
         
         NSLog(@"failDic %@",failDic);
         
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
         int errocode = [[failDic objectForKey:@"errocode"]integerValue];
         if (errocode == 1) {

@@ -59,11 +59,29 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    
+    CGPoint point = [touch locationInView:self];
+    
+    if (point.x < 120) {
+        
+        return;
+    }
     self.backgroundColor = [UIColor lightGrayColor];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    
+    CGPoint point = [touch locationInView:self];
+    
+    if (point.x < 120) {
+        
+        return;
+    }
+    
+    
     if (_menu_Target && [_menu_Target respondsToSelector:_menu_Action]) {
         
 #pragma clang diagnostic push
