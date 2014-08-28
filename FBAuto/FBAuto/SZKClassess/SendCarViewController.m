@@ -214,7 +214,7 @@
         
         [self refreshUI];
         
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"寻车发布成功" contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
+        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"车源发布成功" contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
         [alert show];
         
         alert.rightBlock = ^(){

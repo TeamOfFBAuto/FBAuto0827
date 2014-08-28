@@ -86,7 +86,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"--------%@",NSStringFromClass([self class]));
+    NSLog(@"--------%@ dealloc",NSStringFromClass([self class]));
 }
 
 - (void)didReceiveMemoryWarning
