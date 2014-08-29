@@ -522,6 +522,8 @@
                 userzc.password1 = tf.text;
             }else if (i == 0){
                 userzc.fullname = tf.text;
+            }else if (i == 3){
+                userzc.address = tf.text;
             }
         }
         
@@ -529,9 +531,10 @@
         if ([userzc.password isEqualToString:userzc.password1] && [self indoShangjia]) {
             
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,userzc.phone,userzc.password,userzc.name,(long)userzc.province,(long)userzc.city,2,userzc.code,userzc.token,userzc.fullname];
-            NSString *api = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *str1 = [NSString stringWithFormat:@"%@&address=%@",str,userzc.address];
+            NSString *api = [str1 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
-            NSLog(@"%@",str);
+            NSLog(@"%@",str1);
             
             NSURL *url = [NSURL URLWithString:api];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];

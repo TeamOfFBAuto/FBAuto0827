@@ -40,6 +40,10 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+    UIControl *backControl = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, 320, 568-114)];
+    [backControl addTarget:self action:@selector(allShou) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:backControl];
+    
     //自定义返回按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftBtn setImage:[UIImage imageNamed:@"fanhui_24_42.png"] forState:UIControlStateNormal];
@@ -115,7 +119,12 @@
     
 }
 
-
+//收键盘
+-(void)allShou{
+    [self.phonetf resignFirstResponder];
+    [self.yanzhengtf resignFirstResponder];
+    [self.passWordtf resignFirstResponder];
+}
 
 //返回上一个界面
 -(void)fanhui{
@@ -132,8 +141,10 @@
         SzkLoadData *szk = [[SzkLoadData alloc]init];
         
         NSString *str = [NSString stringWithFormat:FBAUTO_GET_VERIFICATION_CODE,self.phonetf.text,2];
-        [szk SeturlStr:str block:^(NSArray *arrayinfo, NSString *errorindo, NSInteger errcode) {
-            
+        NSString *api = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [szk SeturlStr:api block:^(NSArray *arrayinfo, NSString *errorindo, NSInteger errcode) {
+            NSLog(@"获取手机验证码%@",errorindo);
+            NSLog(@"errcode:%d",errcode);
         }];
         
         

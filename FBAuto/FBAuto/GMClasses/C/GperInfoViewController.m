@@ -89,6 +89,7 @@
     
     NSLog(@"请求用户信息接口 %@",str);
     [aaa SeturlStr:str block:^(NSDictionary *dataInfo, NSString *errorinfo, NSInteger errcode) {
+        
         NSLog(@"%@",dataInfo);
         //用户名
         self.userName = [NSString stringWithFormat:@"%@",[dataInfo objectForKey:@"name"]];
