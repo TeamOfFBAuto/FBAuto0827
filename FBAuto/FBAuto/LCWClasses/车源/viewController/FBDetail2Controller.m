@@ -414,7 +414,7 @@
                 //分享的内容  {@"text",@"infoId"}
                 
                 NSString *infoId = [NSString stringWithFormat:@"%@,%@",self.infoId,self.carId];
-                friend.shareContent = @{@"text": contentText,@"infoId":infoId};
+                friend.shareContent = @{@"text": contentText,@"infoId":infoId,SHARE_TYPE_KEY:SHARE_CARSOURCE};
                 [self.navigationController pushViewController:friend animated:YES];
                 
             }

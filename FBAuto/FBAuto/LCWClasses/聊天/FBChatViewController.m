@@ -301,9 +301,13 @@
                 
                 //分享信息id
                 NSString *infoId = [[message12 attributeForName:MESSAGE_SHATE_LINK] stringValue];
+                NSString *shareType = [[message12 attributeForName:SHARE_TYPE_KEY] stringValue];
                 if (infoId) {
                     [dict setObject:infoId forKey:MESSAGE_SHATE_LINK];
                     NSLog(@"info ---> %@",infoId);
+                }
+                if (shareType) {
+                    [dict setObject:shareType forKey:SHARE_TYPE_KEY];
                 }
                 
                 //消息接收到的时间
@@ -473,7 +477,16 @@
     
     __weak typeof(self)weakSelf = self;
     
-    [xmppServer sendMessage:messageText toUser:self.chatWithUser shareLink:[self.shareContent objectForKey:@"infoId"] messageBlock:^(NSDictionary *params, int tag) {
+    NSString *shareType = [self.shareContent objectForKey:SHARE_TYPE_KEY];
+    NSString *shareInfoId = [self.shareContent objectForKey:@"infoId"];
+    
+    NSDictionary *shareLink;
+    if (shareType && shareInfoId) {
+        
+        shareLink = @{SHARE_TYPE_KEY: shareType,MESSAGE_SHATE_LINK:shareInfoId};
+    }
+    
+    [xmppServer sendMessage:messageText toUser:self.chatWithUser shareLink:shareLink messageBlock:^(NSDictionary *params, int tag) {
         
         if (tag == 1) {
             
@@ -789,7 +802,7 @@
     
     if (infoId && infoId.length > 0) {
         [label addCustomLink:[NSURL URLWithString:text] inRange:NSMakeRange(0,text.length)];
-        label.params = @{MESSAGE_SHATE_LINK: infoId};
+        label.params = dic;
     }
     
     NSNumber *heightNum = [[NSNumber alloc] initWithFloat:label.frame.size.height];
@@ -1049,7 +1062,12 @@
     }
     
     if (self.shareContent) {
-        [dictionary setObject:[self.shareContent objectForKey:@"infoId"] forKey:MESSAGE_SHATE_LINK];
+        
+        NSString *shareId = [self.shareContent objectForKey:@"infoId"];
+        NSString *shareType = [self.shareContent objectForKey:SHARE_TYPE_KEY];
+        
+        [dictionary setObject:shareId ? shareId : @"" forKey:MESSAGE_SHATE_LINK];
+        [dictionary setObject:shareType ? shareType : @"" forKey:SHARE_TYPE_KEY];
     }
     
     //分享链接
@@ -1217,14 +1235,17 @@
     NSLog(@"%@",requestString);
     
     NSString *info = [attributedLabel.params objectForKey:MESSAGE_SHATE_LINK];
+    
+    NSString *shareType = [attributedLabel.params objectForKey:SHARE_TYPE_KEY];
+    
     NSArray *params = [info componentsSeparatedByString:@","];
     if (params.count > 1) {
         
         NSString *infoId = [params objectAtIndex:0];
         NSString *carId = [params objectAtIndex:1];
         
-        NSString *text = [attributedLabel.attributedText string];
-        if([text hasPrefix:@"车源:"] || [text rangeOfString:@"车源"].length > 0)
+        
+        if([shareType isEqualToString:SHARE_CARSOURCE])
         {
             NSLog(@"车源");
             FBDetail2Controller *detail = [[FBDetail2Controller alloc]init];

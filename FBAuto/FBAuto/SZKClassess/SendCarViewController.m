@@ -214,7 +214,16 @@
         
         [self refreshUI];
         
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"车源发布成功" contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
+        NSString *title = nil;
+        
+        if (self.actionStyle == Action_Add) {
+            title = @"车源发布成功";
+        }else
+        {
+           title = @"车源编辑成功";
+        }
+        
+        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:title contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
         [alert show];
         
         alert.rightBlock = ^(){
@@ -238,39 +247,6 @@
     
 }
 
-/**
- *  编辑车源
- */
-
-- (void)editeCarSource
-{
-    
-    NSString *descrip = descriptionTF.text;
-    descrip = descrip ? descrip : @"无";
-    NSString *url = [NSString stringWithFormat:@"%@&authkey=%@&car=%@&spot_future=%d&color_out=%d&color_in=%d&carfrom=%d&cardiscrib=%@&price=%@&photo=%@",FBAUTO_CARSOURCE_ADD_SOURCE,[GMAPI getAuthkey],_car,_spot_future,_color_out,_color_in,_carfrom,descrip,priceTF.text,_photo];
-    
-    NSLog(@"车源列表 %@",url);
-    
-    __weak typeof(self)weakSelf = self;
-    
-    LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
-    [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
-        
-        NSLog(@"车源发布 result %@, erro%@",result,[result objectForKey:@"errinfo"]);
-        
-        [loadingHub hide:NO];
-        
-        [weakSelf showMBProgressWithText:@"车源信息发布成功"];
-        
-        [weakSelf refreshUI];
-        
-    }failBlock:^(NSDictionary *failDic, NSError *erro) {
-
-        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
-    
-    }];
-    
-}
 
 /**
  *  获取单个车源信息

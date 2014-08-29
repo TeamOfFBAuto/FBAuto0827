@@ -263,15 +263,15 @@
 //        NSArray *text =  @[@"微信",@"QQ",@"朋友圈",@"微博",@"站内好友"];
         
         ////@"发河北 寻美规 奥迪Q7 14款 豪华"
-        NSString *contentText = [NSString stringWithFormat:@"我在e族汽车上发布了一条寻车信息，有车源的朋友来看看，（%@）",[self labelWithTag:108].text];
+        NSString *contentText = [NSString stringWithFormat:@"我在e族汽车上发布了一条寻车信息，有车源的朋友来看看，（%@）",[self labelWithTag:110].text];
         
         NSString *shareUrl = [NSString stringWithFormat:FBAUTO_SHARE_CAR_FIND,self.infoId];
         
         NSString *contentWithUrl = [NSString stringWithFormat:@"%@%@",contentText,shareUrl];
         
-        UIImage *aImage = [UIImage imageNamed:@"icon114"];
+        UIImage *aImage = [UIImage imageNamed:@"icon114.png"];
         
-        NSString *title = [self labelWithTag:108].text;
+        NSString *title = [self labelWithTag:110].text;
         
         buttonIndex -= 100;
         NSLog(@"share %d %@",buttonIndex,shareStyle);
@@ -310,7 +310,7 @@
                 //分享的内容  {@"text",@"infoId"}
                 
                 NSString *infoId = [NSString stringWithFormat:@"%@,%@",self.infoId,self.carId];
-                friend.shareContent = @{@"text": contentText,@"infoId":infoId};
+                friend.shareContent = @{@"text": contentText,@"infoId":infoId,SHARE_TYPE_KEY:SHARE_FINDCAR};
                 [self.navigationController pushViewController:friend animated:YES];
                 
             }

@@ -90,7 +90,7 @@ typedef void(^ MessageAction)(NSDictionary *params,int tag);// 0 失败 1 成功
 
 - (void)loginTimes:(int)times loginBack:(loginAction)loginBack;//多次联系登录
 
-- (void)sendMessage:(NSString *)messageText toUser:(NSString *)userPhone shareLink:(NSString *)shareLink messageBlock:(MessageAction)messageBlock;
+- (void)sendMessage:(NSString *)messageText toUser:(NSString *)userPhone shareLink:(NSDictionary *)shareLink messageBlock:(MessageAction)messageBlock;
 
 @end
 

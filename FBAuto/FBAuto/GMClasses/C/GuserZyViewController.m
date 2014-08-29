@@ -180,7 +180,9 @@
         
         NSLog(@"failDic %@",failDic);
         
-        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+//        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        
+        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
         
         if (_tableView.isReloadData) {
             
@@ -228,7 +230,9 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+//        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        
+        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
     }];
 }
 

@@ -178,7 +178,7 @@ static int x = 10;
 
 #pragma mark - 登录
 
-- (void)sendMessage:(NSString *)messageText toUser:(NSString *)userPhone shareLink:(NSString *)shareLink messageBlock:(MessageAction)messageBlock
+- (void)sendMessage:(NSString *)messageText toUser:(NSString *)userPhone shareLink:(NSDictionary *)shareLink messageBlock:(MessageAction)messageBlock
 {
     message_Back = messageBlock;
     
@@ -190,7 +190,17 @@ static int x = 10;
     //消息类型
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     //发送给谁
-    [mes addAttributeWithName:MESSAGE_SHATE_LINK stringValue:shareLink];
+//    [mes addAttributeWithName:MESSAGE_SHATE_LINK stringValue:shareLink];
+    
+    NSString *shareInfoId = [shareLink objectForKey:MESSAGE_SHATE_LINK];
+    NSString *shareType = [shareLink objectForKey:SHARE_TYPE_KEY];
+    if (shareInfoId) {
+        [mes addAttributeWithName:MESSAGE_SHATE_LINK stringValue:shareInfoId];
+    }
+    if (shareType) {
+        [mes addAttributeWithName:SHARE_TYPE_KEY stringValue:shareType];
+    }
+    
     NSString *toUser = [NSString stringWithFormat:@"%@@%@",userPhone,[[NSUserDefaults standardUserDefaults] stringForKey:XMPP_SERVER]];
     
     //聊天对象nickName

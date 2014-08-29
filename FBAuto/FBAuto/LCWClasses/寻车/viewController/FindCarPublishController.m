@@ -437,7 +437,7 @@
     }else if (self.actionStyle == Find_Action_Edit) {
         
         url = [NSString stringWithFormat:
-               @"%@&authkey=%@&xid=%@&province=%d&city=%d&car=%@&spot_future=%d&color_out=%d&color_in=%d&deposit=%d&carfrom=%d&cardiscrib=%@",FBAUTO_FINDCAR_EDIT,[GMAPI getAuthkey],self.infoId,_province,_city,_car,_spot_future,_color_out,_color_in,_deposit,_carfrom,descrip];
+               @"%@&authkey=%@&xid=%@&province=%d&city=%d&car=%@&spot_future=%d&color_out=%d&color_in=%d&deposit=%d&carfrom=%d&cardiscrib=%@&car_custom=%d&carname_custom=%@",FBAUTO_FINDCAR_EDIT,[GMAPI getAuthkey],self.infoId,_province,_city,_car,_spot_future,_color_out,_color_in,_deposit,_carfrom,descrip,_car_custom,_carname_custom];
     }
     
     __weak typeof(self)weakSelf = self;
@@ -451,8 +451,14 @@
         
         [weakSelf refreshUI];
         
-        
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"寻车发布成功" contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
+        NSString *title;
+        if (self.actionStyle == Find_Action_Add) {
+            title = @"寻车发布成功";
+        }else
+        {
+            title = @"寻车编辑成功";
+        }
+        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:title contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
         [alert show];
         
         alert.rightBlock = ^(){
@@ -463,6 +469,9 @@
                 int infoId = [[result objectForKey:@"datainfo"]integerValue];
                 
                 [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
+            }else
+            {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             }
             
             

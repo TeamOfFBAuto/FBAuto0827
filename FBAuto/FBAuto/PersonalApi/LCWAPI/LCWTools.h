@@ -22,6 +22,12 @@
 
 #define UPDATE_CARSOURCE_PARAMS @"UPDATE_CARSOURCE_PARAMS" //更新车源列表筛选条件
 
+#define SHARE_CARSOURCE @"SHARE_CARSOURCE" //车源分享
+
+#define SHARE_FINDCAR @"SHARE_FINDCAR" //寻车分享
+
+#define SHARE_TYPE_KEY @"shareType" //分享key
+
 typedef void(^ urlRequestBlock)(NSDictionary *result,NSError *erro);
 
 @interface LCWTools : NSObject<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
