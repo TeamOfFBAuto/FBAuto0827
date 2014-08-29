@@ -137,6 +137,7 @@
             contentLabel.frame =CGRectMake(CGRectGetMaxX(titleLable.frame)+30, titleLable.frame.origin.y-3, 175, titleLable.frame.size.height+6);
             UIImageView *jiantou = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"jiantou_hui10_18.png"]];
             jiantou.frame = CGRectMake(CGRectGetMaxX(contentLabel.frame)+10, 18, 5, 8);
+            contentLabel.text = self.delegate.address;
             [self.contentView addSubview:jiantou];
             contentLabel.text = self.delegate.address;
         }else if (theIndexPath.row == 4){//简介
