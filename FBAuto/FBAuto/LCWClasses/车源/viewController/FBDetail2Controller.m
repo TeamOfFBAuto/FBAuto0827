@@ -104,8 +104,8 @@
         //        //参数
         
         
-        for (int i = 1; i < 8; i ++) {
-            UILabel *label = (UILabel *)[self.view viewWithTag:108 + i];
+        for (int i = 1; i < 10; i ++) {
+            UILabel *label = (UILabel *)[self.view viewWithTag:120 + i];
             label.top += dis;
             
             UILabel *label2 = (UILabel *)[self.view viewWithTag:100 + i];
@@ -128,8 +128,14 @@
         self.car_inColor_label.text = [dic objectForKey:@"color_in"];
         self.car_standard_label.text = [dic objectForKey:@"carfrom"];
         self.car_time_label.text = [LCWTools timechange2:[dic objectForKey:@"dateline"]];
-        self.car_detail_label.text = [dic objectForKey:@"cardiscrib"];
         
+        NSString *detail = [dic objectForKey:@"cardiscrib"];
+        
+        self.car_detail_label.text = detail;
+        
+        self.car_detail_label.height = [LCWTools heightForText:detail width:199 font:14];
+        
+        self.build_time_label.text = [dic objectForKey:@"build_time"];
         //商家信息
 
         self.nameLabel.text = [dic objectForKey:@"username"];
@@ -157,7 +163,18 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        
+        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:[failDic objectForKey:ERROR_INFO] contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
+        [alert show];
+        
+        alert.leftBlock = ^(){
+            NSLog(@"确定");
+            
+        };
+        alert.rightBlock = ^(){
+            NSLog(@"取消");
+            
+        };
     }];
 }
 
@@ -329,34 +346,13 @@
         
         NSLog(@"添加收藏 result %@, erro%@",result,[result objectForKey:@"errinfo"]);
         
-//        [LCWTools showMBProgressWithText:[result objectForKey:@"errinfo"] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[result objectForKey:@"errinfo"]];
         
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:[result objectForKey:@"errinfo"] contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
-        [alert show];
-        
-        alert.leftBlock = ^(){
-            NSLog(@"确定");
-            
-        };
-        alert.rightBlock = ^(){
-            NSLog(@"取消");
-            
-        };
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-//        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:[failDic objectForKey:ERROR_INFO] contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
-        [alert show];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
-        alert.leftBlock = ^(){
-            NSLog(@"确定");
-            
-        };
-        alert.rightBlock = ^(){
-            NSLog(@"取消");
-            
-        };
     }];
 
     

@@ -218,7 +218,7 @@
 -(void)configWithCarModel:(CarSourceClass *)car userModel:(GuserModel*)userModel{
     self.carNameLabel.text = car.car_name;
     self.carPriceLabel.text = [NSString stringWithFormat:@"%@万元",car.price];
-    NSString *carfrom = car.carfrom;//汽车规格
+    NSString *carfrom = car.carfrom;//汽车版本
     NSString *spot_future = car.spot_future;//现货或期货
     NSString *color_out = [car.color_out substringWithRange:NSMakeRange(0, 1)];//外观颜色
     NSString *color_in = [car.color_in substringWithRange:NSMakeRange(0, 1)];//内饰颜色

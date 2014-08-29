@@ -137,7 +137,7 @@
             [_table performSelector:@selector(finishReloadigData) withObject:nil afterDelay:1.0];
         }else
         {
-            [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+            [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         }
     }];
     

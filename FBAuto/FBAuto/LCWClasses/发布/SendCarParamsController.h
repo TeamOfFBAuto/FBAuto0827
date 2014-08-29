@@ -24,7 +24,10 @@ typedef enum{
     Data_Color_In,//内饰颜色
     Data_Money,//定金
     Data_Area,//地区 省份
-    Data_Area_City //地区 城市
+    Data_Area_City, //地区 城市
+    
+    Data_Car_Type_Custom, //车型 自定义
+    Data_Car_Style_Custom //车款 自定义
     
 }DATASTYLE;
 

@@ -38,10 +38,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-//    CGRect thirdFrame = self.bottomBgView.frame;
-//    thirdFrame.origin.y = self.view.bottom - 75 - 44 - 20;
-//    self.bottomBgView.frame = thirdFrame;
-    
     [self createViews];
     
     [self getSingleCarInfoWithId:self.infoId];
@@ -76,10 +72,9 @@
         
         NSString *carName = [dic objectForKey:@"car_name"];
         
-        UILabel *nameLabel = [self labelWithTag:108];
+        UILabel *nameLabel = [self labelWithTag:110];
         nameLabel.numberOfLines = 0;
         nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
-//        nameLabel.backgroundColor = [UIColor orangeColor];
         
         CGFloat newHeight = [LCWTools heightForText:carName width:200 font:14];
         
@@ -94,17 +89,27 @@
         
         nameLabel.text = carName;
         
-        [self labelWithTag:109].text  =[self showForText:[NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]]] ;
-        [self labelWithTag:110].text  = [self showForText:[dic objectForKey:@"carfrom"]];
-        [self labelWithTag:111].text  = [self showForText:[dic objectForKey:@"spot_future"]];
-        [self labelWithTag:112].text  = [self showForText:[dic objectForKey:@"color_out"]];
-        [self labelWithTag:113].text  = [self showForText:[dic objectForKey:@"color_in"]];
-        [self labelWithTag:114].text  = [self depositWithText:[dic objectForKey:@"deposit"]];
-        [self labelWithTag:115].text  = [[dic objectForKey:@"cardiscrib"] isEqualToString:@""] ? @"无" : [dic objectForKey:@"cardiscrib"];
+        NSString *area = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
         
+        if ([area isEqualToString:@"不限不限"]) {
+            area = @"不限";
+        }
         
-        for (int i = 1; i < 8; i ++) {
-            UILabel *label = [self labelWithTag:108 + i];
+        [self labelWithTag:111].text  =[self showForText:area] ;
+        [self labelWithTag:112].text  = [self showForText:[dic objectForKey:@"carfrom"]];
+        [self labelWithTag:113].text  = [self showForText:[dic objectForKey:@"spot_future"]];
+        [self labelWithTag:114].text  = [self showForText:[dic objectForKey:@"color_out"]];
+        [self labelWithTag:115].text  = [self showForText:[dic objectForKey:@"color_in"]];
+//        [self labelWithTag:114].text  = [self depositWithText:[dic objectForKey:@"deposit"]];
+        [self labelWithTag:116].text  = [[dic objectForKey:@"cardiscrib"] isEqualToString:@""] ? @"无" : [dic objectForKey:@"cardiscrib"];
+        
+        [self labelWithTag:116].numberOfLines = 0;
+        [self labelWithTag:116].lineBreakMode = NSLineBreakByCharWrapping;
+        [self labelWithTag:116].height = [LCWTools heightForText:[self labelWithTag:116].text width:200 font:14];
+//        [self labelWithTag:114].backgroundColor = [UIColor orangeColor];
+        
+        for (int i = 1; i < 7; i ++) {
+            UILabel *label = [self labelWithTag:110 + i];
             label.top += dis;
             
             UILabel *label2 = [self labelWithTag:100 + i];
@@ -117,7 +122,8 @@
         self.nameLabel.text = [dic objectForKey:@"username"];
         self.saleTypeBtn.titleLabel.text = [dic objectForKey:@"usertype"];//商家类型
         self.phoneNumLabel.text = [dic objectForKey:@"phone"];
-        self.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        
+        self.addressLabel.text = area;
         
         [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
         
@@ -126,7 +132,8 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -168,17 +175,18 @@
 
 - (void)createViews
 {
-    NSArray *items = @[@"车       型:",@"地       区:",@"规       格:",@"期       限:",@"外  观 色:",@"内  饰 色:",@"定       金:",@"详细描述:"];
+    NSArray *items = @[@"车       型:",@"地       区:",@"规       格:",@"期       限:",@"外  观 色:",@"内  饰 色:",@"详细描述:"];
     for (int i = 0; i < items.count; i ++) {
         UILabel *aLabel = [self createLabelFrame:CGRectMake(10, 25 + (20 + 15) * i, 92, 20) text:[items objectAtIndex:i] alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]];
         aLabel.font = [UIFont boldSystemFontOfSize:14];
         [self.view addSubview:aLabel];
         aLabel.tag = 100 + i;
     }
-    for (int i = (int)items.count; i < items.count * 2; i ++) {
-        UILabel *aLabel = [self createLabelFrame:CGRectMake(92, 25 + (20 + 15) * (i - items.count), 200, 20) text:@"" alignMent:NSTextAlignmentLeft textColor:[UIColor grayColor]];
+    for (int i = 0; i < items.count; i ++) {
+        UILabel *aLabel = [self createLabelFrame:CGRectMake(92, 25 + (20 + 15) * i, 200, 20) text:@"" alignMent:NSTextAlignmentLeft textColor:[UIColor grayColor]];
         [self.view addSubview:aLabel];
-        aLabel.tag = 100 + i;
+        aLabel.tag = 110 + i;
+        NSLog(@"tag %d",aLabel.tag);
 
     }
 }
@@ -234,16 +242,15 @@
         
         NSLog(@"添加收藏 result %@, erro%@",result,[result objectForKey:@"errinfo"]);
         
-        [LCWTools showMBProgressWithText:[result objectForKey:@"errinfo"] addToView:self.view];
+        [LCWTools showDXAlertViewWithText:[result objectForKey:@"errinfo"]];
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+        
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        
     }];
-    
-    
 }
-
 
 
 //分享

@@ -28,7 +28,15 @@
     //@"发河北 寻美规 奥迪Q7 14款 豪华"
     NSString *contentText = [NSString stringWithFormat:@"寻%@",aCar.car_name];
     self.contentLabel.text = contentText;
-    self.toAddressLabel.text = [NSString stringWithFormat:@"发%@%@",aCar.province,aCar.city];
+    
+    NSString *area = [NSString stringWithFormat:@"发%@%@",aCar.province,aCar.city];
+    
+    if ([area isEqualToString:@"发不限不限"]) {
+        area = @"发不限";
+    }
+    
+    self.toAddressLabel.text = area;
+    
     self.moneyLabel.text = [self depositWithText:aCar.deposit];
     self.nameLabel.text = aCar.username;
     self.timeLabel.text = [LCWTools timechange:aCar.dateline];

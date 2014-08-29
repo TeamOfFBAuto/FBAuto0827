@@ -31,6 +31,7 @@
 #import "FBFindCarDetailController.h"
 
 #import "DXAlertView.h"
+#import "GuserZyViewController.h"
 
 #define MESSAGE_PAGE_SIZE 10
 
@@ -338,8 +339,9 @@
     return YES;
 }
 
-#pragma - mark 内容滑动到最后一条
-
+/**
+ *  内容滑动到最后一条
+ */
 - (void)scrollToBottom
 {
     if (messages.count > 1) {
@@ -348,7 +350,10 @@
         
     }
 }
-#pragma - mark 缩放图片
+
+/**
+ *   缩放图片
+ */
 
 -(UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
 {
@@ -363,7 +368,10 @@
 #pragma mark - 网络请求
 #pragma mark
 
-#pragma - mark 获取用户在线状态
+/**
+ *  获取用户在线状态
+ *
+ */
 
 - (NSString *)requestUserState:(NSString *)userId
 {
@@ -444,7 +452,9 @@
     }];
 }
 
-#pragma - mark XMPP发送消息
+/**
+ *  XMPP发送消息
+ */
 
 - (void)xmppSendMessage:(NSString *)messageText
 {
@@ -468,6 +478,14 @@
         if (tag == 1) {
             
             NSLog(@"发送成功");
+            
+            
+            //本地记录最新一条聊天消息
+            
+//            [FBCityData updateCurrentUserPhone:self.chatWithUser fromUserPhone:[GMAPI getUserPhoneNumber] fromName:[GMAPI getUsername] fromId:[GMAPI getUid] newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
+            
+            
+            [FBCityData updateCurrentUserPhone:[GMAPI getUserPhoneNumber] fromUserPhone:self.chatWithUser fromName:self.chatWithUserName fromId:self.chatUserId newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
             
             if (weakSelf.isShare) {
                 
@@ -644,18 +662,7 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-//        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
-        
-        DXAlertView *alert = [[DXAlertView alloc]initWithTitle:[failDic objectForKey:ERROR_INFO] contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
-        [alert show];
-        
-        alert.leftBlock = ^(){
-            NSLog(@"确定");
-        };
-        alert.rightBlock = ^(){
-            NSLog(@"取消");
-            
-        };
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -970,11 +977,10 @@
 #pragma mark - 事件处理
 #pragma mark
 
-
-
-#pragma - mark 验证是否登录成功,否则自动登录再fasong
-
-//发送图片时aImage不为空
+/**
+ *  验证是否登录成功,否则自动登录再发送
+ *  @param aImage 发送图片时aImage不为空
+ */
 
 - (void)xmppAuthenticatedWithMessage:(NSString *)text MessageType:(MESSAGE_TYPE)type image:(UIImage *)aImage
 {
@@ -1114,7 +1120,12 @@
 
 - (void)clickToHome:(UIButton *)btn
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    GuserZyViewController *personal = [[GuserZyViewController alloc]init];
+    personal.title = self.chatWithUserName ? self.chatWithUserName : self.chatUserId;
+    personal.userId = self.chatUserId;
+    [self.navigationController pushViewController:personal animated:YES];
 }
 
 #pragma - mark 发送图片

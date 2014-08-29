@@ -59,6 +59,10 @@
         }else if(style == Menu_Timelimit)
         {
            dataArray = MENU_TIMELIMIT;
+            
+        }else if(style == Menu_Color_Out)
+        {
+            dataArray = MENU_HIGHT_OUTSIDE_CORLOR;
         }else
         {
             dataArray = MENU_MONEY;
@@ -69,7 +73,14 @@
         [table reloadData];
         
         CGRect aFrame = table.frame;
-        aFrame.size.height = 40 * dataArray.count;
+        
+        if (style == Menu_Color_Out) {
+           aFrame.size.height = 40 * dataArray.count - 49 - 20;
+        }else
+        {
+           aFrame.size.height = 40 * dataArray.count;
+        }
+        
         table.frame = aFrame;
         
     }

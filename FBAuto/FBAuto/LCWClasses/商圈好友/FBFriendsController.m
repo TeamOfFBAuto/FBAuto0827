@@ -16,6 +16,7 @@
 #import "DXAlertView.h"
 
 #import "XMPPServer.h"
+#import "GuserZyViewController.h"
 
 @interface FBFriendsController ()<chatDelegate>
 {
@@ -117,7 +118,8 @@
         }
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
-        [LCWTools showMBProgressWithText:[failDic objectForKey:ERROR_INFO] addToView:self.view];
+
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
     }];
 }
 
@@ -150,16 +152,17 @@
 
 - (UIView *)tableHeaderView
 {
-    UIView *head = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 165 + 10)];
+    UIView *head = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 165 + 10 - 45 - 10)];
     head.backgroundColor = [UIColor whiteColor];
     
-    NSArray *titles = @[@"添加好友",@"按地区查找",@"联系客服"];
-    for (int i = 0; i < 3; i ++) {
+//    NSArray *titles = @[@"添加好友",@"按地区查找",@"联系客服"];
+    NSArray *titles = @[@"添加好友",@"联系客服"];
+    for (int i = 0; i < titles.count; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(10, 10 + (10 + 45) * i, 300, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToDoSomething:) sectionStyle:Section_Normal image:nil];
         btn.tag = 100 + i;
         [head addSubview:btn];
     }
-    
+
     return head;
 }
 
@@ -172,13 +175,13 @@
             [self.navigationController pushViewController:addFriend animated:YES];
         }
             break;
+//        case 101:
+//        {
+//            FBAreaFriensController *addFriend = [[FBAreaFriensController alloc]init];
+//            [self.navigationController pushViewController:addFriend animated:YES];
+//        }
+//            break;
         case 101:
-        {
-            FBAreaFriensController *addFriend = [[FBAreaFriensController alloc]init];
-            [self.navigationController pushViewController:addFriend animated:YES];
-        }
-            break;
-        case 102:
         {
             DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"暂未开通客服" contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
             [alert show];
@@ -267,6 +270,14 @@
         FBFriendModel *aModel = [arr objectAtIndex:indexPath.row];
         
         [self clickToChatWithUser:aModel.phone userName:aModel.buddyname userId:aModel.buddyid];
+    }else
+    {
+        NSArray *arr = [friendsDic objectForKey:[firstLetterArr objectAtIndex:indexPath.section]];
+        FBFriendModel *aModel = [arr objectAtIndex:indexPath.row];
+        GuserZyViewController *personal = [[GuserZyViewController alloc]init];
+        personal.title = aModel.buddyname;
+        personal.userId = aModel.buddyid;
+        [self.navigationController pushViewController:personal animated:YES];
     }
     
 }
@@ -309,9 +320,10 @@
         [xmppServer sendMessage:weakAlert.inputTextView.text toUser:user shareLink:[self.shareContent objectForKey:@"infoId"] messageBlock:^(NSDictionary *params, int tag) {
             
             if (tag == 1) {
-                [LCWTools showMBProgressWithText:@"分享成功" addToView:weakSelf.view];
+                
+                [LCWTools showDXAlertViewWithText:@"分享成功"];
             }else{
-                [LCWTools showMBProgressWithText:@"分享失败" addToView:weakSelf.view];
+                [LCWTools showDXAlertViewWithText:@"分享失败"];
             }
             
         }];

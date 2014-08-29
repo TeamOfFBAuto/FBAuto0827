@@ -282,7 +282,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.textLabel.font = [UIFont systemFontOfSize:14.f];
     cell.textLabel.textColor = [UIColor colorWithHexString:@"666666"];
     
@@ -366,11 +366,15 @@
             CarType *aType = [secondArray objectAtIndex:indexPath.row - 1];
             
             NSString *unique = [NSString stringWithFormat:@"%@%@",aType.parentId,aType.typeId];
-            NSArray *styteArr = [[[LCWTools alloc]init]queryDataClassType:CARSOURCE_STYLE_QUERY pageSize:0 andOffset:0 unique:unique];
+//            NSArray *styteArr = [[[LCWTools alloc]init]queryDataClassType:CARSOURCE_STYLE_QUERY pageSize:0 andOffset:0 unique:unique];
+//            
+//            typeId = aType.typeId;
+//            
+//            [self reloadThirdTableData:styteArr];
             
-            typeId = aType.typeId;
-            
-            [self reloadThirdTableData:styteArr];
+            [self hidden];
+            NSString *car = [NSString stringWithFormat:@"%@000",unique];
+            selectBlock(car);
         }
 
         

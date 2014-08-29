@@ -19,6 +19,8 @@
 
 #import "CarClass.h"
 
+#import "DXAlertView.h"
+
 @implementation LCWTools
 
 + (id)shareInstance
@@ -71,6 +73,8 @@
     successBlock = completionBlock;
     failBlock = failedBlock;
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     NSString *newStr = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSLog(@"requestUrl %@",newStr);
@@ -84,7 +88,6 @@
         
         [request setHTTPBody:requestData];
     }
-
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
@@ -135,6 +138,8 @@
             failBlock(failDic,connectionError);
             
         }
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
     }];
 
@@ -438,6 +443,21 @@
     hud.yOffset = 150.f;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:1.5];
+}
+
++(void)showDXAlertViewWithText:(NSString *)text
+{
+    DXAlertView *alert = [[DXAlertView alloc]initWithTitle:text contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定"];
+    [alert show];
+    
+    alert.leftBlock = ^(){
+        NSLog(@"确定");
+        
+    };
+    alert.rightBlock = ^(){
+        NSLog(@"取消");
+        
+    };
 }
 
 #pragma - mark 非空字符串

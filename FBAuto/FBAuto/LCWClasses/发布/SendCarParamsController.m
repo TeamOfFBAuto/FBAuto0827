@@ -57,13 +57,13 @@
             break;
         case Data_Standard:
         {
-            title = @"规格";
+            title = @"版本";
             self.dataArray = self.haveLimit ? MENU_STANDARD : MENU_STANDARD_2;
         }
             break;
         case Data_Timelimit:
         {
-            title = @"期限";
+            title = @"库存";
             self.dataArray = self.haveLimit ? MENU_TIMELIMIT : MENU_TIMELIMIT_2;
         }
             break;
@@ -131,6 +131,51 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma - mark 自定义处理
+
+- (void)createNewConditionStyle:(DATASTYLE)style title:(NSString *)aTitle
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:aTitle message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (buttonIndex == 1) {
+        
+        UITextField *TF = [alertView textFieldAtIndex:0];
+        
+        if (TF.text.length == 0) {
+            
+            [self createNewConditionStyle:self.dataStyle title:@"内容不能为空"];
+            
+            return;
+        }
+
+        
+        if (self.dataStyle == Data_Car_Type) {
+            
+            NSString *car = [NSString stringWithFormat:@"%@%@%@",self.brandId,@"000",@"000"];
+            selectBlock(Data_Car_Type_Custom,TF.text,car);
+            
+        }else if (self.dataStyle == Data_Car_Style){
+            
+            NSString *car = [NSString stringWithFormat:@"%@%@%@",self.brandId,self.typeId,@"000"];
+            selectBlock(Data_Car_Style_Custom,TF.text,car);
+        }
+        
+        if (self.rootVC) {
+            [self.navigationController popToViewController:self.rootVC animated:YES];
+        }else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
+
 #pragma  - mark 获取城市地区数据
 
 - (void)loadProvince
@@ -194,7 +239,9 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.dataStyle == Data_Car_Brand) {
+        
         return firstLetterArray.count;
+        
     }else if (self.dataStyle == Data_Area)
     {
         return firstLetterArray.count + 1;
@@ -207,6 +254,7 @@
     if (self.dataStyle == Data_Car_Brand) {
         
         return firstLetterArray;
+        
     }else if (self.dataStyle == Data_Area){
         
         NSMutableArray *arr = [NSMutableArray arrayWithArray:firstLetterArray];
@@ -287,6 +335,9 @@
         NSArray *subCityArr = [provinceDic objectForKey:letter];
         
         return subCityArr.count;
+    }else if (_dataStyle == Data_Car_Type || _dataStyle == Data_Car_Style)
+    {
+        return _dataArray.count + 2;
     }
     return _dataArray.count;
 }
@@ -348,10 +399,15 @@
     else if (self.dataStyle == Data_Car_Type)
     {
         if (indexPath.row == 0) {
+            
            cell.textLabel.text = @"不限";
+            
+        }else if (indexPath.row == 1)
+        {
+            cell.textLabel.text = @"自定义";
         }else
         {
-            CarType *aType = [self.dataArray objectAtIndex:indexPath.row - 1];
+            CarType *aType = [self.dataArray objectAtIndex:indexPath.row - 1 - 1];
             
             cell.textLabel.text = aType.typeName;
 
@@ -360,9 +416,13 @@
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"不限";
+        }else if (indexPath.row == 1)
+        {
+            cell.textLabel.text = @"自定义";
+            
         }else
         {
-            CarStyle *aStyle = [self.dataArray objectAtIndex:indexPath.row - 1];
+            CarStyle *aStyle = [self.dataArray objectAtIndex:indexPath.row - 1 - 1];
             
             cell.textLabel.text = aStyle.styleName;
             
@@ -417,13 +477,25 @@
         if (indexPath.row == 0) {
             
             NSString *car = [NSString stringWithFormat:@"%@%@%@",self.brandId,@"000",@"000"];
-            selectBlock(self.dataStyle,@"不限",car);
+            selectBlock(self.dataStyle,self.navigationTitle,car);
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            if (self.rootVC) {
+                [self.navigationController popToViewController:self.rootVC animated:YES];
+            }else
+            {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+        }else if (indexPath.row == 1)
+        {
+            
+            NSLog(@"自定义车系");
+            
+            [self createNewConditionStyle:self.dataStyle title:@"自定义车系"];
             
         }else
         {
-            CarType *aType = [self.dataArray objectAtIndex:indexPath.row - 1];
+            CarType *aType = [self.dataArray objectAtIndex:indexPath.row - 1 - 1];
             
             SendCarParamsController *base = [[SendCarParamsController alloc]init];
             base.hidesBottomBarWhenPushed = YES;
@@ -444,6 +516,7 @@
             
         }
         
+        
         return;
         
     }else if (self.dataStyle == Data_Car_Style) {
@@ -452,11 +525,20 @@
             
             
             NSString *car = [NSString stringWithFormat:@"%@%@%@",self.brandId,self.typeId,@"000"];
-            selectBlock(self.dataStyle,@"不限",car);
+            selectBlock(self.dataStyle,self.navigationTitle,car);
+            
+        }else if (indexPath.row == 1)
+        {
+            
+            NSLog(@"自定义车款");
+            
+            [self createNewConditionStyle:self.dataStyle title:@"自定义车款"];
+            
+            return;
             
         }else
         {
-            CarStyle *aStyle = [self.dataArray objectAtIndex:indexPath.row - 1];
+            CarStyle *aStyle = [self.dataArray objectAtIndex:indexPath.row - 1 - 1];
             
             NSString *car = [NSString stringWithFormat:@"%@%@%@",self.brandId,self.typeId,aStyle.styleId];
             selectBlock(self.dataStyle,aStyle.styleName,car);
@@ -476,6 +558,7 @@
         if (indexPath.section == 0) {
             return;
         }
+        
         
         NSString *letter = [firstLetterArray objectAtIndex:indexPath.section - 1];
         

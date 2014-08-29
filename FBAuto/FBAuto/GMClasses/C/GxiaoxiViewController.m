@@ -67,7 +67,7 @@
     
     NSArray *arr = [FBCityData queryAllNewestMessageForUser:userName];
     
-    NSLog(@"queryAllNewestMessageForUser %@ %d",arr,arr.count);
+    NSLog(@"queryAllNewestMessageForUser userId %@ %d",arr,arr.count);
     
     _dataArray = arr;
     

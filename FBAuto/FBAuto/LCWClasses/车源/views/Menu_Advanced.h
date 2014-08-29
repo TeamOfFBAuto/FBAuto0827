@@ -21,7 +21,8 @@ typedef enum {
 typedef enum {
     Content_All = 0,//地区、内、外
     Content_Out_In,//外、内
-    Content_Area//只有地区
+    Content_Area,//只有地区
+    Content_In //只有内饰颜色
 }ContentStyle;
 
 typedef void(^SelectBlock) (BlockStyle style,NSString *colorName,NSString *colorId);

@@ -60,6 +60,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    sleep(2);
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     CarResourceViewController * rootVC = [[CarResourceViewController alloc] init];
@@ -86,11 +88,12 @@
     
     fabuCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"发布" image:[UIImage imageNamed:@"fabu_down46_46"] tag:1];
     
-    searchCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"寻车" image:[UIImage imageNamed:@"xunche_down46_46"] tag:2];
+    searchCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"求购" image:[UIImage imageNamed:@"xunche_down46_46"] tag:2];
     
     perSonalVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"个人中心" image:[UIImage imageNamed:@"geren_down46_46"] tag:3];
     
     UITabBarController * tabbar = [[UITabBarController alloc] init];
+    tabbar.delegate = self;
     tabbar.tabBar.backgroundImage=[UIImage imageNamed:@"testV.png"];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:232.0/255.0f green:128/255.0f blue:24/255.0f alpha:1]];
     
@@ -260,12 +263,23 @@
     
     if (status == ReachableViaWiFi || status == ReachableViaWWAN) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络连接信息" message:@"网络连接正常" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络连接信息" message:@"网络连接正常" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         
 //        [alert show];
         
         self.isReachable = YES;
         
+    }
+}
+
+#pragma mark - @protocol UITabBarControllerDelegate<NSObject>
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"didSelectViewController %d",tabBarController.selectedIndex);
+    
+    if (tabBarController.selectedIndex == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CARSOURCE_PARAMS object:nil];
     }
 }
 
@@ -317,6 +331,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    //图标显示
+    application.applicationIconBadgeNumber = 0;
+    
     [[XMPPServer shareInstance]loginTimes:10 loginBack:^(BOOL result) {
         if (result) {
             NSLog(@"连接并且登录成功");

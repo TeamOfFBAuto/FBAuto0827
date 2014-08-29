@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  用于规格、来源、期限
+ *  用于规格版本、来源、期限
  */
 
 
@@ -17,7 +17,9 @@ typedef enum {
     Menu_Standard = 0,//规格
     Menu_Source,//来源
     Menu_Timelimit,//期限
-    Menu_Money
+    Menu_Money,//定金
+    Menu_Color_Out,//外观颜色
+    Menu_Color_In //内饰颜色
 }MenuStyle;
 
 typedef void(^SelectNormalBlock) (MenuStyle style, NSString *selectId);

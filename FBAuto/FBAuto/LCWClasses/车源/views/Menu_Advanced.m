@@ -61,6 +61,10 @@
             {
                 dataArray = MENU_HIGHT_TITLE_MORE;
                 
+            }else if (aContentStyle == Content_In)
+            {
+                dataArray = @[@"内饰颜色"];
+                
             }else
             {
                 
@@ -214,6 +218,8 @@
             }];
         }
     }
+    
+    [self bringSubviewToFront:secondTable];
     
     [secondTable reloadData];
 }
@@ -406,7 +412,7 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"MenuCell" owner:self options:nil]objectAtIndex:0];
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     if (tableView == secondTable) {
         
@@ -475,7 +481,12 @@
         
         FBCity *aCity = [subCityArr objectAtIndex:indexPath.row];
         
-        [self reloadThirdTableData:[FBCityData getSubCityWithProvinceId:aCity.cityId] provinceName:aCity.cityName provinceId:aCity.provinceId];
+//        [self reloadThirdTableData:[FBCityData getSubCityWithProvinceId:aCity.cityId] provinceName:aCity.cityName provinceId:aCity.provinceId];
+        
+        NSString *provinceId = [NSString stringWithFormat:@"%d",aCity.provinceId];
+        cityBlock(aCity.cityName,provinceId,@"000");
+        
+        [self hidden];
         
     }else if (tableView == thirdTable)
     {
@@ -507,8 +518,18 @@
         if (indexPath.row == 0) {
             NSLog(@"外观颜色");
             
-            [self reloadColorTableWithArray:MENU_HIGHT_OUTSIDE_CORLOR];
-            blockStyle = Select_Out_Color;
+            if (contentStyle == Content_In) {
+                
+                [self reloadColorTableWithArray:MENU_HIGHT_INSIDE_CORLOR];
+                blockStyle = Select_In_Color;
+                
+            }else
+            {
+                [self reloadColorTableWithArray:MENU_HIGHT_OUTSIDE_CORLOR];
+                blockStyle = Select_Out_Color;
+            }
+            
+            
         }
         
         if (indexPath.row == 1) {
