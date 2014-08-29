@@ -27,4 +27,6 @@ typedef enum{
 
 - (IBAction)clickToBack:(id)sender;
 
+-(void)PushToViewController:(UIViewController *)controller animated:(BOOL)animation;
+
 @end

@@ -242,7 +242,9 @@
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
 
-    [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
+        NSLog(@"faildic %@",[failDic objectForKey:ERROR_INFO]);
+        
     }];
     
 }

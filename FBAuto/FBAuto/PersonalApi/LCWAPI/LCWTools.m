@@ -467,6 +467,9 @@
     if (![text isKindOfClass:[NSString class]]) {
         return @"";
     }
+    if ([text isEqualToString:@"null"]) {
+        return @"";
+    }
     return text;
 }
 
@@ -524,7 +527,7 @@
                                  }
                                  else if (state == SSPublishContentStateFail)
                                  {
-                                     NSLog(@"分享失败!error code == %d, error code == %@ 原因:分享图片错误", [error errorCode], [error errorDescription]);
+                                     NSLog(@"分享失败!error code == %d, error code == %@ ", [error errorCode], [error errorDescription]);
                                      
                                  }
                              }];

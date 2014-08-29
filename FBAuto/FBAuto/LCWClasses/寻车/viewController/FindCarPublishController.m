@@ -509,9 +509,18 @@
         //        //参数
         [self labelWithTag:100].text = [dic objectForKey:@"car_name"];
         
-        _car = [dic objectForKey:@"car"];
+//        _car = [dic objectForKey:@"car"];
         
-        [self labelWithTag:101].text  =[self showForText:[NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]]] ;
+        _car = @"000000000"; //修改寻车信息,默认;
+        
+        
+        NSString *area = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        
+        if ([area isEqualToString:@"不限不限"]) {
+            area = @"不限";
+        }
+        
+        [self labelWithTag:101].text  =[self showForText:area] ;
         
         _province = [FBCityData cityIdForName:[dic objectForKey:@"province"]];
         _city = [FBCityData cityIdForName:[dic objectForKey:@"city"]];

@@ -135,7 +135,7 @@
         
         self.car_detail_label.height = [LCWTools heightForText:detail width:199 font:14];
         
-        self.build_time_label.text = [dic objectForKey:@"build_time"];
+        self.build_time_label.text = [LCWTools NSStringNotNull:[dic objectForKey:@"build_time"]];
         //商家信息
 
         self.nameLabel.text = [dic objectForKey:@"username"];

@@ -95,6 +95,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)PushToViewController:(UIViewController *)controller animated:(BOOL)animation
+{
+    controller.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:controller animated:animation];
+}
+
+
 - (IBAction)clickToBack:(id)sender {
     
     [self.navigationController popViewControllerAnimated:YES];
