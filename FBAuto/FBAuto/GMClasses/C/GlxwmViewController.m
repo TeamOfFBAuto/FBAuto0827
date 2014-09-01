@@ -28,32 +28,32 @@
     self.titleLabel.text = @"联系我们";
     
     //姓名
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 19, 285, 15)];
+    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(13, 19, 285, 15)];
     nameLabel.font = [UIFont boldSystemFontOfSize:15];
     nameLabel.text = @"一族（天津）传媒科技有限公司";
     [self.view addSubview:nameLabel];
     
     //地址
-    UILabel *dizhiLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(nameLabel.frame)+12, 285, 15)];
-    dizhiLabel.font = [UIFont boldSystemFontOfSize:12];
+    UILabel *dizhiLabel = [[UILabel alloc]initWithFrame:CGRectMake(13, CGRectGetMaxY(nameLabel.frame)+12, 285, 15)];
+    dizhiLabel.font = [UIFont boldSystemFontOfSize:10.5];
     dizhiLabel.text = @"地址：天津经济技术开发区第六大街110号天润科技园B105";
     [self.view addSubview:dizhiLabel];
     
     //邮编
-    UILabel *youbianLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(dizhiLabel.frame)+12, 285, 15)];
-    youbianLabel.font = [UIFont boldSystemFontOfSize:12];
+    UILabel *youbianLabel = [[UILabel alloc]initWithFrame:CGRectMake(13, CGRectGetMaxY(dizhiLabel.frame)+12, 285, 15)];
+    youbianLabel.font = [UIFont boldSystemFontOfSize:10.5];
     youbianLabel.text = @"邮编：300457";
     [self.view addSubview:youbianLabel];
     
     //电话
-    UILabel *phoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(youbianLabel.frame)+12, 285, 15)];
-    phoneLabel.font = [UIFont boldSystemFontOfSize:12];
+    UILabel *phoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(13, CGRectGetMaxY(youbianLabel.frame)+12, 285, 15)];
+    phoneLabel.font = [UIFont boldSystemFontOfSize:10.5];
     phoneLabel.text = @"电话：022 6621 6608";
     [self.view addSubview:phoneLabel];
     
     //传真
-    UILabel *chuanzhenLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(phoneLabel.frame)+12, 285, 15)];
-    chuanzhenLabel.font = [UIFont boldSystemFontOfSize:12];
+    UILabel *chuanzhenLabel = [[UILabel alloc]initWithFrame:CGRectMake(13, CGRectGetMaxY(phoneLabel.frame)+12, 285, 15)];
+    chuanzhenLabel.font = [UIFont boldSystemFontOfSize:10.5];
     chuanzhenLabel.text = @"传真：022 6621 0307";
     [self.view addSubview:chuanzhenLabel];
     
