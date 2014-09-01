@@ -214,6 +214,9 @@
 		13C7174019824C48008F7B42 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C7173F19824C48008F7B42 /* Security.framework */; };
 		13C7174219824C51008F7B42 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C7174119824C51008F7B42 /* libstdc++.dylib */; };
 		13C7174419824C5B008F7B42 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C7174319824C5B008F7B42 /* libsqlite3.dylib */; };
+		13C7A36519B434FB009BFF50 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C7A36219B434FB009BFF50 /* icon57.png */; };
+		13C7A36619B434FB009BFF50 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C7A36319B434FB009BFF50 /* icon114.png */; };
+		13C7A36719B434FB009BFF50 /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C7A36419B434FB009BFF50 /* icon120.png */; };
 		13C7E53319ADBA8600685DD1 /* SendCarParamsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C7E53219ADBA8600685DD1 /* SendCarParamsController.m */; };
 		13C7E53619ADBAA700685DD1 /* FBFriendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C7E53519ADBAA700685DD1 /* FBFriendModel.m */; };
 		13D5DF721961306000804835 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 13D5DF711961306000804835 /* UIView+Frame.m */; };
@@ -380,9 +383,6 @@
 		E360CA8B19B06A5C0047449D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA8819B06A5C0047449D /* Default-568h@2x.png */; };
 		E360CA8C19B06A5C0047449D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA8919B06A5C0047449D /* Default.png */; };
 		E360CA8D19B06A5C0047449D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA8A19B06A5C0047449D /* Default@2x.png */; };
-		E360CA8F19B06B1F0047449D /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA8E19B06B1F0047449D /* icon120.png */; };
-		E360CA9119B06BF00047449D /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA9019B06BF00047449D /* icon114.png */; };
-		E360CA9319B06C160047449D /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = E360CA9219B06C160047449D /* icon57.png */; };
 		E3611459197BA8E000F9234E /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3611457197BA8E000F9234E /* DXAlertView.m */; };
 		E362357F19657588003B23CC /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = E362357419657588003B23CC /* area.plist */; };
 		E362358019657588003B23CC /* GuserZhuce.m in Sources */ = {isa = PBXBuildFile; fileRef = E362357619657588003B23CC /* GuserZhuce.m */; };
@@ -686,6 +686,9 @@
 		13C7173F19824C48008F7B42 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		13C7174119824C51008F7B42 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		13C7174319824C5B008F7B42 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		13C7A36219B434FB009BFF50 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
+		13C7A36319B434FB009BFF50 /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
+		13C7A36419B434FB009BFF50 /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
 		13C7E53119ADBA8600685DD1 /* SendCarParamsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendCarParamsController.h; path = "FBAuto/LCWClasses/发布/SendCarParamsController.h"; sourceTree = SOURCE_ROOT; };
 		13C7E53219ADBA8600685DD1 /* SendCarParamsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendCarParamsController.m; path = "FBAuto/LCWClasses/发布/SendCarParamsController.m"; sourceTree = SOURCE_ROOT; };
 		13C7E53419ADBAA700685DD1 /* FBFriendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendModel.h; sourceTree = "<group>"; };
@@ -916,9 +919,6 @@
 		E360CA8819B06A5C0047449D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E360CA8919B06A5C0047449D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		E360CA8A19B06A5C0047449D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		E360CA8E19B06B1F0047449D /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
-		E360CA9019B06BF00047449D /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
-		E360CA9219B06C160047449D /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
 		E3611457197BA8E000F9234E /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAlertView.m; sourceTree = "<group>"; };
 		E3611458197BA8E000F9234E /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAlertView.h; sourceTree = "<group>"; };
 		E362357419657588003B23CC /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
@@ -1953,9 +1953,9 @@
 		190BFD47195AA0FB0098E0F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E360CA9219B06C160047449D /* icon57.png */,
-				E360CA9019B06BF00047449D /* icon114.png */,
-				E360CA8E19B06B1F0047449D /* icon120.png */,
+				13C7A36219B434FB009BFF50 /* icon57.png */,
+				13C7A36319B434FB009BFF50 /* icon114.png */,
+				13C7A36419B434FB009BFF50 /* icon120.png */,
 				E360CA8819B06A5C0047449D /* Default-568h@2x.png */,
 				E360CA8919B06A5C0047449D /* Default.png */,
 				E360CA8A19B06A5C0047449D /* Default@2x.png */,
@@ -2291,6 +2291,7 @@
 				138B4AF51966A4BD00B974A5 /* face89.png in Resources */,
 				E360CA8D19B06A5C0047449D /* Default@2x.png in Resources */,
 				138B4A9B1966A4BD00B974A5 /* face10.png in Resources */,
+				13C7A36719B434FB009BFF50 /* icon120.png in Resources */,
 				138B4AF31966A4BD00B974A5 /* face87.png in Resources */,
 				190BFD4B195AA0FB0098E0F4 /* InfoPlist.strings in Resources */,
 				13D5E0051961758E00804835 /* denglu_botton550_100@2x.png in Resources */,
@@ -2349,7 +2350,7 @@
 				138B4ABD1966A4BD00B974A5 /* face38.png in Resources */,
 				138B4AD71966A4BD00B974A5 /* face61.gif in Resources */,
 				138B4AD31966A4BD00B974A5 /* face58.png in Resources */,
-				E360CA9119B06BF00047449D /* icon114.png in Resources */,
+				13C7A36619B434FB009BFF50 /* icon114.png in Resources */,
 				138B4AA31966A4BD00B974A5 /* face14.png in Resources */,
 				13D5E07B1962B93A00804835 /* hui_button554_90@2x.png in Resources */,
 				13D5DFF91961758E00804835 /* jiantou_bai10_18@2x.png in Resources */,
@@ -2366,10 +2367,10 @@
 				13D5E0111961758E00804835 /* wancheng_button82_46@2x.png in Resources */,
 				138B4AD21966A4BD00B974A5 /* face57.png in Resources */,
 				138B4AB51966A4BD00B974A5 /* face30.png in Resources */,
-				E360CA8F19B06B1F0047449D /* icon120.png in Resources */,
 				138B4AC81966A4BD00B974A5 /* face48.png in Resources */,
 				138B4AAD1966A4BD00B974A5 /* face23.png in Resources */,
 				E37D2C9D1974CFA500EBA627 /* xuanze_down_44_44@2x.png in Resources */,
+				13C7A36519B434FB009BFF50 /* icon57.png in Resources */,
 				138B4AE41966A4BD00B974A5 /* face73.png in Resources */,
 				138B4ADC1966A4BD00B974A5 /* face66.png in Resources */,
 				138B4AB41966A4BD00B974A5 /* face3.png in Resources */,
@@ -2408,7 +2409,6 @@
 				138B4ACE1966A4BD00B974A5 /* face53.png in Resources */,
 				138B4ACB1966A4BD00B974A5 /* face50.png in Resources */,
 				E33BACD119A5CFA300401587 /* ditu572_440@2x.png in Resources */,
-				E360CA9319B06C160047449D /* icon57.png in Resources */,
 				138B4AE71966A4BD00B974A5 /* face76.png in Resources */,
 				13D5DFFC1961758E00804835 /* jiantou_down18_10@2x.png in Resources */,
 				13D5DFE51961758E00804835 /* fabu_up46_46@2x.png in Resources */,
