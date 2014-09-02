@@ -30,6 +30,7 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 
+#import <JSONKit.h>
 //shareSDK fbauto2014@qq.com 123abc
 //新浪 fbauto2014@qq.com  123abc 或者 fbauto2014
 // 邮箱 fbauto2014@qq.com
@@ -114,16 +115,16 @@
     //图标显示
     application.applicationIconBadgeNumber = 0;
     
-    //UIApplicationLaunchOptionsRemoteNotificationKey,判断是通过推送消息启动的
-    NSDictionary *infoDic = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
-    if (infoDic)
-    {
-        NSLog(@"infoDic %@",infoDic);
-        
-        NSString *str = [NSString stringWithFormat:@"%@",infoDic];
-        
-        [LCWTools alertText:@"haha"];
-    }
+//    //UIApplicationLaunchOptionsRemoteNotificationKey,判断是通过推送消息启动的
+//    NSDictionary *infoDic = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
+//    if (infoDic)
+//    {
+//        NSLog(@"infoDic %@",infoDic);
+//        
+//        NSString *str = [NSString stringWithFormat:@"%@",infoDic];
+//        
+//        [LCWTools alertText:@"haha"];
+//    }
     
     //消息提醒
     [self initMessageAlert];
@@ -138,6 +139,10 @@
     //分享
     [ShareSDK registerApp:Appkey];
     [self initSharePlat];
+    
+    //获取openfire IP地址
+    
+    [self getOpenFireIp];
     
     //发送未读消息通知
     [[NSNotificationCenter defaultCenter]postNotificationName:@"unReadNumber" object:nil];
@@ -156,6 +161,33 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+#pragma mark - 获取openfire ip 地址
+
+- (void)getOpenFireIp
+{
+    NSString *newStr = @"http://quan.fblife.com/index.php?c=forum&a=openfireip";
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:newStr]];
+    __weak typeof(ASIHTTPRequest *)weakRequest = request;
+    [request startAsynchronous];
+    [request setCompletionBlock:^{
+        
+        NSLog(@"----->%@",weakRequest.responseString);
+        
+        NSString *ipString = weakRequest.responseString;
+        
+        if (ipString.length > 0) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            //聊天使用
+            [defaults setObject:ipString forKey:XMPP_SERVER];
+            
+            [defaults synchronize];
+        }
+        
+    }];
+    
 }
 
 #pragma mark - 消息提示

@@ -152,7 +152,9 @@
             
             [defaults setObject:open forKey:XMPP_PASS];
             
-            [defaults setObject:@"60.18.147.4" forKey:XMPP_SERVER];
+            
+//            [defaults setObject:@"60.18.147.4" forKey:XMPP_SERVER];
+            
             [defaults setObject:userid forKey:USERID];
             [defaults setObject:username forKey:USERNAME];
             [defaults setObject:authkey forKey:USERAUTHKEY];
