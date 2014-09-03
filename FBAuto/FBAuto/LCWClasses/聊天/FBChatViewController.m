@@ -149,6 +149,7 @@
     
     NSUserDefaults *defalts = [NSUserDefaults standardUserDefaults];
     NSString *userName = [defalts objectForKey:XMPP_USERID];
+    
     [FBCityData updateCurrentUserPhone:userName fromUserPhone:self.chatWithUser fromName:Nil fromId:nil newestMessage:Nil time:Nil clearReadSum:YES];
     
     NSDictionary *dic = @{@"fromPhone":self.chatWithUser,@"unreadNum":@"0"};
@@ -608,7 +609,7 @@
             }];
             
             [weakChatV stopLoadingWithFailBlock:nil];//停止菊花
-            [weakChatV sd_setImageWithURL:[NSURL URLWithString:imageLink] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+            [weakChatV sd_setImageWithURL:[NSURL URLWithString:imageLink] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
             
             
             CGFloat imageWidth = newImage.size.width;
@@ -773,7 +774,7 @@
         
         [aImageView startLoading];
         
-        [aImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"detail_test"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [aImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             [weakChatV stopLoadingWithFailBlock:nil];
             
         }];

@@ -119,7 +119,7 @@
         NSString *shi = [FBCityData cityNameForId:[guserModel.city intValue]];
 
         self.addressLabel.text = [NSString stringWithFormat:@"%@%@",sheng,shi];
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:guserModel.headimage] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+        [self.headImage sd_setImageWithURL:[NSURL URLWithString:guserModel.headimage] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSString *str = [failDic objectForKey:ERROR_INFO];
         UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:str delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];

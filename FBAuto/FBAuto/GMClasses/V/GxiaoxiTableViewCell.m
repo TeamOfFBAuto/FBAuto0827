@@ -87,8 +87,15 @@
     //姓名
     self.nameLabel.text = model.fromName;
     
+    //判断是否是图片
+    
+    NSString *message = model.newestMessage;
+    
+    if ([message rangeOfString:@"<img height"].length > 0) {
+        message = @"你有一条图片消息";
+    }
     //内容
-    self.contentLabel.text = model.newestMessage;
+    self.contentLabel.text = message;
     
 }
 

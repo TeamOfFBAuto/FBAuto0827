@@ -46,7 +46,7 @@
     for (int i = 0; i < _imagesArray.count; i ++) {
         ZoomScrollView *aImageView = [[ZoomScrollView alloc]initWithFrame:CGRectMake(320 * i, 0, 320, bgScroll.height)];
         
-        [aImageView.imageView sd_setImageWithURL:[NSURL URLWithString:[_imagesArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+        [aImageView.imageView sd_setImageWithURL:[NSURL URLWithString:[_imagesArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
         
         [bgScroll addSubview:aImageView];
     }

@@ -49,12 +49,15 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"daohanglan_bg_640_88"] forBarMetrics: UIBarMetricsDefault];
     
-    self.button_back=[[UIButton alloc]initWithFrame:CGRectMake(0,8,40,21.5)];
+    UIBarButtonItem *spaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spaceButton.width = -5;
+    
+    self.button_back=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,44)];
     [_button_back addTarget:self action:@selector(clickToBack:) forControlEvents:UIControlEventTouchUpInside];
     [_button_back setImage:FBAUTO_BACK_IMAGE forState:UIControlStateNormal];
     _button_back.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     UIBarButtonItem *back_item=[[UIBarButtonItem alloc]initWithCustomView:_button_back];
-    self.navigationItem.leftBarButtonItems=@[back_item];
+    self.navigationItem.leftBarButtonItems=@[spaceButton,back_item];
     
     self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 21)];
     _titleLabel.textAlignment = NSTextAlignmentCenter;

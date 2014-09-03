@@ -26,8 +26,8 @@
 		133DF6A3197CE7F9006BF9ED /* FBFindCarDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133DF6A1197CE7F9006BF9ED /* FBFindCarDetailController.xib */; };
 		1351C5C9197A4F8E000F7391 /* FBSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1351C5C8197A4F8E000F7391 /* FBSearchResultController.m */; };
 		1351C5CC197A704F000F7391 /* FindCarPublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1351C5CB197A704F000F7391 /* FindCarPublishController.m */; };
-		135FA03919A5E8530086B301 /* detail_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 135FA03819A5E8530086B301 /* detail_test.png */; };
 		13737C8E1965420000941746 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13737C8D1965420000941746 /* PersonalViewController.m */; };
+		137708C119B6C859007609E8 /* detail_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 137708C019B6C859007609E8 /* detail_test.jpg */; };
 		137926FB1987776900377ED5 /* GChangePwViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137926E21987776900377ED5 /* GChangePwViewController.m */; };
 		137926FC1987776900377ED5 /* GfindCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137926E41987776900377ED5 /* GfindCarViewController.m */; };
 		137926FD1987776900377ED5 /* GfindPasswViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137926E61987776900377ED5 /* GfindPasswViewController.m */; };
@@ -443,9 +443,9 @@
 		1351C5C8197A4F8E000F7391 /* FBSearchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBSearchResultController.m; sourceTree = "<group>"; };
 		1351C5CA197A704F000F7391 /* FindCarPublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindCarPublishController.h; sourceTree = "<group>"; };
 		1351C5CB197A704F000F7391 /* FindCarPublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindCarPublishController.m; sourceTree = "<group>"; };
-		135FA03819A5E8530086B301 /* detail_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_test.png; sourceTree = "<group>"; };
 		13737C8C1965420000941746 /* PersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalViewController.h; sourceTree = "<group>"; };
 		13737C8D1965420000941746 /* PersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalViewController.m; sourceTree = "<group>"; };
+		137708C019B6C859007609E8 /* detail_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = detail_test.jpg; sourceTree = "<group>"; };
 		137926E11987776900377ED5 /* GChangePwViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GChangePwViewController.h; sourceTree = "<group>"; };
 		137926E21987776900377ED5 /* GChangePwViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GChangePwViewController.m; sourceTree = "<group>"; };
 		137926E31987776900377ED5 /* GfindCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GfindCarViewController.h; sourceTree = "<group>"; };
@@ -1653,8 +1653,8 @@
 			children = (
 				138074ED196D3D9400AD3D03 /* DataBase */,
 				13D5E04A1962A14E00804835 /* city.plist */,
+				137708C019B6C859007609E8 /* detail_test.jpg */,
 				13D5E04B1962A14E00804835 /* Menu_Header.h */,
-				135FA03819A5E8530086B301 /* detail_test.png */,
 				13D5E0671962A1CA00804835 /* viewController */,
 				13D5E0461962A14E00804835 /* cell */,
 				13D5E04C1962A14E00804835 /* model */,
@@ -2359,6 +2359,7 @@
 				13D5E0C41963DB0300804835 /* QBImagePickerController.bundle in Resources */,
 				138B4AA41966A4BD00B974A5 /* face15.png in Resources */,
 				138B4ABB1966A4BD00B974A5 /* face36.png in Resources */,
+				137708C119B6C859007609E8 /* detail_test.jpg in Resources */,
 				13D5E1131965115200804835 /* DetailCell.xib in Resources */,
 				138B4AEB1966A4BD00B974A5 /* face8.png in Resources */,
 				138B4AB91966A4BD00B974A5 /* face34.png in Resources */,
@@ -2483,7 +2484,6 @@
 				E362357F19657588003B23CC /* area.plist in Resources */,
 				13D5E0161961758E00804835 /* fanhui_24_42@2x.png in Resources */,
 				138B4AA11966A4BD00B974A5 /* face12.png in Resources */,
-				135FA03919A5E8530086B301 /* detail_test.png in Resources */,
 				13D5E0001961758E00804835 /* xiugai32_44@2x.png in Resources */,
 				138B4AB61966A4BD00B974A5 /* face31.png in Resources */,
 				138B4AE21966A4BD00B974A5 /* face71.gif in Resources */,

@@ -125,7 +125,7 @@
         
         self.addressLabel.text = area;
         
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+        [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
         
         userId = [dic objectForKey:@"uid"];//用户id
         
@@ -175,7 +175,7 @@
 
 - (void)createViews
 {
-    NSArray *items = @[@"车       型:",@"地       区:",@"规       格:",@"期       限:",@"外  观 色:",@"内  饰 色:",@"详细描述:"];
+    NSArray *items = @[@"车       型:",@"地       区:",@"版       本:",@"库       存:",@"外  观 色:",@"内  饰 色:",@"详细描述:"];
     for (int i = 0; i < items.count; i ++) {
         UILabel *aLabel = [self createLabelFrame:CGRectMake(10, 25 + (20 + 15) * i, 92, 20) text:[items objectAtIndex:i] alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]];
         aLabel.font = [UIFont boldSystemFontOfSize:14];

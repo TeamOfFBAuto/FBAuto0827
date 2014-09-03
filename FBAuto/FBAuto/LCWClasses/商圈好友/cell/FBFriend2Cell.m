@@ -38,7 +38,7 @@
     self.nameAndTypeL.text = [NSString stringWithFormat:@"%@(%@)",name,useType];
     self.phoneNumAndAddressL.text = [NSString stringWithFormat:@"%@(%@)",aModel.phone,[FBCityData cityNameForId:[aModel.province intValue]]];
     
-    [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:[LCWTools headImageForUserId:aModel.uid]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+    [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:[LCWTools headImageForUserId:aModel.uid]] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
 }
 
 @end

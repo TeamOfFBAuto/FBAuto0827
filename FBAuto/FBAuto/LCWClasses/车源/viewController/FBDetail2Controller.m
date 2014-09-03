@@ -131,6 +131,8 @@
         
         NSString *detail = [dic objectForKey:@"cardiscrib"];
         
+        detail = [NSString stringWithFormat:@"%@   联系请说是在易车源看到的信息，谢谢!",detail];
+        
         self.car_detail_label.text = detail;
         
         self.car_detail_label.height = [LCWTools heightForText:detail width:199 font:14];
@@ -144,7 +146,7 @@
         self.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
         NSString *headImage = [LCWTools NSStringNotNull:[dic objectForKey:@"headimage"]];
         
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+        [self.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
         
         userId = [dic objectForKey:@"uid"];//用户id
         
@@ -190,7 +192,7 @@
         
         ClickImageView *clickImage = [[ClickImageView alloc]initWithFrame:CGRectMake((aWidth + 7) * i, 0, aWidth, 80) target:self action:@selector(clickToBigPhoto:)];
         
-        [clickImage sd_setImageWithURL:[NSURL URLWithString:[imageUrls objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"detail_test"]];
+        [clickImage sd_setImageWithURL:[NSURL URLWithString:[imageUrls objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
         
         clickImage.tag = 100 + i;
         
