@@ -22,5 +22,6 @@
 }
 
 @property(nonatomic,assign)int gtype;// 3详细地址  4简介
+@property(nonatomic,strong)NSString *lastStr;//上一个界面的信息
 
 @end

@@ -75,6 +75,8 @@
     
     //输入框textview
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 0, 280, 288)];
+    _textView.font = [UIFont systemFontOfSize:15];
+    _textView.text = self.lastStr;
     [kuang addSubview:_textView];
     
     

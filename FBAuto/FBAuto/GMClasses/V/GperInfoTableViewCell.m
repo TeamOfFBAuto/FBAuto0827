@@ -139,7 +139,6 @@
             jiantou.frame = CGRectMake(CGRectGetMaxX(contentLabel.frame)+10, 18, 5, 8);
             contentLabel.text = self.delegate.address;
             [self.contentView addSubview:jiantou];
-            contentLabel.text = self.delegate.address;
         }else if (theIndexPath.row == 4){//简介
             contentLabel.frame =CGRectMake(CGRectGetMaxX(titleLable.frame)+30, titleLable.frame.origin.y-3, 175, titleLable.frame.size.height+6);
             UIImageView *jiantou = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"jiantou_hui10_18.png"]];
@@ -181,6 +180,11 @@
 //简介 和 详细信息 推的界面
 -(void)tui:(UIButton *)sender{
     GjjxxViewController *aaa = [[GjjxxViewController alloc]init];
+    if (sender.tag == 3) {//详细地址
+        aaa.lastStr = [NSString stringWithFormat:@"%@",self.delegate.address];
+    }else if (sender.tag == 4){//简介
+        aaa.lastStr = [NSString stringWithFormat:@"%@",self.delegate.jianjie];
+    }
     aaa.gtype = (int)sender.tag;
     [self.delegate.navigationController pushViewController:aaa animated:YES];
 }

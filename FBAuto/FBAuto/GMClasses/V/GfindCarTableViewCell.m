@@ -31,16 +31,16 @@
     
     //多少次浏览
     self.ciLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 18, 75, 13)];
-//    _ciLable.backgroundColor = [UIColor orangeColor];
+
     _ciLable.textAlignment = NSTextAlignmentCenter;
     _ciLable.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:_ciLable];
     
-    //浏览
-    UILabel *llLabel = [[UILabel alloc]initWithFrame:CGRectMake(28, CGRectGetMaxY(_ciLable.frame)+4, 24, 13)];
-    llLabel.font = [UIFont systemFontOfSize:12];
-    llLabel.text = @"浏览";
-    [self.contentView addSubview:llLabel];
+//    //浏览
+//    UILabel *llLabel = [[UILabel alloc]initWithFrame:CGRectMake(28, CGRectGetMaxY(_ciLable.frame)+4, 24, 13)];
+//    llLabel.font = [UIFont systemFontOfSize:12];
+//    llLabel.text = @"浏览";
+//    [self.contentView addSubview:llLabel];
     
     //白色竖条
     UIView *bview = [[UIView alloc]initWithFrame:CGRectMake(78, 0, 0.5, 60)];

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 szk. All rights reserved.
 //
 
+//我的收藏自定义cell
 #import <UIKit/UIKit.h>
 @class GmarkViewController;
 
