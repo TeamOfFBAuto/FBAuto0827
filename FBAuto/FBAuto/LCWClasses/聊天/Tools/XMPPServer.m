@@ -221,6 +221,25 @@ static int x = 10;
     [[self xmppStream] sendElement:mes];
 }
 
+#pragma - mark 注册用户
+
+- (void)registerNewuser:(NSString *)userName passWord:(NSString *)password completionBlock:(RegisterNewUserBlock)aBlock
+{
+    registerBlock = aBlock;
+    
+    _registerUserName = userName;
+    _registerPassWord = password;
+    
+    NSString *server = [[NSUserDefaults standardUserDefaults] objectForKey:XMPP_SERVER];
+    
+    if (userName.length > 0 && password.length > 0 && server.length > 0) {
+        
+        
+    }
+}
+
+#pragma - mark 连续多次登录
+
 - (void)loginTimes:(int)times loginBack:(loginAction)login_Back//多次联系登录
 {
     loginBack = login_Back;
@@ -472,6 +491,28 @@ static int x = 10;
         }
     }
 }
+
+#pragma - mark 用户注册处理
+
+- (void)xmppStreamDidRegister:(XMPPStream *)sender
+{
+    
+}
+
+- (void)xmppStream:(XMPPStream *)sender didNotRegister:(NSXMLElement *)error
+{
+//     <iq xmlns="jabber:client" type="error" to="60.18.147.4/e6de4099"><query xmlns="jabber:iq:register"><username>186123899822</username><password>123456</password></query><error code="409" type="cancel"><conflict xmlns="urn:ietf:params:xml:ns:xmpp-stanzas"></conflict></error></iq>
+    
+    NSString *errString = error.XMLString;
+
+    if ([errString rangeOfString:@"jabber:iq:register"].length > 0 && [errString rangeOfString:@"<conflict xmlns=\"urn:ietf:params:xml:ns:xmpp-stanzas\"></conflict>"].length > 0) {
+        
+        NSLog(@"当前用户已经存在");
+        
+    }
+    
+}
+
 
 #pragma - mark 好友相关处理
 

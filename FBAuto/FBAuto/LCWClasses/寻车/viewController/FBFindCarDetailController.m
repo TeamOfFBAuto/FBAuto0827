@@ -89,11 +89,12 @@
         
         nameLabel.text = carName;
         
-        NSString *area = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        NSString *area = [NSString stringWithFormat:@"%@",[dic objectForKey:@"province"]];
         
-        if ([area isEqualToString:@"不限不限"]) {
-            area = @"不限";
-        }
+//        if ([area isEqualToString:@"不限不限"]) {
+//            area = @"不限";
+//        }
+        
         
         [self labelWithTag:111].text  =[self showForText:area] ;
         [self labelWithTag:112].text  = [self showForText:[dic objectForKey:@"carfrom"]];

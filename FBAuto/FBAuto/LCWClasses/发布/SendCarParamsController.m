@@ -566,22 +566,31 @@
         
         FBCity *aCity = [subCityArr objectAtIndex:indexPath.row];
 
+        NSString *city = [NSString stringWithFormat:@"%d,%@",aCity.provinceId,@"9999"];
+        selectBlock(_dataStyle,aCity.cityName,city);
         
-        SendCarParamsController *base = [[SendCarParamsController alloc]init];
-        base.hidesBottomBarWhenPushed = YES;
-        base.navigationTitle = aCity.cityName;
-        base.dataStyle = Data_Area_City;
-        base.selectLabel = self.selectLabel;
-        base.provinceId = [NSString stringWithFormat:@"%d",aCity.provinceId];
-        base.rootVC = self.rootVC;
+        if (self.rootVC) {
+            [self.navigationController popToViewController:self.rootVC animated:YES];
+        }else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
         
-        [base selectParamBlock:^(DATASTYLE style, NSString *paramName, NSString *paramId) {
-            
-            selectBlock(style,paramName,paramId);
-            
-        }];
-        
-        [self.navigationController pushViewController:base animated:YES];
+//        SendCarParamsController *base = [[SendCarParamsController alloc]init];
+//        base.hidesBottomBarWhenPushed = YES;
+//        base.navigationTitle = aCity.cityName;
+//        base.dataStyle = Data_Area_City;
+//        base.selectLabel = self.selectLabel;
+//        base.provinceId = [NSString stringWithFormat:@"%d",aCity.provinceId];
+//        base.rootVC = self.rootVC;
+//        
+//        [base selectParamBlock:^(DATASTYLE style, NSString *paramName, NSString *paramId) {
+//            
+//            selectBlock(style,paramName,paramId);
+//            
+//        }];
+//        
+//        [self.navigationController pushViewController:base animated:YES];
         
         return;
         

@@ -26,6 +26,10 @@ typedef void(^ loginAction) (BOOL result);
 //添加好友相关
 typedef void(^ friendAction) (id);
 
+//注册用户
+
+typedef void(^ RegisterNewUserBlock)(BOOL registered);//提示注册成功,并且认证成功
+
 //发送消息
 
 typedef void(^ MessageAction)(NSDictionary *params,int tag);// 0 失败 1 成功
@@ -57,6 +61,9 @@ typedef void(^ MessageAction)(NSDictionary *params,int tag);// 0 失败 1 成功
     loginAction loginBack;
     friendAction friendBack;
     MessageAction message_Back;
+    RegisterNewUserBlock registerBlock;
+    NSString *_registerUserName;
+    NSString *_registerPassWord;
 }
 
 @property (nonatomic,retain)XMPPStream *xmppStream;
@@ -91,6 +98,8 @@ typedef void(^ MessageAction)(NSDictionary *params,int tag);// 0 失败 1 成功
 - (void)loginTimes:(int)times loginBack:(loginAction)loginBack;//多次联系登录
 
 - (void)sendMessage:(NSString *)messageText toUser:(NSString *)userPhone shareLink:(NSDictionary *)shareLink messageBlock:(MessageAction)messageBlock;
+
+- (void)registerNewuser:(NSString *)userName passWord:(NSString *)password completionBlock:(RegisterNewUserBlock)aBlock;
 
 @end
 

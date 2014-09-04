@@ -21,15 +21,8 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0F-aP-ebv">
-                        <rect key="frame" x="10" y="28" width="73" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="发河北" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqo-U2-dyZ">
-                        <rect key="frame" x="70" y="28" width="118" height="21"/>
+                        <rect key="frame" x="10" y="28" width="248" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -57,7 +50,6 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="contentLabel" destination="Alv-BN-Veg" id="iwH-mu-rLM"/>
-                <outlet property="moneyLabel" destination="n0F-aP-ebv" id="jbh-iJ-Cl9"/>
                 <outlet property="nameLabel" destination="RVY-wv-c5Z" id="zVj-nF-2ir"/>
                 <outlet property="timeLabel" destination="brX-FT-IYC" id="5Rh-UD-scS"/>
                 <outlet property="toAddressLabel" destination="nqo-U2-dyZ" id="BuS-cc-wen"/>
