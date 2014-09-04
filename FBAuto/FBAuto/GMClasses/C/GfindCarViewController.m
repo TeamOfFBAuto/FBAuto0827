@@ -423,7 +423,12 @@
     
     if (indexPath.row < _dataArray.count) {
         CarSourceClass *aCar = [_dataArray objectAtIndex:indexPath.row];
-        cell.ciLable.text = @"车源";
+        if (self.gtype == 2) {//车源
+            cell.ciLable.text = @"车源";
+        }else if (self.gtype == 3){
+            cell.ciLable.text = @"寻车";
+        }
+        
         cell.cLabel.text = aCar.car_name;
         cell.tLabel.text = [LCWTools timechange3:aCar.dateline];
     }
