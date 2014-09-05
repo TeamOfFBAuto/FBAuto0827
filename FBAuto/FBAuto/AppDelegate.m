@@ -312,6 +312,8 @@
     
     if (tabBarController.selectedIndex == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CARSOURCE_PARAMS object:nil];
+    }else if (tabBarController.selectedIndex == 2){
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_FINDCAR_PARAMS object:nil];
     }
 }
 
