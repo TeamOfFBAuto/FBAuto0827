@@ -20,10 +20,11 @@
 
 //上传代理类
 #import "AppDelegate.h"
+#import "GcustomActionSheet.h"
 
 @class GperInfoTableViewCell;
 
-@interface GperInfoViewController : FBBaseViewController<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MLImageCropDelegate,ASIHTTPRequestDelegate>
+@interface GperInfoViewController : FBBaseViewController<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MLImageCropDelegate,ASIHTTPRequestDelegate,MBProgressHUDDelegate>
 
 {
     UITableView *_tableview;//主tableview

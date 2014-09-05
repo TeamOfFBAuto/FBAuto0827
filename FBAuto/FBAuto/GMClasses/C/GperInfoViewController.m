@@ -22,7 +22,9 @@
 
 
 @interface GperInfoViewController ()
-
+{
+    MBProgressHUD *_hud;
+}
 @end
 
 @implementation GperInfoViewController
@@ -65,6 +67,9 @@
      addObserver:self selector:@selector(prepareNetData) name:FBAUTO_CHANGEPERSONALINFO object:nil];
     
     
+    _hud = [GMAPI showMBProgressWithText:@"正在加载" addToView:self.view];
+    _hud.delegate = self;
+    
     //请求网络数据
     [self prepareNetData];
     
@@ -73,6 +78,22 @@
     
     
 }
+
+
+-(void)hudWasHidden:(MBProgressHUD *)hud
+{
+    [hud removeFromSuperview];
+    hud.delegate = nil;
+    hud = nil;
+//    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0 , 320, iPhone5?568:480) style:UITableViewStylePlain];
+//    _tableView.delegate = self;
+//    _tableView.dataSource = self;
+//    _tableView.scrollEnabled = NO;
+//    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+//    [self.view addSubview:_tableView];
+    [_tableview reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -88,6 +109,9 @@
     NSString *str = [NSString stringWithFormat:FBAUTO_GET_USER_INFORMATION,[GMAPI getUid]];
     
     NSLog(@"请求用户信息接口 %@",str);
+    __weak typeof (self)bself = self;
+    __weak typeof (_hud)bhud = _hud;
+    
     [aaa SeturlStr:str block:^(NSDictionary *dataInfo, NSString *errorinfo, NSInteger errcode) {
         
         NSLog(@"%@",dataInfo);
@@ -137,7 +161,7 @@
         //头像
         self.headimage = [NSString stringWithFormat:@"%@",[dataInfo objectForKey:@"headimage"]];
         
-        
+        [bself hudWasHidden:bhud];
         
         [_tableview reloadData];
     }];
