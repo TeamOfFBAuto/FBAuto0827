@@ -510,8 +510,22 @@
                 friend.isShare = YES;
                 //分享的内容  {@"text",@"infoId"}
                 
+               
+                
+                
                 NSString *infoId = [NSString stringWithFormat:@"%@,%@",ainfoId,carId];
-                friend.shareContent = @{@"text": contentText,@"infoId":infoId};
+                
+                
+                if (self.gtype == 2) {
+                    //车源
+                    
+                    friend.shareContent = @{@"text": contentText,@"infoId":infoId,SHARE_TYPE_KEY:SHARE_CARSOURCE};
+                }else if (self.gtype == 3){
+                    
+                    friend.shareContent = @{@"text": contentText,@"infoId":infoId,SHARE_TYPE_KEY:SHARE_FINDCAR};
+                }
+                
+                
                 [self.navigationController pushViewController:friend animated:YES];
                 
             }
