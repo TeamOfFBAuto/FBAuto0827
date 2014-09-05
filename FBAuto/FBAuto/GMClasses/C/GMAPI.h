@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
 
 @interface GMAPI : NSObject
 
@@ -22,5 +23,9 @@
 +(NSString *)getUserPassWord;
 
 +(NSString *)getUserPhoneNumber;
+
++ (MBProgressHUD *)showMBProgressWithText:(NSString *)text addToView:(UIView *)aView;
+
+
 
 @end

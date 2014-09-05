@@ -365,6 +365,7 @@
 		E31F53951974044A00540124 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F53941974044A00540124 /* MLImageCrop.m */; };
 		E31F5398197405DC00540124 /* GlocalUserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F5397197405DC00540124 /* GlocalUserImage.m */; };
 		E3219BD91982431700EA026D /* GuserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3219BD81982431700EA026D /* GuserModel.m */; };
+		E337AC6F19B9922C00869214 /* GcustomActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E337AC6D19B9922C00869214 /* GcustomActionSheet.m */; };
 		E33BACD119A5CFA300401587 /* ditu572_440@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E33BACD019A5CFA300401587 /* ditu572_440@2x.png */; };
 		E33ECB08196D230A00DDD72D /* GptzTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E33ECB07196D230A00DDD72D /* GptzTableViewCell.m */; };
 		E33ECB0C196D25CD00DDD72D /* GTimeSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E33ECB0B196D25CD00DDD72D /* GTimeSwitch.m */; };
@@ -890,6 +891,8 @@
 		E31F5397197405DC00540124 /* GlocalUserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlocalUserImage.m; sourceTree = "<group>"; };
 		E3219BD71982431700EA026D /* GuserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuserModel.h; sourceTree = "<group>"; };
 		E3219BD81982431700EA026D /* GuserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuserModel.m; sourceTree = "<group>"; };
+		E337AC6D19B9922C00869214 /* GcustomActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomActionSheet.m; sourceTree = "<group>"; };
+		E337AC6E19B9922C00869214 /* GcustomActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GcustomActionSheet.h; sourceTree = "<group>"; };
 		E33BACD019A5CFA300401587 /* ditu572_440@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ditu572_440@2x.png"; sourceTree = "<group>"; };
 		E33ECB06196D230A00DDD72D /* GptzTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GptzTableViewCell.h; sourceTree = "<group>"; };
 		E33ECB07196D230A00DDD72D /* GptzTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GptzTableViewCell.m; sourceTree = "<group>"; };
@@ -2088,6 +2091,8 @@
 		E33ECB09196D25AE00DDD72D /* GUtils */ = {
 			isa = PBXGroup;
 			children = (
+				E337AC6D19B9922C00869214 /* GcustomActionSheet.m */,
+				E337AC6E19B9922C00869214 /* GcustomActionSheet.h */,
 				E34F3895197D12FE00CB9815 /* LoadingIndicatorView.h */,
 				E34F3896197D12FE00CB9815 /* LoadingIndicatorView.m */,
 				E3611458197BA8E000F9234E /* DXAlertView.h */,
@@ -2664,6 +2669,7 @@
 				E351A0C3196F943800C78CFE /* GyhzyTableViewCell.m in Sources */,
 				137927071987776900377ED5 /* GzhuceViewController.m in Sources */,
 				E380B4981980FC4400A86F12 /* GxiaoxiTableViewCell.m in Sources */,
+				E337AC6F19B9922C00869214 /* GcustomActionSheet.m in Sources */,
 				1336BC28196B921C0011B4D9 /* XMPPStatics.m in Sources */,
 				E362358019657588003B23CC /* GuserZhuce.m in Sources */,
 				13D5E0C71963DB0300804835 /* QBImagePickerGroupCell.m in Sources */,

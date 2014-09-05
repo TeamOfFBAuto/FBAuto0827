@@ -64,7 +64,15 @@
     return str_password;
 }
 
-
++ (MBProgressHUD *)showMBProgressWithText:(NSString *)text addToView:(UIView *)aView{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:aView animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    hud.margin = 15.f;
+    hud.yOffset = 0.0f;
+    hud.removeFromSuperViewOnHide = YES;
+    return hud;
+}
 
 
 @end
