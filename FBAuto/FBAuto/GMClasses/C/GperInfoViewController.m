@@ -163,7 +163,6 @@
         
         [bself hudWasHidden:bhud];
         
-        [_tableview reloadData];
     }];
 }
 
