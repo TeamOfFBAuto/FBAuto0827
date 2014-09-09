@@ -33,6 +33,9 @@
 
 + (CGFloat)imageValue:(NSString *)html for:(NSString*)string
 {
+    if (html == nil) {
+        return 0.0f;
+    }
     
     NSString *regex = [NSString stringWithFormat:@"%@=\"([^\"]+)\"",string];
     
@@ -69,6 +72,9 @@
 + (NSString *)imageUrl:(NSString *)html
 {
     
+    if (html == nil) {
+        return @"";
+    }
     NSString *regex = [NSString stringWithFormat:@"src=\"([^\"]+)\""];
     
     NSRegularExpression *regular = [[NSRegularExpression alloc]initWithPattern:regex options:NSRegularExpressionCaseInsensitive error:Nil];

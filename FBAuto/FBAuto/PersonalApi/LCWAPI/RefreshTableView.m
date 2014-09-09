@@ -36,6 +36,12 @@
     self.delegate = nil;
     _refreshHeaderView.delegate = nil;
     _refreshHeaderView = nil;
+    
+    self.dataArray = nil;
+    self.loadingIndicator = nil;
+    self.normalLabel = nil;
+    self.loadingLabel = nil;
+
 }
 
 -(void)createHeaderView

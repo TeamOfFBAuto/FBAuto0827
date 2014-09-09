@@ -175,6 +175,11 @@
 
 - (void)dealloc
 {
+    _table.delegate = nil;
+    _table.dataSource = nil;
+    _table = nil;
+    _refreshHeaderView = nil;
+    
     NSLog(@" %s ",__FUNCTION__);
     xmppServer.chatDelegate = nil;
     xmppServer.messageDelegate = nil;
@@ -1153,16 +1158,24 @@
 
 - (IBAction)clickToAlbum:(id)sender {
     
-    BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
-    if (is) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:picker animated:YES completion:^{
-    }];
-    }else
-    {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持相册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
+        if (is) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:^{
+            }];
+        }else
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持相册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+    } else {
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持iPad相册选取图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
 }
@@ -1195,6 +1208,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     
     if ([mediaType isEqualToString:@"public.image"]) {

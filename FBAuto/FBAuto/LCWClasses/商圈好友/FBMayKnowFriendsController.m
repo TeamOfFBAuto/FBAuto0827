@@ -59,6 +59,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    _table.delegate = nil;
+    _table.dataSource = nil;
+    _table = nil;
+}
+
 #pragma - mark 网络请求
 
 - (void)getMayknowFormAddressBook

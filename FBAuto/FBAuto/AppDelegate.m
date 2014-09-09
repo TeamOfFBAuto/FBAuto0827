@@ -31,11 +31,23 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 
 #import <JSONKit.h>
+
+#import "MobClick.h"
+
+#import "sys/utsname.h"
+
 //shareSDK fbauto2014@qq.com 123abc
 //新浪 fbauto2014@qq.com  123abc 或者 fbauto2014
 // 邮箱 fbauto2014@qq.com
 // QQ: 2609534839
 // 密码: 123abc
+
+
+//友盟账号
+//112xiangtao@163.com  密码 15194772354
+
+
+#define UMENG_APPKEY @"540ea323fd98c54048003577" //友盟appkey
 
 #define Appkey @"2831cfc47791"
 #define App @"2354df12a6dd38312f3425b39e735d21"
@@ -62,6 +74,9 @@
 {
     
     sleep(1);
+    
+    
+    NSLog(@"didFinishLaunchingWithOptions");
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -115,17 +130,6 @@
     //图标显示
     application.applicationIconBadgeNumber = 0;
     
-//    //UIApplicationLaunchOptionsRemoteNotificationKey,判断是通过推送消息启动的
-//    NSDictionary *infoDic = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
-//    if (infoDic)
-//    {
-//        NSLog(@"infoDic %@",infoDic);
-//        
-//        NSString *str = [NSString stringWithFormat:@"%@",infoDic];
-//        
-//        [LCWTools alertText:@"haha"];
-//    }
-    
     //消息提醒
     [self initMessageAlert];
     
@@ -139,6 +143,8 @@
     //分享
     [ShareSDK registerApp:Appkey];
     [self initSharePlat];
+    
+    [MobClick startWithAppkey:UMENG_APPKEY];
     
     //获取openfire IP地址
     
@@ -155,6 +161,15 @@
         NSLog(@"updateContent %@ %@",updateUrl,updateContent);
         
     }];
+    
+    //UIApplicationLaunchOptionsRemoteNotificationKey,判断是通过推送消息启动的
+    NSDictionary *infoDic = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
+    if (infoDic)
+    {
+        NSLog(@"infoDic %@",infoDic);
+        
+        self.pushUserInfo = infoDic;
+    }
 
     self.window.rootViewController=tabbar;
     self.window.backgroundColor = [UIColor whiteColor];
@@ -365,6 +380,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"applicationDidBecomeActive");
+    
+    if (self.pushUserInfo) {
+        
+        [self dealOfflineMessage:self.pushUserInfo];
+        self.pushUserInfo = nil;
+    }
+    
     //图标显示
     application.applicationIconBadgeNumber = 0;
     
@@ -562,40 +585,50 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateInactive){
         NSLog(@"UIApplicationStateInactive %@",userInfo);
-        //点击消息进入走此处,做相应处理
-        NSDictionary *aps = [userInfo objectForKey:@"aps"];
-        NSString *headimg = [aps objectForKey:@"headimg"];
-        NSString *fromphone = [aps objectForKey:@"fromphone"];
-        NSString *fromId = [aps objectForKey:@"fromuid"];
-        NSString *type = [aps objectForKey:@"type"];
-        
-        NSLog(@"aps --- >%@ %@ %@",headimg,fromphone,type);
-        
-        if ([type integerValue] == 1) {
-            NSLog(@"聊天离线消息");
-            
-            UITabBarController *tabV =  (UITabBarController *)self.window.rootViewController;
-            tabV.selectedIndex = 3;
-            UINavigationController *unVc = [[tabV viewControllers]objectAtIndex:3];
-            
-            FBChatViewController *chat = [[FBChatViewController alloc]init];
-            chat.chatWithUser = fromphone;
-            chat.chatUserId = fromId;
-            chat.hidesBottomBarWhenPushed = YES;
-            [unVc pushViewController:chat animated:YES];
-        }
         
     }
     if (state == UIApplicationStateActive) {
         NSLog(@"UIApplicationStateActive %@",userInfo);
         //程序就在前台
         //弹框
-        
+        [self dealOfflineMessage:userInfo];
     }
     if (state == UIApplicationStateBackground)
     {
         NSLog(@"UIApplicationStateBackground %@",userInfo);
+        
+        [LCWTools showMBProgressWithText:@"backgroud" addToView:self.window];
     }
+}
+
+- (void)dealOfflineMessage:(NSDictionary *)userInfo
+{
+    //点击消息进入走此处,做相应处理
+    NSDictionary *aps = [userInfo objectForKey:@"aps"];
+    NSString *headimg = [aps objectForKey:@"headimg"];
+    NSString *fromphone = [aps objectForKey:@"fromphone"];
+    NSString *fromId = [aps objectForKey:@"fromuid"];
+    NSString *type = [aps objectForKey:@"type"];
+    
+    
+//    [LCWTools alertText:[NSString stringWithFormat:@"%@ %@ %@",fromphone,fromId,type]];
+    
+    NSLog(@"aps --- >%@ %@ %@",headimg,fromphone,type);
+    
+    if ([type integerValue] == 1) {
+        NSLog(@"聊天离线消息");
+        
+        UITabBarController *tabV =  (UITabBarController *)self.window.rootViewController;
+        tabV.selectedIndex = 3;
+        UINavigationController *unVc = [[tabV viewControllers]objectAtIndex:3];
+        
+        FBChatViewController *chat = [[FBChatViewController alloc]init];
+        chat.chatWithUser = fromphone;
+        chat.chatUserId = fromId;
+        chat.hidesBottomBarWhenPushed = YES;
+        [unVc pushViewController:chat animated:YES];
+    }
+
 }
 
 @end

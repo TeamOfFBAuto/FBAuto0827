@@ -69,14 +69,25 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    _table.delegate = nil;
+    _table.dataSource = nil;
+    _table = nil;
+    zkingSearchV = nil;
+    searchView = nil;
+    cancelButton = nil;
+}
+
 #pragma - mark 搜索相关view
 
 - (void)createSearchViews
 {
+    __weak typeof(self)weakSelf  = self;
     //搜索
     searchView = [[LSearchView alloc]initWithFrame:CGRectMake(40, (44 - 30)/2.0, 550 / 2.0 - 4, 30) placeholder:@"请输入手机号或姓名" logoImage:[UIImage imageNamed:@"sousuo_icon26_26"] maskViewShowInView:self.view searchBlock:^(SearchStyle actionStyle, NSString *searchText) {
         
-        [self searchStyle:actionStyle searchText:searchText];
+        [weakSelf searchStyle:actionStyle searchText:searchText];
         
     }];
     

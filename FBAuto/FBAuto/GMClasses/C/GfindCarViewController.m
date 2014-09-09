@@ -36,6 +36,8 @@
 - (void)dealloc
 {
     NSLog(@"%s",__FUNCTION__);
+    _tmpCell.delegate = nil;
+    _tmpCell = nil;
     _tableView.refreshDelegate = nil;
     _tableView.dataSource = nil;
     _tableView.delegate = nil;
@@ -80,6 +82,9 @@
     //获取我的车源列表
     
     __weak typeof(GfindCarViewController *)weakSelf = self;
+    
+    __weak typeof(RefreshTableView *)weakTable = _tableView;
+    
     NSString *api = @"";
     
     if (aType == 2) {
@@ -101,10 +106,10 @@
         
         if (_page < total) {
             
-            _tableView.isHaveMoreData = YES;
+            weakTable.isHaveMoreData = YES;
         }else
         {
-            _tableView.isHaveMoreData = NO;
+            weakTable.isHaveMoreData = NO;
         }
         
         NSArray *data = [dataInfo objectForKey:@"data"];
@@ -118,7 +123,7 @@
             [arr addObject:aCar];
         }
         
-        [weakSelf reloadData:arr isReload:_tableView.isReloadData];
+        [weakSelf reloadData:arr isReload:weakTable.isReloadData];
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
         
@@ -126,11 +131,11 @@
         
         [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
-        if (_tableView.isReloadData) {
+        if (weakTable.isReloadData) {
             
             _page --;
             
-            [_tableView performSelector:@selector(finishReloadigData) withObject:nil afterDelay:1.0];
+            [weakTable performSelector:@selector(finishReloadigData) withObject:nil afterDelay:1.0];
         }
         
     }];
@@ -199,6 +204,8 @@
     
     __weak typeof(GfindCarViewController *)weakSelf = self;
     
+    __weak typeof(RefreshTableView *)weakTable = _tableView;
+    
     CarSourceClass *aCar = [_dataArray objectAtIndex:indexPath.row];
     
     NSString *api = @"";
@@ -228,8 +235,8 @@
         
         weakSelf.indexPathArray = nil;
         
-        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-        [_tableView reloadData];
+        [weakTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [weakTable reloadData];
         
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
@@ -308,7 +315,8 @@
     [cell loadView:indexPath];
     
     __weak typeof (self)weakSelf = self;
-    __weak typeof (_tableView)btableview = _tableView;
+    __weak typeof (RefreshTableView *)btableview = _tableView;
+    __weak typeof(_dataArray)weakDataArray = _dataArray;
     //设置上下箭头的点击
     [cell setAddviewBlock:^{
         
@@ -328,7 +336,7 @@
             indexPathArray = @[weakSelf.lastIndexPath,weakSelf.flagIndexPath];
         }
         
-        self.indexPathArray = indexPathArray;
+        weakSelf.indexPathArray = indexPathArray;
         
         NSLog(@"%ld  %ld",(long)weakSelf.lastIndexPath.row,(long)weakSelf.flagIndexPath.row);
         
@@ -344,7 +352,7 @@
             }
         }
         
-        [btableview reloadRowsAtIndexPaths:self.indexPathArray withRowAnimation:UITableViewRowAnimationFade];
+        [btableview reloadRowsAtIndexPaths:weakSelf.indexPathArray withRowAnimation:UITableViewRowAnimationFade];
         
     }];
     
@@ -373,17 +381,17 @@
                 break;
             case 11://修改
             {
-                if (indexPath.row < _dataArray.count) {
-                    CarSourceClass *aCar = [_dataArray objectAtIndex:indexPath.row];
+                if (indexPath.row < weakDataArray.count) {
+                    CarSourceClass *aCar = [weakDataArray objectAtIndex:indexPath.row];
                     
-                    if (self.gtype == 2) {//我的车源
+                    if (weakSelf.gtype == 2) {//我的车源
                         
                         SendCarViewController *detail = [[SendCarViewController alloc]init];
                         detail.actionStyle = Action_Edit;
                         detail.infoId = aCar.id;
                         [weakSelf.navigationController pushViewController:detail animated:YES];
                         
-                    }else if (self.gtype == 3){//我的寻车
+                    }else if (weakSelf.gtype == 3){//我的寻车
                         
                         FindCarPublishController *detail = [[FindCarPublishController alloc]init];
                         detail.style = Navigation_Special;
@@ -399,15 +407,15 @@
             {
                 _page = 1;
                 weakSelf.lastIndexPath = nil;
-                self.flagIndexPath = nil;
+                weakSelf.flagIndexPath = nil;
                 weakSelf.flagHeight = 60;
-                [_tableView showRefreshHeader:YES];
+                [btableview showRefreshHeader:YES];
             }
                 break;
             case 13://分享
                 
             {
-                CarSourceClass *aCar = [_dataArray objectAtIndex:indexPath.row];
+                CarSourceClass *aCar = [weakDataArray objectAtIndex:indexPath.row];
                 [weakSelf clickToShareTitle:aCar.car_name infoId:aCar.id carId:aCar.car];
             }
                 
@@ -421,8 +429,8 @@
     
     cell.separatorInset = UIEdgeInsetsZero;
     
-    if (indexPath.row < _dataArray.count) {
-        CarSourceClass *aCar = [_dataArray objectAtIndex:indexPath.row];
+    if (indexPath.row < weakDataArray.count) {
+        CarSourceClass *aCar = [weakDataArray objectAtIndex:indexPath.row];
         if (self.gtype == 2) {//车源
             cell.ciLable.text = @"车源";
         }else if (self.gtype == 3){
@@ -449,18 +457,20 @@
 - (void)clickToShareTitle:(NSString *)title infoId:(NSString *)ainfoId carId:(NSString *)carId
 {
     NSLog(@"分享");
+    
+    __weak typeof(self) weakSelf = self;
     LShareSheetView *shareView = [[LShareSheetView alloc]initWithFrame:self.view.frame];
     [shareView actionBlock:^(NSInteger buttonIndex, NSString *shareStyle) {
         
         NSString *contentText;
         NSString *shareUrl;
-        if (self.gtype == 2) {
+        if (weakSelf.gtype == 2) {
             //车源
             
             contentText = [NSString stringWithFormat:@"我在e族汽车上发了一辆新车，有兴趣的来看(%@）。",title];
             shareUrl = [NSString stringWithFormat:FBAUTO_SHARE_CAR_SOURCE,ainfoId];
             
-        }else if (self.gtype == 3)
+        }else if (weakSelf.gtype == 3)
         {
             //寻车
             contentText = [NSString stringWithFormat:@"我在e族汽车上发布了一条寻车信息，有车源的朋友来看看，（%@）",title];
