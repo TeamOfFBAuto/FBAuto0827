@@ -57,6 +57,13 @@
     self.phoneNumLabel.text = aModel.phone;
     self.addressLabel.text = [FBCityData cityNameForId:[aModel.province intValue]];
     
+    if ([aModel.usertype integerValue] == 1) {
+        [self.saleTypeLabel setTitle:@"个人" forState:UIControlStateNormal];
+    }else if ([aModel.usertype integerValue] == 2){
+        [self.saleTypeLabel setTitle:@"商家" forState:UIControlStateNormal];
+    }
+    
+    
     
     [self.iconImage sd_setImageWithURL:[NSURL URLWithString:[LCWTools headImageForUserId:aModel.buddyid]] placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aModel.face]]]];
 }

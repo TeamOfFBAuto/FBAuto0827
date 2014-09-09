@@ -68,7 +68,7 @@
     }else if (theIndexPatch.row == 1 && theIndexPatch.section == 0){
         self.titileLabel.text = @"我的车源";
     }else if (theIndexPatch.row == 2 && theIndexPatch.section == 0){
-        self.titileLabel.text = @"我的寻车";
+        self.titileLabel.text = @"我的求购";
     }else if (theIndexPatch.row == 3 && theIndexPatch.section == 0){
         self.titileLabel.text = @"我的收藏";
     }else if (theIndexPatch.row == 0 && theIndexPatch.section == 1){

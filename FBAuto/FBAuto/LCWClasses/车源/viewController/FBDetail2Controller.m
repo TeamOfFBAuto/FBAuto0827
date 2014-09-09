@@ -131,7 +131,7 @@
         
         NSString *detail = [dic objectForKey:@"cardiscrib"];
         
-        detail = [NSString stringWithFormat:@"%@   联系请说是在易车源看到的信息，谢谢!",detail];
+        detail = [NSString stringWithFormat:@"%@   联系请说是在e车看到的信息，谢谢!",detail];
         
         self.car_detail_label.text = detail;
         

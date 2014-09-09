@@ -556,6 +556,17 @@
     }else if (_dataStyle == Data_Area)
     {
         if (indexPath.section == 0) {
+            
+            NSString *city = [NSString stringWithFormat:@"%@,%@",@"9999",@"9999"];
+            selectBlock(_dataStyle,@"全国",city);
+            
+            if (self.rootVC) {
+                [self.navigationController popToViewController:self.rootVC animated:YES];
+            }else
+            {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
             return;
         }
         

@@ -92,16 +92,6 @@
     return self;
 }
 
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    if (IOS7_OR_LATER) {
-//        
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-//        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-//    }
-//    
-//}
 
 -(id)initWithStyle:(ActionStyle)aStyle
 {
@@ -202,21 +192,20 @@
     }
     
     __weak typeof(self)weakSelf = self;
+    __weak typeof(loadingHub)weakLoading = loadingHub;
     
     LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
         
         NSLog(@"车源 result %@, erro%@",result,[result objectForKey:@"errinfo"]);
         
-        [loadingHub hide:NO];
+        [weakLoading hide:NO];
         
-        //        [self showMBProgressWithText:[result objectForKey:@"errinfo"]];
-        
-        [self refreshUI];
+        [weakSelf refreshUI];
         
         NSString *title = nil;
         
-        if (self.actionStyle == Action_Add) {
+        if (weakSelf.actionStyle == Action_Add) {
             title = @"车源发布成功";
         }else
         {
@@ -229,7 +218,7 @@
         alert.rightBlock = ^(){
             NSLog(@"取消");
            
-            if (self.actionStyle == Action_Add)
+            if (weakSelf.actionStyle == Action_Add)
             {
                 int infoId = [[result objectForKey:@"datainfo"]integerValue];
                 
@@ -261,6 +250,8 @@
     
     NSLog(@"单个车源信息 %@",url);
     
+    __weak typeof(self)weakSelf = self;
+    
     LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
         
@@ -276,7 +267,7 @@
         
         //车辆图片
         
-        [self labelWithTag:100].text = [dic objectForKey:@"car_name"];
+        [weakSelf labelWithTag:100].text = [dic objectForKey:@"car_name"];
         
 //        _car = [dic objectForKey:@"car"];
         
@@ -284,22 +275,22 @@
         
         _car = @"000000000";
         
-        [self labelWithTag:101].text = [dic objectForKey:@"carfrom"];
+        [weakSelf labelWithTag:101].text = [dic objectForKey:@"carfrom"];
         _carfrom = (int)[MENU_STANDARD indexOfObject:[dic objectForKey:@"carfrom"]];
         
-        [self labelWithTag:102].text = [dic objectForKey:@"spot_future"];
+        [weakSelf labelWithTag:102].text = [dic objectForKey:@"spot_future"];
         
         _spot_future = (int)[MENU_TIMELIMIT indexOfObject:[dic objectForKey:@"spot_future"]];
         
-        [self labelWithTag:103].text = [dic objectForKey:@"color_out"];
+        [weakSelf labelWithTag:103].text = [dic objectForKey:@"color_out"];
         
         _color_out = (int)[MENU_HIGHT_OUTSIDE_CORLOR indexOfObject:[dic objectForKey:@"color_out"]];
         
-        [self labelWithTag:104].text = [dic objectForKey:@"color_in"];
+        [weakSelf labelWithTag:104].text = [dic objectForKey:@"color_in"];
         
         _color_in = (int)[MENU_HIGHT_INSIDE_CORLOR indexOfObject:[dic objectForKey:@"color_in"]];
         
-        [self labelWithTag:105].text = [dic objectForKey:@"build_time"];
+        [weakSelf labelWithTag:105].text = [dic objectForKey:@"build_time"];
         
         build_time = [dic objectForKey:@"build_time"];
         
@@ -317,7 +308,7 @@
             
             [photosArray addObject:imageId];//编辑的时候里面开始存放的是 图片id
             
-            [self updateScrollViewAndPhotoButton:nil imageUrl:url];
+            [weakSelf updateScrollViewAndPhotoButton:nil imageUrl:url];
         }
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
@@ -340,16 +331,21 @@
     
     NSMutableArray *ids = [NSMutableArray array];
     NSMutableArray *images = [NSMutableArray array];
-    for (id aObject in allImages) {
+    
+    for (int i = 0; i < allImages.count; i ++) {
+        id aObject = [allImages objectAtIndex:i];
+        
         if ([aObject isKindOfClass:[UIImage class]]) {
             
             NSLog(@"aObject %@",aObject);
             [images addObject:aObject];
+            aObject = nil;
             
         }else
         {
             [ids addObject:aObject];
             NSLog(@"ids %@",aObject);
+            aObject = nil;
         }
     }
     
@@ -638,19 +634,20 @@
 
 - (void)clickToAddPhoto:(UIButton *)button
 {
+    __weak typeof(self)weakSelf = self;
     FBActionSheet *sheet = [[FBActionSheet alloc]initWithFrame:self.view.frame];
     [sheet actionBlock:^(NSInteger buttonIndex) {
         NSLog(@"%ld",(long)buttonIndex);
         if (buttonIndex == 0) {
             NSLog(@"拍照");
             
-            [self clickToCamera:nil];
+            [weakSelf clickToCamera:nil];
             
         }else if (buttonIndex == 1)
         {
             NSLog(@"相册");
             
-            [self clickToAlbum:nil];
+            [weakSelf clickToAlbum:nil];
         }
         
     }];
@@ -674,21 +671,6 @@
     
     [self presentViewController:navigationController animated:YES completion:NULL];
     
-//    BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
-//    if (is) {
-//        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-//        picker.delegate = self;
-//        
-//        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//        
-//        [self presentViewController:picker animated:YES completion:^{
-//            
-//        }];
-//    }else
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持相册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [alert show];
-//    }
 }
 
 //打开相机
@@ -1065,9 +1047,7 @@
         [weakPhotoViewArray removeObject:deleteImageView];
         //        [weakPhotoArray removeObject:aImage];
         [deleteImageView removeFromSuperview];
-        
-        
-        
+        deleteImageView = nil;
         
         weakScroll.contentSize = CGSizeMake(weakPhotoViewArray.count * (90 + 15), weakScroll.contentSize.height);
         
@@ -1104,10 +1084,13 @@
     }else
     {
         [photosArray addObject:aImage];
+        aImage = nil;
     }
     
     [photosScroll addSubview:newImageV];
+    newImageV = nil;
     [photoViewArray addObject:newImageV];
+    newImageV = nil;
     
     [self controlPageControlDisplay:YES showPage:photosArray.count sumPage:photosArray.count];
     
@@ -1126,7 +1109,6 @@
     [addPhoto addTarget:self action:@selector(clickToAddPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [addPhoto setBackgroundImage:[UIImage imageNamed:@"zhaoxiangji180_180"] forState:UIControlStateNormal];
     [self.view addSubview:addPhoto];
-    //    addPhoto.center = firstBgView.center;
     
     UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 63, addPhoto.width, 20)];
     title.text = @"添加照片";
@@ -1277,7 +1259,7 @@
         
         UIImage * newImage = image;
         [allImageArray addObject:newImage];
-        
+        newImage = nil;
         
         [self updateScrollViewAndPhotoButton:newImage imageUrl:nil];
         

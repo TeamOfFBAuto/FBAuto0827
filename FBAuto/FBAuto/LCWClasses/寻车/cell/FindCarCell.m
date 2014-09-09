@@ -55,7 +55,7 @@
 //    }
     NSString *area;
     if ([aCar.province isEqualToString:@"不限"]) {
-        area = @"";
+        area = @"发全国";
     }else
     {
         area = [NSString stringWithFormat:@"发%@",aCar.province];
@@ -64,7 +64,10 @@
     self.toAddressLabel.text = area;
     
 //    self.moneyLabel.text = [self depositWithText:aCar.deposit];
-//    self.nameLabel.text = aCar.username;
+    
+    NSString *nameAndType = [NSString stringWithFormat:@"%@(%@)",aCar.username,aCar.usertype];
+    
+    self.nameLabel.text = nameAndType;
     self.timeLabel.text = [LCWTools timechange:aCar.dateline];
 }
 

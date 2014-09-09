@@ -70,7 +70,7 @@
         
     }else if (self.gtype == 3){//我的寻车
         
-        self.titleLabel.text = @"我的寻车";
+        self.titleLabel.text = @"我的求购";
     }
     
     [_tableView showRefreshHeader:YES];
