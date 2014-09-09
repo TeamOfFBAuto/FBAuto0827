@@ -18,7 +18,7 @@
                         <rect key="frame" x="10" y="0.0" width="300" height="65"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_test.png" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-Bz-Zwu">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_test.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-Bz-Zwu">
                                 <rect key="frame" x="12" y="10" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -116,7 +116,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="detail_test.png" width="302" height="304"/>
+        <image name="detail_test.jpg" width="1920" height="1600"/>
         <image name="geren _bg50_28.png" width="25" height="14"/>
         <image name="haoyou_dianhua40_46.png" width="20" height="23"/>
         <image name="haoyou_liaotian46_46.png" width="23" height="23"/>

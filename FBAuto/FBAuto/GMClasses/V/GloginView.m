@@ -61,7 +61,10 @@
         
         //logo图
         UIImageView *logoImv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"elogo440_120.png"] highlightedImage:nil];
-        logoImv.frame = CGRectMake(53, 118, 220, 60);
+//        logoImv.frame = CGRectMake(53, 118, 220, 60);
+        
+        logoImv.frame = CGRectMake(0, 118, 320, 70);
+        logoImv.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:logoImv];
         self.logoImv = logoImv;
         
