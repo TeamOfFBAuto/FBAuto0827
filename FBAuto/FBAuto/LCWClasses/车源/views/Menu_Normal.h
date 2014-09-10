@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  用于规格版本、来源、期限
+ *  用于版本、来源、库存
  */
 
 
 typedef enum {
-    Menu_Standard = 0,//规格
+    Menu_Standard = 0,//版本
     Menu_Source,//来源
-    Menu_Timelimit,//期限
+    Menu_Timelimit,//库存
     Menu_Money,//定金
     Menu_Color_Out,//外观颜色
     Menu_Color_In //内饰颜色

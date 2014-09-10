@@ -173,7 +173,7 @@
     menu_Standard = nil;//版本
 
     [menu_Timelimit removeFromSuperview];
-    menu_Timelimit = nil;//期限
+    menu_Timelimit = nil;//库存
     [menu_Car removeFromSuperview];
     menu_Car = nil;//车型选择
     

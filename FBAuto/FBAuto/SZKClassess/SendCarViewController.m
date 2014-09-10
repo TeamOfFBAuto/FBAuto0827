@@ -63,7 +63,7 @@
     int _spot_future;// 现货或者期货id
     int _color_out;// 外观颜色id
     int _color_in;// 内饰颜色id
-    int _carfrom;// 汽车规格id（美规，中规）
+    int _carfrom;// 汽车版本id（美规，中规）
     NSString *_cardiscrib;// 车源描述
     NSString *_photo;// 图片id（用逗号隔开）
     

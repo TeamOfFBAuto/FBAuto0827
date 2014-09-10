@@ -21,13 +21,14 @@
 @property(nonatomic,retain)NSString *spot_future;//现货或者期货
 @property(nonatomic,retain)NSString *color_out;//外观颜色
 @property(nonatomic,retain)NSString *color_in;//内饰颜色
-@property(nonatomic,retain)NSString *carfrom;//汽车规格
+@property(nonatomic,retain)NSString *carfrom;//汽车版本
 @property(nonatomic,retain)NSString *dateline;//发布时间
 @property(nonatomic,retain)NSString *price;
 @property(nonatomic,retain)NSString *uptime;//上传时间
 
 @property(nonatomic,retain)NSString *deposit;//定金
 
+@property(nonatomic,retain)NSString *sid;//收藏信息id
 
 @property(nonatomic,strong)NSString *stype_name;//收藏的内容种类
 -(id)initWithDictionary:(NSDictionary *)dic;

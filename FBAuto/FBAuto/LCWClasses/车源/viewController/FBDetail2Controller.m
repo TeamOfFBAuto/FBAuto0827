@@ -64,6 +64,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    pageControl = nil;
+    imageUrlsArray = nil;
+    
+    self.firstBgView = nil;
+    self.thirdBgView = nil;
+    self.bigBgScroll = nil;
+    self.photosScroll = nil;
+    
+    //参数
+    self.car_modle_label = nil;
+    self.car_realPrice_label = nil;
+    self.car_guidePrice_label = nil;
+    self.car_timelimit_label = nil;
+    self.car_outColor_Label = nil;
+    self.car_inColor_label = nil;
+    self.car_standard_label = nil;
+    self.car_time_label = nil;
+    self.car_detail_label = nil;
+    self.build_time_label = nil;
+    
+    //商家信息
+    self.headImage = nil;
+    
+    self.nameLabel = nil;
+    self.saleTypeBtn = nil;//商家类型
+    self.phoneNumLabel = nil;
+    self.addressLabel = nil;
+}
+
 #pragma - mark 网络请求
 
 - (void)getSingleCarInfoWithId:(NSString *)carId
@@ -71,6 +102,8 @@
     NSString *url = [NSString stringWithFormat:FBAUTO_CARSOURCE_SINGLE_SOURE,carId];
     
     NSLog(@"单个车源信息 %@",url);
+    
+    __weak typeof(self) weakSelf = self;
     
     LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
@@ -88,7 +121,7 @@
         
         NSString *carName = [dic objectForKey:@"car_name"];
         
-        UILabel *nameLabel = self.car_modle_label;
+        UILabel *nameLabel = weakSelf.car_modle_label;
         nameLabel.numberOfLines = 0;
         nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
         
@@ -105,48 +138,48 @@
         
         
         for (int i = 1; i < 10; i ++) {
-            UILabel *label = (UILabel *)[self.view viewWithTag:120 + i];
+            UILabel *label = (UILabel *)[weakSelf.view viewWithTag:120 + i];
             label.top += dis;
             
-            UILabel *label2 = (UILabel *)[self.view viewWithTag:100 + i];
+            UILabel *label2 = (UILabel *)[weakSelf.view viewWithTag:100 + i];
             label2.top += dis;
         }
         
         nameLabel.text = carName;
         
         //参数
-        self.car_modle_label.text = carName;
+        weakSelf.car_modle_label.text = carName;
         
         NSString *price = [dic objectForKey:@"price"];
         if (price.length == 0) {
             price = @"0";
         }
         
-        self.car_realPrice_label.text = [NSString stringWithFormat:@"%@万元",price];
-        self.car_timelimit_label.text = [dic objectForKey:@"spot_future"];
-        self.car_outColor_Label.text = [dic objectForKey:@"color_out"];
-        self.car_inColor_label.text = [dic objectForKey:@"color_in"];
-        self.car_standard_label.text = [dic objectForKey:@"carfrom"];
-        self.car_time_label.text = [LCWTools timechange2:[dic objectForKey:@"dateline"]];
+        weakSelf.car_realPrice_label.text = [NSString stringWithFormat:@"%@万元",price];
+        weakSelf.car_timelimit_label.text = [dic objectForKey:@"spot_future"];
+        weakSelf.car_outColor_Label.text = [dic objectForKey:@"color_out"];
+        weakSelf.car_inColor_label.text = [dic objectForKey:@"color_in"];
+        weakSelf.car_standard_label.text = [dic objectForKey:@"carfrom"];
+        weakSelf.car_time_label.text = [LCWTools timechange2:[dic objectForKey:@"dateline"]];
         
         NSString *detail = [dic objectForKey:@"cardiscrib"];
         
         detail = [NSString stringWithFormat:@"%@   联系请说是在e车看到的信息，谢谢!",detail];
         
-        self.car_detail_label.text = detail;
+        weakSelf.car_detail_label.text = detail;
         
-        self.car_detail_label.height = [LCWTools heightForText:detail width:199 font:14];
+        weakSelf.car_detail_label.height = [LCWTools heightForText:detail width:199 font:14];
         
-        self.build_time_label.text = [LCWTools NSStringNotNull:[dic objectForKey:@"build_time"]];
+        weakSelf.build_time_label.text = [LCWTools NSStringNotNull:[dic objectForKey:@"build_time"]];
         //商家信息
 
-        self.nameLabel.text = [dic objectForKey:@"username"];
-        self.saleTypeBtn.titleLabel.text = [dic objectForKey:@"usertype"];//商家类型
-        self.phoneNumLabel.text = [LCWTools NSStringNotNull:[dic objectForKey:@"phone"]];
-        self.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
+        weakSelf.nameLabel.text = [dic objectForKey:@"username"];
+        weakSelf.saleTypeBtn.titleLabel.text = [dic objectForKey:@"usertype"];//商家类型
+        weakSelf.phoneNumLabel.text = [LCWTools NSStringNotNull:[dic objectForKey:@"phone"]];
+        weakSelf.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
         NSString *headImage = [LCWTools NSStringNotNull:[dic objectForKey:@"headimage"]];
         
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
+        [weakSelf.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
         
         userId = [dic objectForKey:@"uid"];//用户id
         
@@ -161,7 +194,7 @@
             [imageUrls addObject:url];
         }
         
-        [self createFirstSectionWithImageUrls:imageUrls];
+        [weakSelf createFirstSectionWithImageUrls:imageUrls];
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         NSLog(@"failDic %@",failDic);
@@ -364,14 +397,17 @@
 - (void)clickToShare:(UIButton *)sender
 {
     NSLog(@"分享");
+    
+    __weak typeof(self) weakSelf = self;
+    
     LShareSheetView *shareView = [[LShareSheetView alloc]initWithFrame:self.view.frame];
     [shareView actionBlock:^(NSInteger buttonIndex, NSString *shareStyle) {
         
 //        NSArray *text =  @[@"微信",@"QQ",@"朋友圈",@"微博",@"站内好友"];
         
-        NSString *contentText = [NSString stringWithFormat:@"我在e族汽车上发了一辆新车，有兴趣的来看(%@）。",self.car_modle_label.text];
+        NSString *contentText = [NSString stringWithFormat:@"我在e族汽车上发了一辆新车，有兴趣的来看(%@）。",weakSelf.car_modle_label.text];
         
-        NSString *shareUrl = [NSString stringWithFormat:FBAUTO_SHARE_CAR_SOURCE,self.infoId];
+        NSString *shareUrl = [NSString stringWithFormat:FBAUTO_SHARE_CAR_SOURCE,weakSelf.infoId];
         NSString *contentWithUrl = [NSString stringWithFormat:@"%@%@",contentText,shareUrl];
         
         ClickImageView *clickImage = (ClickImageView *)[photosScroll viewWithTag:100];
@@ -385,26 +421,26 @@
             case 0:
             {
                 NSLog(@"微信");
-                [LCWTools shareText:contentText title:self.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeWeixiSession];
+                [LCWTools shareText:contentText title:weakSelf.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeWeixiSession];
             }
                 break;
             case 1:
             {
                 NSLog(@"QQ");
-                [LCWTools shareText:contentText title:self.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeQQ];
+                [LCWTools shareText:contentText title:weakSelf.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeQQ];
             }
                 break;
             case 2:
             {
                 NSLog(@"朋友圈");
-                [LCWTools shareText:contentText title:self.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeWeixiTimeline];
+                [LCWTools shareText:contentText title:weakSelf.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeWeixiTimeline];
             }
                 break;
             case 3:
             {
                 NSLog(@"微博");
 
-                [LCWTools shareText:contentWithUrl title:self.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeSinaWeibo];
+                [LCWTools shareText:contentWithUrl title:weakSelf.car_modle_label.text image:aImage linkUrl:shareUrl ShareType:ShareTypeSinaWeibo];
             }
                 break;
             case 4:
@@ -415,7 +451,7 @@
                 friend.isShare = YES;
                 //分享的内容  {@"text",@"infoId"}
                 
-                NSString *infoId = [NSString stringWithFormat:@"%@,%@",self.infoId,self.carId];
+                NSString *infoId = [NSString stringWithFormat:@"%@,%@",weakSelf.infoId,weakSelf.carId];
                 friend.shareContent = @{@"text": contentText,@"infoId":infoId,SHARE_TYPE_KEY:SHARE_CARSOURCE};
                 [self.navigationController pushViewController:friend animated:YES];
                 

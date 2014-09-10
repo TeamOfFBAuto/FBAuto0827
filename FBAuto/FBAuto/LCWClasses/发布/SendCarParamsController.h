@@ -17,9 +17,9 @@ typedef enum{
     Data_Car_Brand = 0,//品牌
     Data_Car_Type, //车型
     Data_Car_Style,//车款
-    Data_Standard, //规格
+    Data_Standard, //版本
     Data_Price,//价格
-    Data_Timelimit, //期限
+    Data_Timelimit, //库存
     Data_Color_Out,//外观颜色
     Data_Color_In,//内饰颜色
     Data_Money,//定金

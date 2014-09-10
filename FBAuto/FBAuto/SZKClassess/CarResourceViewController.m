@@ -42,9 +42,9 @@
     RefreshTableView *_table;
     
     Menu_Advanced *menu_Advanced;//高级
-    Menu_Normal *menu_Standard;//规格（版本）
+    Menu_Normal *menu_Standard;//（版本）
     Menu_Normal *menu_Source;//来源
-    Menu_Normal *menu_Timelimit;//期限
+    Menu_Normal *menu_Timelimit;//库存
     Menu_Car *menu_Car;//车型选择
     
     //    ZkingSearchView *zkingSearchV;
@@ -215,11 +215,11 @@
     [menu_Advanced removeFromSuperview];
     menu_Advanced = nil;//高级
     [menu_Standard removeFromSuperview];
-    menu_Standard = nil;//规格 版本
+    menu_Standard = nil;//版本
     [menu_Source removeFromSuperview];
     menu_Source = nil;//来源
     [menu_Timelimit removeFromSuperview];
-    menu_Timelimit = nil;//期限（库存）
+    menu_Timelimit = nil;//（库存）
     [menu_Car removeFromSuperview];
     menu_Car = nil;//车型选择
     

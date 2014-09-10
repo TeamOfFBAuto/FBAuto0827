@@ -131,6 +131,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)dealloc
+{
+    NSLog(@"%s",__FUNCTION__);
+    _table.delegate = nil;
+    _table.dataSource = nil;
+    _table = nil;
+    
+    brandDic = nil;
+    firstLetterArray = nil;
+    provinceDic = nil;
+    
+    _dataArray = nil;
+    _selectLabel = nil;
+    _lastLevelId = nil;
+
+}
+
 #pragma - mark 自定义处理
 
 - (void)createNewConditionStyle:(DATASTYLE)style title:(NSString *)aTitle
@@ -586,22 +604,6 @@
         {
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
-        
-//        SendCarParamsController *base = [[SendCarParamsController alloc]init];
-//        base.hidesBottomBarWhenPushed = YES;
-//        base.navigationTitle = aCity.cityName;
-//        base.dataStyle = Data_Area_City;
-//        base.selectLabel = self.selectLabel;
-//        base.provinceId = [NSString stringWithFormat:@"%d",aCity.provinceId];
-//        base.rootVC = self.rootVC;
-//        
-//        [base selectParamBlock:^(DATASTYLE style, NSString *paramName, NSString *paramId) {
-//            
-//            selectBlock(style,paramName,paramId);
-//            
-//        }];
-//        
-//        [self.navigationController pushViewController:base animated:YES];
         
         return;
         

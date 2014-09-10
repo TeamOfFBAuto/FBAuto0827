@@ -32,10 +32,15 @@
 - (void)dealloc
 {
     NSLog(@"%s",__FUNCTION__);
-    
+    _dataArray = nil;
     _tableview.refreshDelegate = nil;
     _tableview.dataSource = nil;
     _tableview.delegate = nil;
+    _dview = nil;
+    _tmpCell.delegate = nil;
+    _tmpCell = nil;
+    _numLabel = nil;
+    self.indexes = nil;
 }
 
 //-(void)viewWillAppear:(BOOL)animated{
@@ -139,7 +144,6 @@
 }
 
 
-
 #pragma mark - 请求网络数据
 -(void)prepareNetData{
     NSString *api = [NSString stringWithFormat:FBAUTO_MYMARKCAR,[GMAPI getAuthkey],_page,10];
@@ -147,6 +151,7 @@
     NSLog(@"我的收藏api %@",api);
     
     __weak typeof(GmarkViewController *)weakSelf = self;
+    __weak typeof(RefreshTableView *)weakTable = _tableview;
     
     NSString *url = [NSString stringWithFormat:@"%@&page=%d&ps=%d",api,_page,KPageSize];
     LCWTools *tool = [[LCWTools alloc]initWithUrl:url isPost:NO postData:nil];
@@ -159,10 +164,10 @@
         
         if (_page < total) {
             
-            _tableview.isHaveMoreData = YES;
+            weakTable.isHaveMoreData = YES;
         }else
         {
-            _tableview.isHaveMoreData = NO;
+            weakTable.isHaveMoreData = NO;
         }
         
         NSArray *data = [dataInfo objectForKey:@"data"];
@@ -173,10 +178,10 @@
         for (NSDictionary *aDic in data) {
             CarSourceClass *aCar = [[CarSourceClass alloc]initWithDictionary:aDic];
             [arr addObject:aCar];
-            NSLog(@"--------%@",aCar);
+            aCar = nil;
         }
         
-        [weakSelf reloadData:arr isReload:_tableview.isReloadData];
+        [weakSelf reloadData:arr isReload:weakTable.isReloadData];
         
         
     }failBlock:^(NSDictionary *failDic, NSError *erro) {
@@ -186,11 +191,11 @@
 
         [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         
-        if (_tableview.isReloadData) {
+        if (weakTable.isReloadData) {
             
             _page --;
             
-            [_tableview performSelector:@selector(finishReloadigData) withObject:nil afterDelay:1.0];
+            [weakTable performSelector:@selector(finishReloadigData) withObject:nil afterDelay:1.0];
         }
         
     }];
@@ -208,7 +213,7 @@
     if (!cell) {
         cell = [[GmarkTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.delegate = self;
+//    cell.delegate = self;
     cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -221,24 +226,25 @@
     
     //记录indexPath 保存到self.indexs数组里
     __weak typeof (cell)bcell = cell;
+    __weak typeof(self)weakSelf = self;
     [cell setDelImvClickedBlock:^(NSInteger gtag) {
         NSLog(@"%ld",(long)gtag);
         BOOL isHave = NO;
-        for (NSIndexPath *ip in self.indexes) {
+        for (NSIndexPath *ip in weakSelf.indexes) {
             if (ip.row == gtag) {
-                [self.indexes removeObject:ip];
+                [weakSelf.indexes removeObject:ip];
                 [bcell.clickImv setImage:[UIImage imageNamed:@"xuanze_up_44_44.png"]];
                 isHave = YES;
                 break;
             }
         }
         if (!isHave) {
-            [self.indexes addObject:[NSIndexPath indexPathForRow:gtag inSection:0]];
+            [weakSelf.indexes addObject:[NSIndexPath indexPathForRow:gtag inSection:0]];
             [bcell.clickImv setImage:[UIImage imageNamed:@"xuanze_down_44_44.png"]];
         }
         
         NSLog(@"indexs %lu",(unsigned long)self.indexes.count);
-        self.numLabel.text = [NSString stringWithFormat:@"( %lu )",(unsigned long)self.indexes.count];
+        weakSelf.numLabel.text = [NSString stringWithFormat:@"( %lu )",(unsigned long)weakSelf.indexes.count];
         
     }];
     
@@ -269,22 +275,25 @@
     
     NSLog(@"%d",self.delClicked);
     
+    __weak typeof(RefreshTableView *)weakTable = _tableview;
+    __weak typeof(_dview) weakView = _dview;
+    __weak typeof(self) weakSelf = self;
     if (self.delClicked) {//删除界面
         self.delType = 3;
         //清空数据
-        [self.indexes removeAllObjects];
-        self.numLabel.text =  @"(  )";
+        [weakSelf.indexes removeAllObjects];
+        weakSelf.numLabel.text =  @"(  )";
         [UIView animateWithDuration:0.1 animations:^{
-            _dview.frame = CGRectMake(0, iPhone5?568-64-80:415-80, 320, 80);
+            weakView.frame = CGRectMake(0, iPhone5?568-64-80:415-80, 320, 80);
         } completion:^(BOOL finished) {
-            [_tableview reloadData];
+            [weakTable reloadData];
         }];
     }else{//正常界面
-        self.delType = 2;
+        weakSelf.delType = 2;
         [UIView animateWithDuration:0.1 animations:^{
-            _dview.frame = CGRectMake(0, iPhone5?568-64:415, 320, 80);
+            weakView.frame = CGRectMake(0, iPhone5?568-64:415, 320, 80);
         } completion:^(BOOL finished) {
-            [_tableview reloadData];
+            [weakTable reloadData];
         }];
     }
     
@@ -321,6 +330,8 @@
         
         [_dataArray componentsJoinedByString:@","];
         
+        __weak typeof(self) weakSelf = self;
+        
         NSString *api = [NSString stringWithFormat:FBAUTO_DELMYMARKCAR,[GMAPI getAuthkey],[carIdArray componentsJoinedByString:@","]];
         NSURL *url = [NSURL URLWithString:api];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -331,7 +342,7 @@
             if ([[dic objectForKey:@"errcode"]intValue] == 0) {
                 NSLog(@"删除成功");
             }else{
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查网络" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请检查网络" delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
             }
             
@@ -387,12 +398,13 @@
 {
     CarSourceClass *aCar = (CarSourceClass *)[_dataArray objectAtIndex:indexPath.row];
     
-    [self clickToDetail:aCar.id car:aCar];
+    [self clickToDetail:aCar.sid car:aCar];
 }
 
 
 - (void)clickToDetail:(NSString *)info car:(CarSourceClass *)aCar
 {
+    
     NSLog(@"%@",aCar.stype_name);
     if ([aCar.stype_name isEqualToString:@"车源"]) {
         FBDetail2Controller *detail = [[FBDetail2Controller alloc]init];

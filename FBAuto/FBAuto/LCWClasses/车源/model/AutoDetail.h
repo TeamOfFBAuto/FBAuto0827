@@ -15,7 +15,7 @@
 @property(nonatomic,retain)NSString *carTimelimit;
 @property(nonatomic,retain)NSString *carOutColor;
 @property(nonatomic,retain)NSString *carInColor;
-@property(nonatomic,retain)NSString *carStandard;//规格
+@property(nonatomic,retain)NSString *carStandard;//版本
 @property(nonatomic,retain)NSString *carDate;
 @property(nonatomic,retain)NSString *carDetail;
 
