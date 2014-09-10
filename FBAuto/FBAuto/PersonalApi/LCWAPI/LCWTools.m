@@ -91,6 +91,9 @@
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
         if (data.length > 0) {
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
@@ -138,8 +141,6 @@
             failBlock(failDic,connectionError);
             
         }
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
     }];
 
@@ -207,6 +208,8 @@
             
         }else
         {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
             NSLog(@"data 为空 connectionError %@",connectionError);
             
             NSString *errInfo = @"网络有问题,请检查网络";

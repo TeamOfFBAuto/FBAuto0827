@@ -426,7 +426,7 @@
         if (self.gtype == 2) {//车源
             cell.ciLable.text = @"车源";
         }else if (self.gtype == 3){
-            cell.ciLable.text = @"寻车";
+            cell.ciLable.text = @"求购";
         }
         
         cell.cLabel.text = aCar.car_name;
@@ -486,7 +486,7 @@
         }else if (weakSelf.gtype == 3)
         {
             //寻车
-            contentText = [NSString stringWithFormat:@"我在e族汽车上发布了一条寻车信息，有车源的朋友来看看，（%@）",title];
+            contentText = [NSString stringWithFormat:@"我在e族汽车上发布了一条求购信息，有车源的朋友来看看，（%@）",title];
             
             shareUrl = [NSString stringWithFormat:FBAUTO_SHARE_CAR_FIND,ainfoId];
         }

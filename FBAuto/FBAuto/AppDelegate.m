@@ -83,6 +83,7 @@
     CarResourceViewController * rootVC = [[CarResourceViewController alloc] init];
     
     SendCarViewController * fabuCarVC = [[SendCarViewController alloc] init];
+    fabuCarVC.actionStyle = Action_Add;
     
     FindCarViewController * searchCarVC = [[FindCarViewController alloc] init];
     

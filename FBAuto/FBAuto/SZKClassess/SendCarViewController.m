@@ -37,8 +37,6 @@
 
 @interface SendCarViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate>
 {
-    UIImageView *navigationBgView;
-    
     UIScrollView *bigBgScroll;//背景scroll
     
     UIView *firstBgView;
@@ -203,7 +201,7 @@
         
         [weakSelf refreshUI];
         
-        NSString *title = nil;
+        NSString *title;
         
         if (weakSelf.actionStyle == Action_Add) {
             title = @"车源发布成功";
@@ -220,9 +218,14 @@
            
             if (weakSelf.actionStyle == Action_Add)
             {
-                int infoId = [[result objectForKey:@"datainfo"]integerValue];
                 
-                [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
+                id dataInfo  = [result objectForKey:@"datainfo"];
+                if ([dataInfo isKindOfClass:[NSNumber  class]]) {
+                    int infoId = [dataInfo integerValue];
+                    
+                    [weakSelf clickToDetail:[NSString stringWithFormat:@"%d",infoId]];
+                }
+                
             }
             
             
@@ -234,6 +237,7 @@
         [LCWTools showDXAlertViewWithText:[failDic objectForKey:ERROR_INFO]];
         NSLog(@"faildic %@",[failDic objectForKey:ERROR_INFO]);
         
+        [weakLoading hide:NO];
     }];
     
 }
@@ -339,13 +343,11 @@
             
             NSLog(@"aObject %@",aObject);
             [images addObject:aObject];
-            aObject = nil;
             
         }else
         {
             [ids addObject:aObject];
             NSLog(@"ids %@",aObject);
-            aObject = nil;
         }
     }
     
@@ -903,16 +905,31 @@
 /**
  *  发布成功之后 UI复原
  */
+
 - (void)refreshUI
 {
+    for (int i = 0; i < photosArray.count; i ++) {
+        
+        UIImage *aImage = [photosArray objectAtIndex:i];
+        aImage = nil;
+    }
     
     [photosArray removeAllObjects];
+    photosArray = nil;
+    photosArray = [NSMutableArray array];
     
-    for (PhotoImageView *aImageV in photoViewArray) {
+    for (int i = 0; i < photoViewArray.count; i ++) {
+        PhotoImageView *aImageV = [photoViewArray objectAtIndex:i];
         [aImageV removeFromSuperview];
+        aImageV = nil;
     }
-    [photoViewArray removeAllObjects];
     
+    [photoViewArray removeAllObjects];
+    photoViewArray = nil;
+    photoViewArray = [NSMutableArray array];
+    
+    
+    bigBgScroll.contentOffset = CGPointZero;
     
     [UIView animateWithDuration:0.5 animations:^{
         
@@ -922,10 +939,11 @@
         }
     }];
     
-    CGSize scrollSize = photosScroll.contentSize;
-    scrollSize.width = photoViewArray.count * (90 + 15);
-    photosScroll.contentSize = scrollSize;
+//    CGSize scrollSize = photosScroll.contentSize;
+//    scrollSize.width = photoViewArray.count * (90 + 15);
+//    photosScroll.contentSize = scrollSize;
     
+    photosScroll.contentSize = CGSizeZero;
     
     priceTF.text = @"";
     descriptionTF.text = @"";
@@ -940,6 +958,53 @@
     }
     
 }
+
+
+
+
+//- (void)refreshUI
+//{
+//    
+//    [photosArray removeAllObjects];
+//    photosArray = nil;
+//    
+//    for (int i = 0; i < photoViewArray.count; i ++) {
+//        PhotoImageView *aImageV = [photoViewArray objectAtIndex:i];
+//        [aImageV removeFromSuperview];
+//        aImageV = nil;
+//    }
+// 
+//    [photoViewArray removeAllObjects];
+//    photoViewArray = nil;
+//    
+//    bigBgScroll.contentOffset = CGPointZero;
+//    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        if (photosArray.count == 0) {
+//            [self moveAddPhotoBtnToLeft:NO];
+//            [self controlPageControlDisplay:NO showPage:0 sumPage:0];
+//        }
+//    }];
+//    
+//    CGSize scrollSize = photosScroll.contentSize;
+//    scrollSize.width = photoViewArray.count * (90 + 15);
+//    photosScroll.contentSize = scrollSize;
+//    
+//    
+//    priceTF.text = @"";
+//    descriptionTF.text = @"";
+//    
+//    for (int i = 0; i < 5; i ++) {
+//        Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:100 + i];
+//        btn.contentLabel.text = @"";
+//    }
+//    
+//    if (self.actionStyle == Action_Edit) {
+//        [self performSelector:@selector(clickToBack:) withObject:nil afterDelay:0.5];
+//    }
+//    
+//}
 
 /**
  *  缩放图片
@@ -1047,7 +1112,6 @@
         [weakPhotoViewArray removeObject:deleteImageView];
         //        [weakPhotoArray removeObject:aImage];
         [deleteImageView removeFromSuperview];
-        deleteImageView = nil;
         
         weakScroll.contentSize = CGSizeMake(weakPhotoViewArray.count * (90 + 15), weakScroll.contentSize.height);
         
@@ -1084,12 +1148,10 @@
     }else
     {
         [photosArray addObject:aImage];
-        aImage = nil;
     }
     
     [photosScroll addSubview:newImageV];
     [photoViewArray addObject:newImageV];
-    newImageV = nil;
     
     [self controlPageControlDisplay:YES showPage:photosArray.count sumPage:photosArray.count];
     

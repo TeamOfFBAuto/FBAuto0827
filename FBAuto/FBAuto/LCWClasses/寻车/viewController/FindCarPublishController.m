@@ -79,9 +79,9 @@
     _deposit = 0;//定金
     
     if (self.actionStyle == Find_Action_Add) {
-        self.titleLabel.text = @"发布寻车";
+        self.titleLabel.text = @"发布求购";
     }else if (self.actionStyle == Find_Action_Edit){
-        self.titleLabel.text = @"修改寻车";
+        self.titleLabel.text = @"修改求购";
         
         [self getSingleCarInfoWithId:self.infoId];
     }
@@ -141,7 +141,7 @@
     line2.backgroundColor = [UIColor colorWithHexString:@"b4b4b4"];
     [secondBgView addSubview:line2];
     
-    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*titles2.count, 100, 45.f) text:@"寻车描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
+    [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45*titles2.count, 100, 45.f) text:@"求购描述" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
     
     descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * titles2.count + 5, 220, 45 * 2 - 10)];
     descriptionTF.delegate = self;
@@ -453,10 +453,10 @@
         
         NSString *title;
         if (self.actionStyle == Find_Action_Add) {
-            title = @"寻车发布成功";
+            title = @"求购发布成功";
         }else
         {
-            title = @"寻车编辑成功";
+            title = @"求购编辑成功";
         }
         DXAlertView *alert = [[DXAlertView alloc]initWithTitle:title contentText:nil leftButtonTitle:nil rightButtonTitle:@"确定" isInput:NO];
         [alert show];

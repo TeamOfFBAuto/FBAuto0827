@@ -101,7 +101,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.titleLabel.text = @"寻车";
+    self.titleLabel.text = @"求购";
     self.button_back.hidden = YES;
     
     [self createNavigationView];

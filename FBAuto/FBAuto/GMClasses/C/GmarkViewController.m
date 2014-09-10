@@ -177,6 +177,10 @@
         
         for (NSDictionary *aDic in data) {
             CarSourceClass *aCar = [[CarSourceClass alloc]initWithDictionary:aDic];
+            if ([aCar.stype_name isEqualToString:@"寻车"]) {
+                aCar.stype_name = @"求购";
+            }
+            
             [arr addObject:aCar];
             aCar = nil;
         }
@@ -414,7 +418,7 @@
         detail.carId = aCar.car;
         detail.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detail animated:YES];
-    }else if ([aCar.stype_name isEqualToString:@"寻车"]){
+    }else if ([aCar.stype_name isEqualToString:@"求购"]){
         FBFindCarDetailController *detail = [[FBFindCarDetailController alloc]init];
         detail.style = Navigation_Special;
         detail.navigationTitle = @"详情";
