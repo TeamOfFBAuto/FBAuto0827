@@ -35,6 +35,7 @@
 
 - (void)dealloc
 {
+    
     NSLog(@"%s",__FUNCTION__);
     _tmpCell.delegate = nil;
     _tmpCell = nil;
