@@ -251,6 +251,13 @@
         [view removeFromSuperview];
     }
     
+    if (indexPath.row == 1) {
+        cell.separatorInset = UIEdgeInsetsMake(0,320,0,0);
+    }else
+    {
+        cell.separatorInset = UIEdgeInsetsZero;
+    }
+    
     [cell loadViewWithIndexPath:indexPath model:self.guserModel];
     [cell configWithUserModel:self.guserModel];
     if (indexPath.row>3) {
@@ -258,13 +265,14 @@
     }
     
     
+    //最后一个cell的分割线
     if (indexPath.row == _dataArray.count+3) {
         UIView *fenView = [[UIView alloc]initWithFrame:CGRectMake(0, 84, 320, 0.5)];
         fenView.backgroundColor = RGBCOLOR(214, 214, 214);
         [cell.contentView addSubview:fenView];
     }
     
-    cell.separatorInset = UIEdgeInsetsZero;
+//    cell.separatorInset = UIEdgeInsetsZero;
     
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

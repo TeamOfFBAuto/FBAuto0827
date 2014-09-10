@@ -87,12 +87,18 @@
         [self.contentView addSubview:titleLabel1];
         
         //内容label
+        
         self.phoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(titleLabel.frame)+5, titleLabel.frame.origin.y, 110, titleLabel.frame.size.height)];
         self.phoneLabel.textColor = RGBCOLOR(129, 129, 129);
         self.phoneLabel.font = [UIFont systemFontOfSize:13];
         
-        self.dizhiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(titleLabel1.frame)+5, titleLabel1.frame.origin.y, 260, titleLabel1.frame.size.height+1)];
+        self.dizhiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(titleLabel1.frame)+5, titleLabel1.frame.origin.y, 260, 14)];
         self.dizhiLabel.font = [UIFont systemFontOfSize:12];
+        self.dizhiLabel.text = userModel.address;
+        if (self.dizhiLabel.text.length>0) {
+            [self.dizhiLabel setMatchedFrame4LabelWithOrigin:CGPointMake(CGRectGetMaxX(titleLabel1.frame)+5, titleLabel1.frame.origin.y) width:260];
+        }
+
         self.dizhiLabel.textColor = RGBCOLOR(129, 129, 129);
         
         
@@ -101,11 +107,11 @@
         
         
         
-        height = CGRectGetMaxY(titleLabel1.frame)+10;
+        height = CGRectGetMaxY(self.dizhiLabel.frame);
         
         
     }else if (theIndexPath.row == 2){//简介
-        UILabel *titelLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 12, 30, 13)];
+        UILabel *titelLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 30, 13)];
         titelLabel.font = [UIFont systemFontOfSize:13];
         titelLabel.text = @"简介:";
         [self.contentView addSubview:titelLabel];
@@ -208,7 +214,7 @@
     
     
     self.jianjieLabel.text = userModel.intro;
-    [self.jianjieLabel setMatchedFrame4LabelWithOrigin:CGPointMake(45, 12) width:266];
+    [self.jianjieLabel setMatchedFrame4LabelWithOrigin:CGPointMake(45, 10) width:266];
     [self.touxiangImageView sd_setImageWithURL:[NSURL URLWithString:userModel.headimage]];
     
 }
