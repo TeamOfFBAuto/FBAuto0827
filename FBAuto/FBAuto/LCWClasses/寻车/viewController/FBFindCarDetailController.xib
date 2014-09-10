@@ -25,7 +25,7 @@
                     <rect key="frame" x="0.0" y="493" width="320" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="detail_test.jpg" id="0fT-PS-lHK">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0fT-PS-lHK">
                             <rect key="frame" x="5" y="5" width="65" height="65"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
@@ -113,7 +113,6 @@
         </view>
     </objects>
     <resources>
-        <image name="detail_test.jpg" width="1920" height="1600"/>
         <image name="dianhua40_46.png" width="20" height="23"/>
         <image name="geren _bg50_28.png" width="25" height="14"/>
         <image name="liaotian46_46.png" width="23" height="23"/>

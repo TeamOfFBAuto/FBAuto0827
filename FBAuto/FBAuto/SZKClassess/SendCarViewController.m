@@ -1088,7 +1088,6 @@
     }
     
     [photosScroll addSubview:newImageV];
-    newImageV = nil;
     [photoViewArray addObject:newImageV];
     newImageV = nil;
     
@@ -1259,7 +1258,6 @@
         
         UIImage * newImage = image;
         [allImageArray addObject:newImage];
-        newImage = nil;
         
         [self updateScrollViewAndPhotoButton:newImage imageUrl:nil];
         

@@ -49,6 +49,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    _headImage = nil;
+    _nameLabel = nil;
+    _saleTypeBtn = nil;//商家类型
+    _phoneNumLabel = nil;
+    _addressLabel = nil;
+    _bottomBgView = nil;
+    
+    for (int i = 1; i < 7; i ++) {
+        UILabel *label = [self labelWithTag:110 + i];
+        label = nil;
+        
+        UILabel *label2 = [self labelWithTag:100 + i];
+        label2 = nil;
+    }
+}
+
 #pragma - mark 网络请求 获取单个寻车信息
 
 - (void)getSingleCarInfoWithId:(NSString *)carId
