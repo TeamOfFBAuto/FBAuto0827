@@ -386,18 +386,11 @@
                     
                     if (weakSelf.gtype == 2) {//我的车源
                         
-                        SendCarViewController *detail = [[SendCarViewController alloc]init];
-                        detail.actionStyle = Action_Edit;
-                        detail.infoId = aCar.id;
-                        [weakSelf.navigationController pushViewController:detail animated:YES];
+                        [weakSelf gpushToCheyuanWithAcar:aCar];
                         
                     }else if (weakSelf.gtype == 3){//我的寻车
+                        [weakSelf gpushToXuncheWithAcar:aCar];
                         
-                        FindCarPublishController *detail = [[FindCarPublishController alloc]init];
-                        detail.style = Navigation_Special;
-                        detail.infoId = aCar.id;
-                        detail.actionStyle = Find_Action_Edit;
-                        [weakSelf.navigationController pushViewController:detail animated:YES];
                     }
                 }
             }
@@ -405,7 +398,6 @@
                 break;
             case 12://刷新
             {
-//                _page = 1;
                 weakSelf.lastIndexPath = nil;
                 weakSelf.flagIndexPath = nil;
                 weakSelf.flagHeight = 60;
@@ -442,6 +434,27 @@
     }
     
     return cell;
+}
+
+
+
+
+//点击修改跳转界面
+
+//我的车源跳转
+-(void)gpushToCheyuanWithAcar:(CarSourceClass*)aCar{
+    SendCarViewController *detail = [[SendCarViewController alloc]init];
+    detail.actionStyle = Action_Edit;
+    detail.infoId = aCar.id;
+    [self.navigationController pushViewController:detail animated:YES];
+}
+//我的寻车跳转
+-(void)gpushToXuncheWithAcar:(CarSourceClass*)aCar{
+    FindCarPublishController *detail = [[FindCarPublishController alloc]init];
+    detail.style = Navigation_Special;
+    detail.infoId = aCar.id;
+    detail.actionStyle = Find_Action_Edit;
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 
