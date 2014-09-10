@@ -288,7 +288,6 @@
     
     
     NSLog(@"%f",height);
-    
     return height;
 }
 
@@ -356,7 +355,7 @@
         [btableview reloadRowsAtIndexPaths:weakSelf.indexPathArray withRowAnimation:UITableViewRowAnimationFade];
         
     }];
-    
+
     [cell setCaozuoBtnBlock:^(NSInteger btnTag) {
         switch (btnTag) {
             case 10://删除
@@ -406,7 +405,7 @@
                 break;
             case 12://刷新
             {
-                _page = 1;
+//                _page = 1;
                 weakSelf.lastIndexPath = nil;
                 weakSelf.flagIndexPath = nil;
                 weakSelf.flagHeight = 60;

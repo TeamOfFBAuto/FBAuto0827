@@ -213,7 +213,7 @@
     if (!cell) {
         cell = [[GmarkTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-//    cell.delegate = self;
+    cell.delegate = self;
     cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -243,7 +243,7 @@
             [bcell.clickImv setImage:[UIImage imageNamed:@"xuanze_down_44_44.png"]];
         }
         
-        NSLog(@"indexs %lu",(unsigned long)self.indexes.count);
+        NSLog(@"indexs %lu",(unsigned long)weakSelf.indexes.count);
         weakSelf.numLabel.text = [NSString stringWithFormat:@"( %lu )",(unsigned long)weakSelf.indexes.count];
         
     }];

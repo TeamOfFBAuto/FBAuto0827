@@ -20,7 +20,7 @@ typedef void (^caozuoBtnBlock)(NSInteger btnTag);
 }
 @property(nonatomic,assign)BOOL ischoose;//是否添加了视图
 @property(nonatomic,copy)addViewBlock addviewBlock;
-@property(nonatomic,strong)GfindCarViewController *delegate;//代理
+@property(nonatomic,assign)GfindCarViewController *delegate;//代理
 @property(nonatomic,strong)UIButton *addBtn;//右边的箭头
 @property(nonatomic,copy)caozuoBtnBlock caozuoBtnBlock;
 
