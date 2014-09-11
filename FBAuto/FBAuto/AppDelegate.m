@@ -330,7 +330,11 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CARSOURCE_PARAMS object:nil];
     }else if (tabBarController.selectedIndex == 2){
         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_FINDCAR_PARAMS object:nil];
+    }else if(tabBarController.selectedIndex == 3){
+//        viewController.tabBarItem.badgeValue = @"3";
     }
+    
+    
 }
 
 #pragma mark - WXApiDelegate

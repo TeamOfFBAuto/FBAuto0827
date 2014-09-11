@@ -535,6 +535,10 @@
 - (void)postImages:(UIImage *)eImage
 {
     
+    if (eImage == nil) {
+        return;
+    }
+    
     FBChatImage *chatImage = nil;
     
     id aView = [labelArr lastObject];
