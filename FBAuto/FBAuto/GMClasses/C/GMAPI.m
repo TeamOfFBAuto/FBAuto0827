@@ -64,6 +64,8 @@
     return str_password;
 }
 
+
+#pragma mark - 弹出提示框
 + (MBProgressHUD *)showMBProgressWithText:(NSString *)text addToView:(UIView *)aView{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:aView animated:YES];
     hud.mode = MBProgressHUDModeText;

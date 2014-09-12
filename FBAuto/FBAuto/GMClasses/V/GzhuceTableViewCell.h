@@ -8,6 +8,8 @@
 
 //自定义注册界面tableViewCell
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+
 @class GzhuceViewController;
 
 
@@ -18,7 +20,7 @@ typedef void (^shouTablevBlock)();//收键盘的时候还原tableivew.frame
 
 typedef void (^chooseAreaBlock)();//选择地区
 
-@interface GzhuceTableViewCell : UITableViewCell<UITextFieldDelegate,UIAlertViewDelegate>
+@interface GzhuceTableViewCell : UITableViewCell<UITextFieldDelegate,UIAlertViewDelegate,MBProgressHUDDelegate>
 {
     UITableView *_gerenTableView;
     UITableView *_shangjiaTableView;
@@ -31,6 +33,9 @@ typedef void (^chooseAreaBlock)();//选择地区
     int _timeNum1;
     NSTimer *_timer;
     NSTimer *_timer1;
+    
+    
+    MBProgressHUD *_hud;
 }
 //个人注册
 @property(nonatomic,strong)UIView *zhuceView;//注册view

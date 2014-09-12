@@ -445,7 +445,8 @@
         
         
         if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {
-            
+            _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
+            _hud.delegate = self;
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,guerzhuce.phone,guerzhuce.password,guerzhuce.name,(long)guerzhuce.province,(long)guerzhuce.city,1,guerzhuce.code,guerzhuce.token,@""];
             NSString *api = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSURL *url = [NSURL URLWithString:api];
@@ -459,9 +460,11 @@
                         NSLog(@"个人注册接口 errcode:%d",erroCode);
                         NSLog(@"个人注册接口 错误信息:%@",erroInfo);
                         if (erroCode !=0) {
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             [al show];
                         }else if (erroCode == 0){
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 133;
                             [al show];
@@ -470,6 +473,7 @@
                     }
                     
                 }else{
+                    [self hudWasHidden:_hud];
                     NSLog(@"data 为空 connectionError %@",connectionError);
                     
                     NSString *errInfo = @"网络有问题,请检查网络";
@@ -533,6 +537,9 @@
         
         if ([userzc.password isEqualToString:userzc.password1] && [self indoShangjia]) {
             
+            _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
+            _hud.delegate = self;
+            
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,userzc.phone,userzc.password,userzc.name,(long)userzc.province,(long)userzc.city,2,userzc.code,userzc.token,userzc.fullname];
             NSString *str1 = [NSString stringWithFormat:@"%@&address=%@",str,userzc.address];
             NSString *api = [str1 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -550,9 +557,11 @@
                         NSLog(@"商家注册接口 errcode:%d",erroCode);
                         NSLog(@"商家注册接口 错误信息:%@",erroInfo);
                         if (erroCode !=0) {
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             [al show];
                         }else if (erroCode == 0){
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 134;
                             [al show];
@@ -561,6 +570,7 @@
                     }
                     
                 }else{
+                    [self hudWasHidden:_hud];
                     NSLog(@"data 为空 connectionError %@",connectionError);
                     
                     NSString *errInfo = @"网络有问题,请检查网络";
@@ -589,7 +599,13 @@
 }
 
 
-
+-(void)hudWasHidden:(MBProgressHUD *)hud
+{
+    [hud removeFromSuperview];
+    hud.delegate = nil;
+    hud = nil;
+    
+}
 
 
 
