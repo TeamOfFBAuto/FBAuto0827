@@ -517,7 +517,7 @@
                 self.city1 = @"";
             }else{
                 self.city1 = cities[row][@"city"];
-                self.cityIn1 = self.provinceIn + row;
+                self.cityIn1 = self.provinceIn1 + row;
             }
             
         }

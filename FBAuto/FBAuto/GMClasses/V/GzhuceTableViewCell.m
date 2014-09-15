@@ -448,6 +448,9 @@
             _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
             _hud.delegate = self;
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,guerzhuce.phone,guerzhuce.password,guerzhuce.name,(long)guerzhuce.province,(long)guerzhuce.city,1,guerzhuce.code,guerzhuce.token,@""];
+            
+            NSLog(@"个人注册接口:%@",str);
+            
             NSString *api = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSURL *url = [NSURL URLWithString:api];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -465,7 +468,7 @@
                             [al show];
                         }else if (erroCode == 0){
                             [self hudWasHidden:_hud];
-                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 133;
                             [al show];
                         }
@@ -562,7 +565,7 @@
                             [al show];
                         }else if (erroCode == 0){
                             [self hudWasHidden:_hud];
-                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 134;
                             [al show];
                         }
