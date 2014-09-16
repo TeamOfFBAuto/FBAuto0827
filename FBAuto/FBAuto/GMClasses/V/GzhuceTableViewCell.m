@@ -95,6 +95,7 @@
             
             //输入内容 根据响应者链 需要关掉框view的用户触摸 并把contentTf加到self.view上
             UITextField *contentTf = [[UITextField alloc]initWithFrame:CGRectMake(55, 20+i*55, 230, 15)];
+            contentTf.autocapitalizationType = UITextAutocapitalizationTypeNone;
             contentTf.font = [UIFont systemFontOfSize:15];
             contentTf.tag = 10+i;//根据tag判读是哪个tf
             contentTf.delegate = self;
@@ -197,6 +198,7 @@
             
             //输入内容 根据响应者链 需要关掉框view的用户触摸 并把contentTf加到self.view上
             UITextField *contentTf = [[UITextField alloc]initWithFrame:CGRectMake(55, 20+i*55, 230, 15)];
+            contentTf.autocapitalizationType = UITextAutocapitalizationTypeNone;
             contentTf.font = [UIFont systemFontOfSize:15];
             contentTf.delegate = self;
             contentTf.tag = 20+i;//根据tag判读是哪个tf
@@ -304,7 +306,14 @@
                     return ;
                 }
                 NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                NSLog(@"%@ %@",dic,[dic objectForKey:@"errinfo"]);
+                NSString *errinfo = [dic objectForKey:@"errinfo"];
+                NSString *errcode = [dic objectForKey:@"errcode"];
+                if ([errcode intValue] != 0) {
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:errinfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                }
+                
+                NSLog(@"%@ %@",dic,errinfo);
                 
             }];
             
@@ -338,7 +347,18 @@
             NSURL *url = [NSURL URLWithString:str];
             NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (data.length == 0) {
+                    return ;
+                }
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSString *errinfo = [dic objectForKey:@"errinfo"];
+                NSString *errcode = [dic objectForKey:@"errcode"];
+                if ([errcode intValue] != 0) {
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:errinfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                }
                 
+                NSLog(@"%@ %@",dic,errinfo);
             }];
             
             NSLog(@"%s",__FUNCTION__);
@@ -420,6 +440,7 @@
         if (![self indoGeren]) {
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"请完善信息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
+            return;
         };
         
         GuserZhuce *guerzhuce = [[GuserZhuce alloc]init];
@@ -443,6 +464,13 @@
             }
         }
         
+        
+        
+        if (guerzhuce.password.length<6) {//密码不能小于六位
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码长度不能少于6位" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [al show];
+            return;
+        }
         
         if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {
             _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
@@ -511,6 +539,7 @@
         if (![self indoShangjia]) {
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"请完善信息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
+            return;
         }
         GuserZhuce *userzc = [[GuserZhuce alloc]init];
         userzc.province = self.province1;
@@ -536,6 +565,15 @@
                 userzc.address = tf.text;
             }
         }
+        
+        
+        
+        if (userzc.password.length <6) {//密码不能少于六位
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码长度不能少于6位" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [al show];
+            return;
+        }
+        
         
         
         if ([userzc.password isEqualToString:userzc.password1] && [self indoShangjia]) {
