@@ -2790,7 +2790,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
 				SDKROOT = iphoneos7.1;
 				VALID_ARCHS = "armv7 armv7s";
@@ -2830,7 +2830,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
 				SDKROOT = iphoneos7.1;
 				VALIDATE_PRODUCT = YES;
@@ -2843,7 +2843,6 @@
 			baseConfigurationReference = F2B6939735024693BB7F96CA /* Pods.xcconfig */;
 			buildSettings = {
 				ARCHS = (
-					"$(ARCHS_STANDARD)",
 					armv7s,
 					armv7,
 				);
@@ -2868,7 +2867,7 @@
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Extend/SinaWeiboSDK",
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Extend/WeChatSDK",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
@@ -2882,7 +2881,6 @@
 			baseConfigurationReference = F2B6939735024693BB7F96CA /* Pods.xcconfig */;
 			buildSettings = {
 				ARCHS = (
-					"$(ARCHS_STANDARD)",
 					armv7s,
 					armv7,
 				);
@@ -2907,7 +2905,7 @@
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Extend/SinaWeiboSDK",
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Extend/WeChatSDK",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";

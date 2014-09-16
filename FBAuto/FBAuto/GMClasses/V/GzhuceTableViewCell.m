@@ -131,6 +131,16 @@
             
             
             
+            
+            
+            if (i == 2 || i == 3) {//密码
+                contentTf.keyboardType = UIKeyboardTypeASCIICapable;
+            }
+            
+            if (i == 4) {//手机
+                contentTf.keyboardType = UIKeyboardTypeNumberPad;
+            }
+            
             //把contentTf装到数组里
             [self.contenTfArray addObject:contentTf];
             
@@ -220,6 +230,18 @@
             
             
             [self.contentView addSubview:contentTf];
+            
+            
+            
+            
+            if (i == 4 || i == 5) {
+                contentTf.keyboardType = UIKeyboardTypeASCIICapable;
+            }
+            
+            if (i == 6) {
+                contentTf.keyboardType = UIKeyboardTypeNumberPad;
+            }
+            
             
             //把contentTf装到数组里
             [self.contentTfArray1 addObject:contentTf];
