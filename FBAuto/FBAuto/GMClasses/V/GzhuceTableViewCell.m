@@ -472,7 +472,7 @@
             return;
         }
         
-        if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {
+        if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {//没问题 请求注册接口
             _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
             _hud.delegate = self;
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,guerzhuce.phone,guerzhuce.password,guerzhuce.name,(long)guerzhuce.province,(long)guerzhuce.city,1,guerzhuce.code,guerzhuce.token,@""];
@@ -525,7 +525,7 @@
             
             
             
-        }else if (![guerzhuce.password isEqualToString:guerzhuce.password1]){
+        }else if (![guerzhuce.password isEqualToString:guerzhuce.password1]){//密码不一致
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"重复密码和密码填写不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
         }
