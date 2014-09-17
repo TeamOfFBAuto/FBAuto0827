@@ -40,7 +40,7 @@
     
     //文字titile
     UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(22, 30, 60, 17)];
-    titleLable.text = @"接收消息";
+    titleLable.text = @"消息提示";
     titleLable.font = [UIFont systemFontOfSize:15];
     [self.view addSubview:titleLable];
     

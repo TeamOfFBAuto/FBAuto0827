@@ -37,6 +37,8 @@
 @property(nonatomic,retain)NSString *name;
 @property(nonatomic,retain)NSString *isbuddy;
 
+@property(nonatomic,retain)NSString *city_name;//显示用，后台返回的时id,这是转化后的汉子名称
+
 
 -(id)initWithDictionary:(NSDictionary *)dic;
 

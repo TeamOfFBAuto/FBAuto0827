@@ -969,9 +969,7 @@
         
         CGSize contentSize = self.table.contentSize;
         
-        CGFloat visibleHeight = inputBar.top - 20 - 44;//聊天可视高度
-        
-        NSLog(@",,,,,%f",visibleHeight);
+//        CGFloat visibleHeight = inputBar.top - 20 - 44;//聊天可视高度
         
         if (contentSize.height > self.table.height) {
             

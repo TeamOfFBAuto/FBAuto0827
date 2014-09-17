@@ -121,7 +121,7 @@
     }
     
     bigBgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.height - 49 - 44 - 20)];
-    bigBgScroll.backgroundColor = [UIColor clearColor];
+//    bigBgScroll.backgroundColor = [UIColor clearColor];
     bigBgScroll.showsHorizontalScrollIndicator = NO;
     bigBgScroll.showsVerticalScrollIndicator = NO;
     bigBgScroll.delegate = self;
@@ -387,13 +387,15 @@
         
         UIImage * newImage = [SzkAPI scaleToSizeWithImage:eImage size:CGSizeMake(eImage.size.width>1024?1024:eImage.size.width,eImage.size.width>1024?eImage.size.height*1024/eImage.size.width:eImage.size.height)];
         
-        NSData *imageData=UIImageJPEGRepresentation(newImage,1);
+        NSData *imageData=UIImageJPEGRepresentation(newImage,0.5);
         
         NSString *photoName=[NSString stringWithFormat:@"FBAuto%d.png",i];
         
         NSLog(@"photoName:%@",photoName);
         
         [uploadImageRequest addData:imageData withFileName:photoName andContentType:@"image/png" forKey:@"photo[]"];
+        
+        NSLog(@"---%u",imageData.length/1024/1024);
     }
     
     [uploadImageRequest setDelegate : self ];
@@ -512,11 +514,11 @@
 - (void)createFirstSection
 {
     firstBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, KFistSectionHeight)];
-    firstBgView.backgroundColor = [UIColor clearColor];
+//    firstBgView.backgroundColor = [UIColor clearColor];
     [bigBgScroll addSubview:firstBgView];
     
     photosScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(100, 10, 210, 90)];//和图片一样高
-    photosScroll.backgroundColor = [UIColor clearColor];
+//    photosScroll.backgroundColor = [UIColor clearColor];
     photosScroll.showsHorizontalScrollIndicator = NO;
     photosScroll.pagingEnabled = YES;
     photosScroll.contentSize = CGSizeZero;
@@ -540,7 +542,7 @@
 - (void)createSecondSection
 {
     secondBgView = [[UIView alloc]initWithFrame:CGRectMake(10, firstBgView.bottom, 320 - 20, 45 * 7 + 45 * 2)];
-    secondBgView.backgroundColor = [UIColor clearColor];
+//    secondBgView.backgroundColor = [UIColor clearColor];
     secondBgView.layer.borderWidth = 1.0;
     secondBgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
     [bigBgScroll addSubview:secondBgView];
@@ -560,10 +562,10 @@
     
     [secondBgView addSubview:[self createLabelFrame:CGRectMake(10, 45* titles.count, 100, 45.f) text:@"价格" alignMent:NSTextAlignmentLeft textColor:[UIColor blackColor]]];
     
-    priceTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45* titles.count, 175, 45)];
+    priceTF = [[UITextField alloc]initWithFrame:CGRectMake(80 - 10, 45* titles.count, 175 + 10, 45)];
     priceTF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     priceTF.delegate = self;
-    priceTF.backgroundColor = [UIColor clearColor];
+    priceTF.textAlignment = NSTextAlignmentRight;
     [secondBgView addSubview:priceTF];
     
     [secondBgView addSubview:[self createLabelFrame:CGRectMake(300 - 35 - 10, 45* titles.count, 35, 45.f) text:@"万元" alignMent:NSTextAlignmentRight textColor:[UIColor colorWithHexString:@"c7c7cc"]]];
@@ -578,9 +580,7 @@
     
     descriptionTF = [[UITextView alloc]initWithFrame:CGRectMake(80 - 10, 45 * (titles.count + 1) + 5, 200 + 10 + 10, 45 * 2 - 10)];
     descriptionTF.delegate = self;
-    descriptionTF.backgroundColor = [UIColor clearColor];
     descriptionTF.font = [UIFont systemFontOfSize:16];
-    //    descriptionTF.text = @"阿卡涉及到卡里就SD卡辣椒水宽带连接阿卡丽四大皆空垃圾SD卡垃圾SD卡垃圾是考虑到久爱时空考虑时间阿克拉结SD卡垃圾收点卡啦";
     [secondBgView addSubview:descriptionTF];
     
     
@@ -599,7 +599,7 @@
 - (UILabel *)createLabelFrame:(CGRect)aFrame text:(NSString *)text alignMent:(NSTextAlignment)align textColor:(UIColor *)color
 {
     UILabel *priceLabel = [[UILabel alloc]initWithFrame:aFrame];
-    priceLabel.backgroundColor = [UIColor clearColor];
+//    priceLabel.backgroundColor = [UIColor clearColor];
     priceLabel.text = text;
     priceLabel.textAlignment = align;
     priceLabel.font = [UIFont systemFontOfSize:14];
@@ -659,6 +659,14 @@
 
 - (IBAction)clickToAlbum:(id)sender {
     
+    
+    if (photosArray.count >= 9) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"最多选择9张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        return;
+    }
+    
     if (!imagePickerController)
     {
         imagePickerController = nil;
@@ -668,6 +676,7 @@
     imagePickerController = [[QBImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
+    imagePickerController.assters = photosArray;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
     
@@ -678,6 +687,14 @@
 //打开相机
 
 - (IBAction)clickToCamera:(id)sender {
+    
+    if (photosArray.count >= 9) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"最多选择9张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        return;
+    }
+    
     
     BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
     if (is) {
@@ -920,6 +937,7 @@
     
     for (int i = 0; i < photoViewArray.count; i ++) {
         PhotoImageView *aImageV = [photoViewArray objectAtIndex:i];
+        aImageV.image = nil;
         [aImageV removeFromSuperview];
         aImageV = nil;
     }
@@ -943,6 +961,19 @@
 //    scrollSize.width = photoViewArray.count * (90 + 15);
 //    photosScroll.contentSize = scrollSize;
     
+    for (int i = 0; i < photosScroll.subviews.count; i ++) {
+        
+        NSLog(@"photosScroll ---");
+        UIView *view = [photosScroll.subviews objectAtIndex:i];
+        if ([view isKindOfClass:[PhotoImageView class]]) {
+            
+            NSLog(@"photosScroll --- %@",view);
+            
+            [view removeFromSuperview];
+            view = nil;
+        }
+    }
+    
     photosScroll.contentSize = CGSizeZero;
     
     priceTF.text = @"";
@@ -958,53 +989,6 @@
     }
     
 }
-
-
-
-
-//- (void)refreshUI
-//{
-//    
-//    [photosArray removeAllObjects];
-//    photosArray = nil;
-//    
-//    for (int i = 0; i < photoViewArray.count; i ++) {
-//        PhotoImageView *aImageV = [photoViewArray objectAtIndex:i];
-//        [aImageV removeFromSuperview];
-//        aImageV = nil;
-//    }
-// 
-//    [photoViewArray removeAllObjects];
-//    photoViewArray = nil;
-//    
-//    bigBgScroll.contentOffset = CGPointZero;
-//    
-//    [UIView animateWithDuration:0.5 animations:^{
-//        
-//        if (photosArray.count == 0) {
-//            [self moveAddPhotoBtnToLeft:NO];
-//            [self controlPageControlDisplay:NO showPage:0 sumPage:0];
-//        }
-//    }];
-//    
-//    CGSize scrollSize = photosScroll.contentSize;
-//    scrollSize.width = photoViewArray.count * (90 + 15);
-//    photosScroll.contentSize = scrollSize;
-//    
-//    
-//    priceTF.text = @"";
-//    descriptionTF.text = @"";
-//    
-//    for (int i = 0; i < 5; i ++) {
-//        Section_Button *btn = (Section_Button *)[secondBgView viewWithTag:100 + i];
-//        btn.contentLabel.text = @"";
-//    }
-//    
-//    if (self.actionStyle == Action_Edit) {
-//        [self performSelector:@selector(clickToBack:) withObject:nil afterDelay:0.5];
-//    }
-//    
-//}
 
 /**
  *  缩放图片
@@ -1102,8 +1086,9 @@
     __weak typeof (NSMutableArray *)weakPhotoViewArray = photoViewArray;
     __weak typeof (SendCarViewController *)weakSelf = self;
     
+    UIImage *smallImage = [LCWTools scaleToSizeWithImage:aImage size:CGSizeMake(90, 90)];
     
-    PhotoImageView *newImageV= [[PhotoImageView alloc]initWithFrame:CGRectMake(scrollSizeWidth + 15,0, 90, 90) image:aImage deleteBlock:^(UIImageView *deleteImageView, UIImage *deleteImage) {
+    PhotoImageView *newImageV= [[PhotoImageView alloc]initWithFrame:CGRectMake(scrollSizeWidth + 15,0, 90, 90) image:smallImage deleteBlock:^(UIImageView *deleteImageView, UIImage *deleteImage) {
         
         
         int deleteIndex = (int)[weakPhotoViewArray indexOfObject:deleteImageView];
@@ -1148,10 +1133,15 @@
     }else
     {
         [photosArray addObject:aImage];
+        
+        aImage = nil;
     }
     
     [photosScroll addSubview:newImageV];
+    
     [photoViewArray addObject:newImageV];
+    
+    newImageV = nil;
     
     [self controlPageControlDisplay:YES showPage:photosArray.count sumPage:photosArray.count];
     
@@ -1277,7 +1267,7 @@
         //以下这两步都是比较耗时的操作，最好开一个HUD提示用户，这样体验会好些，不至于阻塞界面
         if (UIImagePNGRepresentation(scaleImage) == nil) {
             //将图片转换为JPG格式的二进制数据
-            data = UIImageJPEGRepresentation(scaleImage, 1);
+            data = UIImageJPEGRepresentation(scaleImage, 0.4);
         } else {
             //将图片转换为PNG格式的二进制数据
             data = UIImagePNGRepresentation(scaleImage);

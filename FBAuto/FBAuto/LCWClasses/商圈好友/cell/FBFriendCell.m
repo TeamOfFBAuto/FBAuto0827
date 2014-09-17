@@ -55,7 +55,7 @@
     
     self.nameLabel.text = aModel.buddyname;
     self.phoneNumLabel.text = aModel.phone;
-    self.addressLabel.text = [FBCityData cityNameForId:[aModel.province intValue]];
+    self.addressLabel.text = aModel.city_name;
     
     if ([aModel.usertype integerValue] == 1) {
         [self.saleTypeLabel setTitle:@"个人" forState:UIControlStateNormal];

@@ -58,6 +58,8 @@ typedef void(^ urlRequestBlock)(NSDictionary *result,NSError *erro);
 
 + (NSString *)headImageForUserId:(NSString *)userId;
 
++(UIImage *)scaleToSizeWithImage:(UIImage *)img size:(CGSize)size;
+
 #pragma - mark 分享
 
 + (void)shareText:(NSString *)text  title:(NSString *)title image:(UIImage *)aImage linkUrl:(NSString *)linkUrl ShareType:(ShareType)aShareType;

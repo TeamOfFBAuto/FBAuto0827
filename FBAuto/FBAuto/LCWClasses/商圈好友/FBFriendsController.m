@@ -18,6 +18,8 @@
 #import "XMPPServer.h"
 #import "GuserZyViewController.h"
 
+#import "FBCityData.h"
+
 @interface FBFriendsController ()<chatDelegate>
 {
     XMPPServer *xmppServer;//xmpp 中心
@@ -155,6 +157,8 @@
     for (FBFriendModel *aModel in friendsArr)
     {
         NSString *firstLetter = [aModel.buddyname getFirstLetter];
+        
+        aModel.city_name = [FBCityData cityNameForId:[aModel.province intValue]];
 
         NSMutableArray *groupArr = [NSMutableArray arrayWithArray:[friendsDic objectForKey:firstLetter]];
         [groupArr addObject:aModel];

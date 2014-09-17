@@ -120,7 +120,11 @@
         [self labelWithTag:114].text  = [self showForText:[dic objectForKey:@"color_out"]];
         [self labelWithTag:115].text  = [self showForText:[dic objectForKey:@"color_in"]];
 //        [self labelWithTag:114].text  = [self depositWithText:[dic objectForKey:@"deposit"]];
-        [self labelWithTag:116].text  = [[dic objectForKey:@"cardiscrib"] isEqualToString:@""] ? @"无" : [dic objectForKey:@"cardiscrib"];
+        
+        
+        NSString *description = [NSString stringWithFormat:@"%@  联系请说在e车看到的信息",[dic objectForKey:@"cardiscrib"]];
+        
+        [self labelWithTag:116].text  = description;
         
         [self labelWithTag:116].numberOfLines = 0;
         [self labelWithTag:116].lineBreakMode = NSLineBreakByCharWrapping;
