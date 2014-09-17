@@ -47,7 +47,7 @@
     NSDictionary *emojiDic;//所有表情
     NSMutableArray *labelArr;//所有label
     
-    XMPPServer *xmppServer;//xmpp 中心
+    XMPPServer *_xmppServer;//xmpp 中心
     
     int currentPage;
     
@@ -121,7 +121,7 @@
     [_table addGestureRecognizer:tap];
     
     
-    xmppServer = [XMPPServer shareInstance];
+    XMPPServer *xmppServer = [XMPPServer shareInstance];
     xmppServer.chatDelegate = self;
     xmppServer.messageDelegate = self;
     
@@ -190,6 +190,8 @@
     _refreshHeaderView = nil;
     
     NSLog(@" %s ",__FUNCTION__);
+    
+    XMPPServer *xmppServer = [XMPPServer shareInstance];
     xmppServer.chatDelegate = nil;
     xmppServer.messageDelegate = nil;
 
@@ -207,6 +209,8 @@
 
 - (void)freindArray
 {
+    XMPPServer *xmppServer = [XMPPServer shareInstance];
+    
     NSManagedObjectContext *context = [[xmppServer xmppRosterStorage] mainThreadManagedObjectContext];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc]init];
@@ -500,6 +504,8 @@
         
         shareLink = @{SHARE_TYPE_KEY: shareType,MESSAGE_SHATE_LINK:shareInfoId};
     }
+    
+    XMPPServer *xmppServer = [XMPPServer shareInstance];
     
     [xmppServer sendMessage:messageText toUser:self.chatWithUser shareLink:shareLink messageBlock:^(NSDictionary *params, int tag) {
         
@@ -1012,6 +1018,8 @@
 {
     
     [self localSendMessage:text MessageType:type image:aImage];
+    
+    XMPPServer *xmppServer = [XMPPServer shareInstance];
     
     if (![xmppServer.xmppStream isAuthenticated])
     {

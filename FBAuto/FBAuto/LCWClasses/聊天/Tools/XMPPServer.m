@@ -152,6 +152,7 @@
 -(void)goOffline
 {
     XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];//unavailable
+    
     [[self xmppStream]sendElement:presence];
     
     //更新下线时间

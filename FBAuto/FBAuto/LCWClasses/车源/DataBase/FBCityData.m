@@ -468,7 +468,12 @@
             const unsigned char *time = sqlite3_column_text(stmt, 4);
             const unsigned char *fromId = sqlite3_column_text(stmt, 6);
             
-            XMPPMessageModel *aModel = [[XMPPMessageModel alloc]initWithFromPhone:[NSString stringWithUTF8String:(const char *)fromPhone] fromName:[NSString stringWithUTF8String:(const char *)fromName] fromId:[NSString stringWithUTF8String:(const char *)fromId]  newestMessage:[NSString stringWithUTF8String:(const char *)message] time:[NSString stringWithUTF8String:(const char *)time]];
+            NSString *mes = @"";
+            if (message != nil) {
+                mes = [NSString stringWithUTF8String:(const char *)message];
+            }
+            
+            XMPPMessageModel *aModel = [[XMPPMessageModel alloc]initWithFromPhone:[NSString stringWithUTF8String:(const char *)fromPhone] fromName:[NSString stringWithUTF8String:(const char *)fromName] fromId:[NSString stringWithUTF8String:(const char *)fromId]  newestMessage:mes time:[NSString stringWithUTF8String:(const char *)time]];
             [resultArr addObject:aModel];
         }
     }
