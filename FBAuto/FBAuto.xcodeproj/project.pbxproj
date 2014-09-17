@@ -2791,7 +2791,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
+				PROVISIONING_PROFILE = "28b23bd8-a16c-4a4b-b1d8-9c2ffabe0318";
 				SDKROOT = iphoneos7.1;
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -2831,7 +2831,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "0cbbefa5-65c4-45cb-8bd2-a95eb7df6c5e";
+				PROVISIONING_PROFILE = "28b23bd8-a16c-4a4b-b1d8-9c2ffabe0318";
 				SDKROOT = iphoneos7.1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s";
@@ -2847,8 +2847,8 @@
 					armv7s,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: FBLIFE (Beijing) Media & Technology Co., Ltd. (96PFYKQ596)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: FBLIFE (Beijing) Media & Technology Co., Ltd. (96PFYKQ596)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Connection",
@@ -2886,8 +2886,8 @@
 					armv7s,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: FBLIFE (Beijing) Media & Technology Co., Ltd. (96PFYKQ596)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: FBLIFE (Beijing) Media & Technology Co., Ltd. (96PFYKQ596)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBAuto/ShareSDK/Connection",

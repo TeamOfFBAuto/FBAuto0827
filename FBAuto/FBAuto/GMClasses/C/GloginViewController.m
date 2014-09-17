@@ -112,7 +112,9 @@
     [self.view addSubview:j];
     [j startAnimating];
     
-    NSString *str = [NSString stringWithFormat:FBAUTO_LOG_IN,name,passw,[GMAPI getDeviceToken]];
+    NSString *deviceToken = [GMAPI getDeviceToken] ? [GMAPI getDeviceToken] : @"testToken";
+    
+    NSString *str = [NSString stringWithFormat:FBAUTO_LOG_IN,name,passw,deviceToken];
     
     //保存用户手机号
     [[NSUserDefaults standardUserDefaults]setObject:name forKey:USERPHONENUMBER];

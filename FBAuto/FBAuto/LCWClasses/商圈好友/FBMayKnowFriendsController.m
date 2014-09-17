@@ -231,6 +231,10 @@
         
         if ([result isKindOfClass:[NSDictionary class]]) {
             
+            //添加好友通知
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:UPDATE_FRIEND_LIST object:nil];
+            
 //            int erroCode = [[result objectForKey:@"errcode"]intValue];
             NSString *erroInfo = [result objectForKey:@"errinfo"];
             

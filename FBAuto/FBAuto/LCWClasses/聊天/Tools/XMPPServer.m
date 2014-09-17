@@ -7,6 +7,7 @@
 //
 
 #import "XMPPServer.h"
+#import "DXAlertView.h"
 
 #import "FBCityData.h"
 
@@ -132,6 +133,7 @@
 -(void)disconnect
 {
     [self goOffline];//下线
+    
     [_xmppStream disconnect];//断开连接
 }
 
@@ -149,7 +151,7 @@
 
 -(void)goOffline
 {
-    XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+    XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];//unavailable
     [[self xmppStream]sendElement:presence];
     
     //更新下线时间
@@ -252,7 +254,7 @@ static int x = 10;
     
         [[XMPPServer shareInstance]login:^(BOOL result) {
             if (result) {
-                NSLog(@"连接并且登录成功");
+                NSLog(@"XMPPServer 登录成功");
                 
                 login_Back(YES);
                 
@@ -262,7 +264,7 @@ static int x = 10;
             }else
             {
                 
-                NSLog(@"连接登录不成功");
+                NSLog(@"XMPPServer 登录不成功");
                 
                 x --;
                 
@@ -272,7 +274,27 @@ static int x = 10;
                 }else
                 {
                     login_Back(NO);
+                    
                     x = 10;
+                    
+                    
+                    DXAlertView *alert = [[DXAlertView alloc]initWithTitle:@"fail" contentText:@"again" leftButtonTitle:@"确定" rightButtonTitle:@"取消"];
+                    
+                    [alert show];
+                    
+                    alert.leftBlock = ^(){
+                        NSLog(@"确定");
+                        
+                        [self loginTimes:10 loginBack:^(BOOL result) {
+                            
+                        }];
+                    };
+                    alert.rightBlock = ^(){
+                        NSLog(@"取消");
+                        
+                    };
+                    
+
                 }
                 
             }
@@ -324,6 +346,8 @@ static int x = 10;
     
     NSLog(@"xmppStreamDidAuthenticate");
     
+    [LCWTools showMBProgressWithText:@"聊天登录成功" addToView:[[UIApplication sharedApplication] keyWindow]];
+    
     [self goOnline];
     
     if (loginBack) {
@@ -346,7 +370,7 @@ static int x = 10;
 //监控消息接收
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-    NSLog(@"message = %@", message);
+    NSLog(@"didReceiveMessage = %@", message);
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -441,7 +465,7 @@ static int x = 10;
     //在线用户
     NSString *presenceFromUser = [[presence from] user];
     
-    if (![presenceFromUser isEqualToString:userId]) {
+    if ([presenceFromUser isEqualToString:userId]) {
     
         //用户上线
         
@@ -449,10 +473,8 @@ static int x = 10;
             //包含在线和不在线
             if (self.chatDelegate && [_chatDelegate respondsToSelector:@selector(userOnline:)]) {
                 User *aUser = [[User alloc]initWithName:presenceFromUser type:presenceType];
+
                 [_chatDelegate userOnline:aUser];
-                
-                [[NSUserDefaults standardUserDefaults]setObject:@"online" forKey:aUser.userName];
-                [[NSUserDefaults standardUserDefaults]synchronize];
                 
                 NSLog(@"line state %@ online",aUser.userName);
             }
@@ -464,10 +486,9 @@ static int x = 10;
         {
             if (self.chatDelegate && [_chatDelegate respondsToSelector:@selector(userOffline:)]) {
                 User *aUser = [[User alloc]initWithName:presenceFromUser type:presenceType];
-                [_chatDelegate userOffline:aUser];
                 
-                [[NSUserDefaults standardUserDefaults]setObject:@"offline" forKey:aUser.userName];
-                [[NSUserDefaults standardUserDefaults]synchronize];
+                
+                [_chatDelegate userOffline:aUser];
                 
                 NSLog(@"line state %@ offline",aUser.userName);
                 
@@ -490,6 +511,29 @@ static int x = 10;
             NSLog(@"unsubscribed %@",jid);
         }
     }
+}
+
+#pragma - mark 网络连接
+
+- (void)xmppStreamConnectDidTimeout:(XMPPStream *)sender
+{
+    NSLog(@"xmppStreamConnectDidTimeout 连接超时");
+    
+    [LCWTools showMBProgressWithText:@"连接超时" addToView:[[UIApplication sharedApplication] keyWindow]];
+}
+
+/**
+ * This method is called after the stream is closed.
+ *
+ * The given error parameter will be non-nil if the error was due to something outside the general xmpp realm.
+ * Some examples:
+ * - The TCP socket was unexpectedly disconnected.
+ * - The SRV resolution of the domain failed.
+ * - Error parsing xml sent from server.
+ **/
+- (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
+{
+    NSLog(@"xmppStreamDidDisconnect");
 }
 
 #pragma - mark 用户注册处理

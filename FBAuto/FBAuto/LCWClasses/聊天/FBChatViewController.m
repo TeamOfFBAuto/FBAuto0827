@@ -81,11 +81,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
     
     NSUserDefaults *defalts = [NSUserDefaults standardUserDefaults];
-    [defalts setObject:nil forKey:CHATING_USER];
+    [defalts setObject:@"no" forKey:CHATING_USER];
     [defalts synchronize];
+    
+    [super viewWillDisappear:animated];
+    
+    
 }
 
 - (void)viewDidLoad
@@ -175,6 +178,12 @@
 
 - (void)dealloc
 {
+    //记录当前聊天人
+    
+    NSUserDefaults *defalts = [NSUserDefaults standardUserDefaults];
+    [defalts setObject:@"no" forKey:CHATING_USER];
+    [defalts synchronize];
+    
     _table.delegate = nil;
     _table.dataSource = nil;
     _table = nil;
@@ -473,11 +482,11 @@
         
         [self sendOffline];
         
-        NSLog(@"需要sendOffline");
+        NSLog(@"需要 sendOffline");
         
     }else
     {
-        NSLog(@"不需要sendOffline");
+        NSLog(@"不需要 sendOffline");
     }
     
     
@@ -496,13 +505,9 @@
         
         if (tag == 1) {
             
-            NSLog(@"发送成功");
-            
+            NSLog(@"发送成功 didSendMessage");
             
             //本地记录最新一条聊天消息
-            
-//            [FBCityData updateCurrentUserPhone:self.chatWithUser fromUserPhone:[GMAPI getUserPhoneNumber] fromName:[GMAPI getUsername] fromId:[GMAPI getUid] newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
-            
             
             [FBCityData updateCurrentUserPhone:[GMAPI getUserPhoneNumber] fromUserPhone:self.chatWithUser fromName:self.chatWithUserName fromId:self.chatUserId newestMessage:messageText time:[LCWTools currentTime] clearReadSum:YES];
             
@@ -524,7 +529,7 @@
             
         }else{
             
-            NSLog(@"发送失败");
+            NSLog(@"发送失败 didFailToSendMessage");
         }
         
     }];
@@ -1321,6 +1326,11 @@
 -(void)userOnline:(User *)user
 {
     NSLog(@"userOnline:%@  type:%@",user.userName,user.presentType);
+    
+//    NSString *str = [NSString stringWithFormat:@"%@ 上线",user.userName];
+//    
+//    [LCWTools showDXAlertViewWithText:str];
+    
     if ([self.chatWithUser isEqualToString:user.userName]) {
         //聊天对象离线
         userState = @"available";
@@ -1328,10 +1338,16 @@
         sendOffline = NO;
         
     }
+    
+    
 }
 -(void)userOffline:(User *)user
 {
     NSLog(@"userOffline %@ %@",user.userName,user.presentType);
+    
+//    NSString *str = [NSString stringWithFormat:@"%@ 下线",user.userName];
+//    
+//    [LCWTools showDXAlertViewWithText:str];
     
     if ([self.chatWithUser isEqualToString:user.userName]) {
         //聊天对象离线
@@ -1339,6 +1355,7 @@
         
         sendOffline = YES;
     }
+    
 }
 
 - (void)friendsArray:(NSArray *)array //好友列表

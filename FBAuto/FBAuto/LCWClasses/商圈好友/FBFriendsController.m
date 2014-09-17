@@ -21,6 +21,7 @@
 @interface FBFriendsController ()<chatDelegate>
 {
     XMPPServer *xmppServer;//xmpp 中心
+    BOOL _refresh;
 }
 
 @end
@@ -36,12 +37,23 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (_refresh) {
+        [self getFriendlist];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.titleLabel.text = @"我的好友";
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateFriendlist:) name:UPDATE_FRIEND_LIST object:nil];
     
     _table = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.height - 44 - 20) style:UITableViewStylePlain];
     _table.delegate = self;
@@ -72,11 +84,21 @@
 - (void)dealloc
 {
     NSLog(@"--------%s",__FUNCTION__);
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
     _table.dataSource = nil;
     _table.delegate = nil;
     _table = nil;
     firstLetterArr = nil;
     friendsDic = nil;
+}
+
+//判断是否更新列表
+
+- (void)updateFriendlist:(NSNotification *)sender
+{
+    _refresh = YES;
 }
 
 #pragma - mark 网络请求

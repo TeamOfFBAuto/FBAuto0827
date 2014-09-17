@@ -36,6 +36,8 @@
 
 #import "sys/utsname.h"
 
+#import "FBCityData.h"
+
 //shareSDK fbauto2014@qq.com 123abc
 //新浪 fbauto2014@qq.com  123abc 或者 fbauto2014
 // 邮箱 fbauto2014@qq.com
@@ -64,6 +66,8 @@
 @implementation AppDelegate
 {
     NSString *_fromPhone;//消息来源号码
+    
+    PersonalViewController * _perSonalVC;
 }
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -89,6 +93,8 @@
     
     PersonalViewController * perSonalVC = [[PersonalViewController alloc] init];
     
+    _perSonalVC = perSonalVC;
+    
     
     UINavigationController * navc1 = [[UINavigationController alloc] initWithRootViewController:rootVC];
     
@@ -100,8 +106,6 @@
     
     
     rootVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"车源" image:[UIImage imageNamed:@"cheyuan_down46_46"] tag:0];
-    
-//    rootVC.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"鸡毛" image:[UIImage imageNamed:@"fbselectios7.png"] selectedImage:[UIImage imageNamed:@"bbsselected.png"]];
     
     fabuCarVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"发布" image:[UIImage imageNamed:@"fabu_down46_46"] tag:1];
     
@@ -130,9 +134,7 @@
      (UIRemoteNotificationTypeAlert |UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound)];
     //图标显示
     application.applicationIconBadgeNumber = 0;
-    
-    //消息提醒
-    [self initMessageAlert];
+
     
     //开启网络状况的监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -152,8 +154,15 @@
     [self getOpenFireIp];
     
     //发送未读消息通知
+    
+    //消息提醒
+//    [self initMessageAlert];
+    
     [[NSNotificationCenter defaultCenter]postNotificationName:@"unReadNumber" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateMessageCount:) name:@"fromUnread" object:nil];
+    
+    [self updateUnreadMessageNumber];
+
     
     //版本更新
      //test FBLife 605673005 fbauto
@@ -162,6 +171,12 @@
         NSLog(@"updateContent %@ %@",updateUrl,updateContent);
         
     }];
+    
+    //记录当前聊天人
+    
+    NSUserDefaults *defalts = [NSUserDefaults standardUserDefaults];
+    [defalts setObject:@"no" forKey:CHATING_USER];
+    [defalts synchronize];
     
     //UIApplicationLaunchOptionsRemoteNotificationKey,判断是通过推送消息启动的
     NSDictionary *infoDic = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
@@ -207,6 +222,22 @@
 }
 
 #pragma mark - 消息提示
+
+
+- (void)updateUnreadMessageNumber
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *currentUserPhone = [defaults objectForKey:XMPP_USERID];
+    
+    int number = [FBCityData numberOfUnreadMessage:currentUserPhone];
+    
+    NSLog(@"未读条数:%d",number);
+    
+    //更新tabbar数字
+    
+    [self updateTabbarNumber:number];
+    
+}
 
 - (void)initMessageAlert
 {
@@ -254,6 +285,20 @@
     }
     
     _fromPhone = fromPhone;
+    
+    //更新tabbar数字
+    
+    [self updateUnreadMessageNumber];
+}
+
+//更新底部数字
+- (void)updateTabbarNumber:(int)number
+{
+    NSString *number_str = nil;
+    if (number != 0) {
+        number_str = [NSString stringWithFormat:@"%d",number];
+    }
+    _perSonalVC.tabBarItem.badgeValue = number_str;
 }
 
 #pragma - mark 分享
@@ -375,7 +420,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    
+    [[XMPPServer shareInstance] disconnect];//断开连接
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -590,13 +635,17 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateInactive){
         NSLog(@"UIApplicationStateInactive %@",userInfo);
+
+        //通过消息进入程序
+        
+        [self dealOfflineMessage:userInfo];
         
     }
     if (state == UIApplicationStateActive) {
         NSLog(@"UIApplicationStateActive %@",userInfo);
         //程序就在前台
         //弹框
-        [self dealOfflineMessage:userInfo];
+//        [self dealOfflineMessage:userInfo];
     }
     if (state == UIApplicationStateBackground)
     {

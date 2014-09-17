@@ -337,7 +337,7 @@
 {
     NSLog(@"provinceId %@",friendId);
     
-    __weak typeof (self)weakSelf = self;
+//    __weak typeof (self)weakSelf = self;
     
     LCWTools *tools = [[LCWTools alloc]initWithUrl:[NSString stringWithFormat:FBAUTO_FRIEND_ADD,[GMAPI getAuthkey],friendId]isPost:NO postData:nil];
     
@@ -345,6 +345,10 @@
         NSLog(@"result %@ erro %@",result,[result objectForKey:@"errinfo"]);
         
         if ([result isKindOfClass:[NSDictionary class]]) {
+            
+            //添加好友通知
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:UPDATE_FRIEND_LIST object:nil];
             
 //            int erroCode = [[result objectForKey:@"errcode"]intValue];
             NSString *erroInfo = [result objectForKey:@"errinfo"];

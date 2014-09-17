@@ -15,6 +15,9 @@ typedef enum{
     
 }NavigationStyle;
 
+//通知
+#define UPDATE_FRIEND_LIST @"UPDATE_FRIEND_LIST" //更新朋友列表
+
 @interface FBBaseViewController : UIViewController
 
 @property (nonatomic,retain)NSString *navigationTitle;//标题

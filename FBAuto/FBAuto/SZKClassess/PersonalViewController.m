@@ -53,19 +53,28 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    for (UIView *view in self.view.subviews) {
-        [view removeFromSuperview];
-    }
+//    for (UIView *view in self.view.subviews) {
+//        [view removeFromSuperview];
+//    }
     
-    
-    
-
     
     //进入页面更新未读消息
     
     [self updateUnreadNumber:nil];
     
     
+    //请求网络数据
+    [self prepareNetData];
+    
+    //未读消息通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateUnreadNumber:) name:@"unReadNumber" object:nil];
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor=RGBCOLOR(22, 23, 3);
     
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
@@ -179,28 +188,6 @@
     self.tongzhiRedPointView.hidden = YES;
     self.tongzhiNumLabel.hidden = YES;
     
-    
-    
-    //请求网络数据
-    [self prepareNetData];
-    
-    //未读消息通知
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateUnreadNumber:) name:@"unReadNumber" object:nil];
-    
-    
-    
-    
-    
-    
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor=RGBCOLOR(22, 23, 3);
-    
-    
-    
 }
 
 
@@ -229,13 +216,6 @@
         self.xiaoxiNumLabel.hidden = NO;
         self.xiaoxiRedPointView.hidden = NO;
     }
-    
-    
-    
-    
-    
-    
-    
     
     NSLog(@"未读条数:%d",number);
 }

@@ -27,7 +27,12 @@
 
 @implementation GxiaoxiViewController
 
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self queryHistoryMessage];
+}
 
 - (void)viewDidLoad
 {
@@ -45,9 +50,6 @@
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
     [self.view addSubview:_tableView];
-    
-    
-    [self queryHistoryMessage];
     
 }
 
