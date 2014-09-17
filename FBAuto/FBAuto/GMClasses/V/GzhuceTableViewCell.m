@@ -95,6 +95,7 @@
             
             //输入内容 根据响应者链 需要关掉框view的用户触摸 并把contentTf加到self.view上
             UITextField *contentTf = [[UITextField alloc]initWithFrame:CGRectMake(55, 20+i*55, 230, 15)];
+            contentTf.autocapitalizationType = UITextAutocapitalizationTypeNone;
             contentTf.font = [UIFont systemFontOfSize:15];
             contentTf.tag = 10+i;//根据tag判读是哪个tf
             contentTf.delegate = self;
@@ -129,6 +130,16 @@
             [self.contentView addSubview:contentTf];
             
             
+            
+            
+            
+            if (i == 2 || i == 3) {//密码
+                contentTf.keyboardType = UIKeyboardTypeASCIICapable;
+            }
+            
+            if (i == 4) {//手机
+                contentTf.keyboardType = UIKeyboardTypeNumberPad;
+            }
             
             //把contentTf装到数组里
             [self.contenTfArray addObject:contentTf];
@@ -197,6 +208,7 @@
             
             //输入内容 根据响应者链 需要关掉框view的用户触摸 并把contentTf加到self.view上
             UITextField *contentTf = [[UITextField alloc]initWithFrame:CGRectMake(55, 20+i*55, 230, 15)];
+            contentTf.autocapitalizationType = UITextAutocapitalizationTypeNone;
             contentTf.font = [UIFont systemFontOfSize:15];
             contentTf.delegate = self;
             contentTf.tag = 20+i;//根据tag判读是哪个tf
@@ -218,6 +230,18 @@
             
             
             [self.contentView addSubview:contentTf];
+            
+            
+            
+            
+            if (i == 4 || i == 5) {
+                contentTf.keyboardType = UIKeyboardTypeASCIICapable;
+            }
+            
+            if (i == 6) {
+                contentTf.keyboardType = UIKeyboardTypeNumberPad;
+            }
+            
             
             //把contentTf装到数组里
             [self.contentTfArray1 addObject:contentTf];
@@ -304,7 +328,14 @@
                     return ;
                 }
                 NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                NSLog(@"%@ %@",dic,[dic objectForKey:@"errinfo"]);
+                NSString *errinfo = [dic objectForKey:@"errinfo"];
+                NSString *errcode = [dic objectForKey:@"errcode"];
+                if ([errcode intValue] != 0) {
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:errinfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                }
+                
+                NSLog(@"%@ %@",dic,errinfo);
                 
             }];
             
@@ -338,7 +369,18 @@
             NSURL *url = [NSURL URLWithString:str];
             NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (data.length == 0) {
+                    return ;
+                }
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSString *errinfo = [dic objectForKey:@"errinfo"];
+                NSString *errcode = [dic objectForKey:@"errcode"];
+                if ([errcode intValue] != 0) {
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:errinfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                }
                 
+                NSLog(@"%@ %@",dic,errinfo);
             }];
             
             NSLog(@"%s",__FUNCTION__);
@@ -420,6 +462,7 @@
         if (![self indoGeren]) {
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"请完善信息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
+            return;
         };
         
         GuserZhuce *guerzhuce = [[GuserZhuce alloc]init];
@@ -444,9 +487,20 @@
         }
         
         
-        if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {
-            
+        
+        if (guerzhuce.password.length<6) {//密码不能小于六位
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码长度不能少于6位" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [al show];
+            return;
+        }
+        
+        if ([guerzhuce.password isEqualToString:guerzhuce.password1] && [self indoGeren]) {//没问题 请求注册接口
+            _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
+            _hud.delegate = self;
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,guerzhuce.phone,guerzhuce.password,guerzhuce.name,(long)guerzhuce.province,(long)guerzhuce.city,1,guerzhuce.code,guerzhuce.token,@""];
+            
+            NSLog(@"个人注册接口:%@",str);
+            
             NSString *api = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSURL *url = [NSURL URLWithString:api];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -459,10 +513,12 @@
                         NSLog(@"个人注册接口 errcode:%d",erroCode);
                         NSLog(@"个人注册接口 错误信息:%@",erroInfo);
                         if (erroCode !=0) {
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             [al show];
                         }else if (erroCode == 0){
-                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            [self hudWasHidden:_hud];
+                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 133;
                             [al show];
                         }
@@ -470,6 +526,7 @@
                     }
                     
                 }else{
+                    [self hudWasHidden:_hud];
                     NSLog(@"data 为空 connectionError %@",connectionError);
                     
                     NSString *errInfo = @"网络有问题,请检查网络";
@@ -490,7 +547,7 @@
             
             
             
-        }else if (![guerzhuce.password isEqualToString:guerzhuce.password1]){
+        }else if (![guerzhuce.password isEqualToString:guerzhuce.password1]){//密码不一致
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"重复密码和密码填写不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
         }
@@ -504,6 +561,7 @@
         if (![self indoShangjia]) {
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"请完善信息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
+            return;
         }
         GuserZhuce *userzc = [[GuserZhuce alloc]init];
         userzc.province = self.province1;
@@ -531,7 +589,19 @@
         }
         
         
+        
+        if (userzc.password.length <6) {//密码不能少于六位
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码长度不能少于6位" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [al show];
+            return;
+        }
+        
+        
+        
         if ([userzc.password isEqualToString:userzc.password1] && [self indoShangjia]) {
+            
+            _hud = [GMAPI showMBProgressWithText:@"正在提交" addToView:self.contentView];
+            _hud.delegate = self;
             
             NSString *str = [NSString stringWithFormat:FBAUTO_REGISTERED,userzc.phone,userzc.password,userzc.name,(long)userzc.province,(long)userzc.city,2,userzc.code,userzc.token,userzc.fullname];
             NSString *str1 = [NSString stringWithFormat:@"%@&address=%@",str,userzc.address];
@@ -550,10 +620,12 @@
                         NSLog(@"商家注册接口 errcode:%d",erroCode);
                         NSLog(@"商家注册接口 错误信息:%@",erroInfo);
                         if (erroCode !=0) {
+                            [self hudWasHidden:_hud];
                             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             [al show];
                         }else if (erroCode == 0){
-                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            [self hudWasHidden:_hud];
+                            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:erroInfo delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             al.tag = 134;
                             [al show];
                         }
@@ -561,6 +633,7 @@
                     }
                     
                 }else{
+                    [self hudWasHidden:_hud];
                     NSLog(@"data 为空 connectionError %@",connectionError);
                     
                     NSString *errInfo = @"网络有问题,请检查网络";
@@ -589,7 +662,13 @@
 }
 
 
-
+-(void)hudWasHidden:(MBProgressHUD *)hud
+{
+    [hud removeFromSuperview];
+    hud.delegate = nil;
+    hud = nil;
+    
+}
 
 
 
