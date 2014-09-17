@@ -56,9 +56,32 @@
         
         [self reloadFirstTable];
         
+        UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+        table.tableHeaderView = header;
+        
+        footerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        footerBtn.frame = CGRectMake(15, 0, 310, 40);
+        [footerBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
+        [footerBtn setTitle:@"不限" forState:UIControlStateNormal];
+        [footerBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+        [footerBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [header addSubview:footerBtn];
+        
+        [footerBtn addTarget:self action:@selector(clickToNolimit:) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     
     return self;
+}
+
+- (void)clickToNolimit:(UIButton *)sender
+{
+    sender.selected = YES;
+    
+    NSString *car = [NSString stringWithFormat:@"%@%@%@",@"000",@"000",@"000"];
+    selectBlock(car);
+    
+    [self hidden];
 }
 
 - (void)selectBlock:(SelectCarBlock)aBlock
@@ -351,6 +374,8 @@
         brandId = aBrand.brandId;
         
         [self reloadSecondTable:typeArr];
+        
+        footerBtn.selected = NO;//控制不限背景颜色
         
     }else if (tableView == secondTable)
     {

@@ -26,6 +26,7 @@
 		133DF6A3197CE7F9006BF9ED /* FBFindCarDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133DF6A1197CE7F9006BF9ED /* FBFindCarDetailController.xib */; };
 		1351C5C9197A4F8E000F7391 /* FBSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1351C5C8197A4F8E000F7391 /* FBSearchResultController.m */; };
 		1351C5CC197A704F000F7391 /* FindCarPublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1351C5CB197A704F000F7391 /* FindCarPublishController.m */; };
+		136CAD5719C97C7C00E05A2F /* biankuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 136CAD5619C97C7C00E05A2F /* biankuang.png */; };
 		13737C8E1965420000941746 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13737C8D1965420000941746 /* PersonalViewController.m */; };
 		137708C119B6C859007609E8 /* detail_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 137708C019B6C859007609E8 /* detail_test.jpg */; };
 		137926FB1987776900377ED5 /* GChangePwViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137926E21987776900377ED5 /* GChangePwViewController.m */; };
@@ -444,6 +445,7 @@
 		1351C5C8197A4F8E000F7391 /* FBSearchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBSearchResultController.m; sourceTree = "<group>"; };
 		1351C5CA197A704F000F7391 /* FindCarPublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindCarPublishController.h; sourceTree = "<group>"; };
 		1351C5CB197A704F000F7391 /* FindCarPublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindCarPublishController.m; sourceTree = "<group>"; };
+		136CAD5619C97C7C00E05A2F /* biankuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = biankuang.png; sourceTree = "<group>"; };
 		13737C8C1965420000941746 /* PersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalViewController.h; sourceTree = "<group>"; };
 		13737C8D1965420000941746 /* PersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalViewController.m; sourceTree = "<group>"; };
 		137708C019B6C859007609E8 /* detail_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = detail_test.jpg; sourceTree = "<group>"; };
@@ -2010,6 +2012,7 @@
 		190BFD74195AA99D0098E0F4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				136CAD5619C97C7C00E05A2F /* biankuang.png */,
 				13D5DF821961758E00804835 /* FBAuto_addFriend */,
 				13D5DF861961758E00804835 /* FBAuto_car_content */,
 				13D5DF8E1961758E00804835 /* FBAuto_car_list */,
@@ -2435,6 +2438,7 @@
 				13D5DFFE1961758E00804835 /* lajitong44_44@2x.png in Resources */,
 				138B4AE91966A4BD00B974A5 /* face78.png in Resources */,
 				138B4AFF1966A4BD00B974A5 /* face98.gif in Resources */,
+				136CAD5719C97C7C00E05A2F /* biankuang.png in Resources */,
 				13D5DFF51961758E00804835 /* sousuokuang_.png in Resources */,
 				138B4AA61966A4BD00B974A5 /* face17.png in Resources */,
 				13D5DFF31961758E00804835 /* fasong_botton116_48@2x.png in Resources */,

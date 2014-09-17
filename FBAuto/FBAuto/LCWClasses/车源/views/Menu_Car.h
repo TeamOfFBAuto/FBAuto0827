@@ -40,6 +40,8 @@ typedef void(^SelectCarBlock) (NSString *select);
     
     BOOL _needRefresh;//需要刷新数据
     
+    UIButton *footerBtn;//不限 按钮
+    
 }
 @property(nonatomic,assign)NSInteger itemIndex;//第几个item,用于控制箭头位置
 

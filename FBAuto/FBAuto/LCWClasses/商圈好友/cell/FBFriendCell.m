@@ -16,8 +16,8 @@
 - (void)awakeFromNib
 {
     // Initialization code
-    self.bgView.layer.borderWidth = 0.5f;
-    self.bgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
+//    self.bgView.layer.borderWidth = 0.5f;
+//    self.bgView.layer.borderColor = [UIColor colorWithHexString:@"b4b4b4"].CGColor;
     
 }
 

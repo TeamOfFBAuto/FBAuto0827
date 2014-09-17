@@ -18,6 +18,10 @@
                         <rect key="frame" x="10" y="0.0" width="300" height="65"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="biankuang.png" translatesAutoresizingMaskIntoConstraints="NO" id="tEp-pm-G4u">
+                                <rect key="frame" x="0.0" y="0.0" width="297" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_test.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-Bz-Zwu">
                                 <rect key="frame" x="12" y="10" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -61,7 +65,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-qL-49t">
-                                <rect key="frame" x="180" y="3" width="120" height="56"/>
+                                <rect key="frame" x="178" y="3" width="118" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTc-hS-hVK">
@@ -116,6 +120,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="biankuang.png" width="600" height="130"/>
         <image name="detail_test.jpg" width="1920" height="1600"/>
         <image name="geren _bg50_28.png" width="25" height="14"/>
         <image name="haoyou_dianhua40_46.png" width="20" height="23"/>
