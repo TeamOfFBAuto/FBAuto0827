@@ -110,7 +110,8 @@
         
         
         _placeHolder1 = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, 275, 45)];
-        _placeHolder1.text = @"账号";
+//        _placeHolder1.text = @"账号";
+        _placeHolder1.text = @"手机号";
         _placeHolder1.textColor = RGBCOLOR(164, 164, 164);
         
         _placeHolder2 = [[UILabel alloc]initWithFrame:CGRectMake(15, 60, 275, 45)];

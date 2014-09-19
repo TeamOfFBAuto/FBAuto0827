@@ -79,7 +79,7 @@
         if ([GlocalUserImage getUserFaceImage]) {
             touxiangImv.image = [GlocalUserImage getUserFaceImage];
         }else{
-            [touxiangImv sd_setImageWithURL:[NSURL URLWithString:self.delegate.headimage] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [touxiangImv sd_setImageWithURL:[NSURL URLWithString:self.delegate.headimage] placeholderImage:[UIImage imageNamed:@"defaultFace"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 NSData *data = UIImageJPEGRepresentation(image, 0.5);
                 [GlocalUserImage setUserFaceImageWithData:data];
             }];

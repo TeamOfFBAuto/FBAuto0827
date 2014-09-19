@@ -179,7 +179,7 @@
         weakSelf.addressLabel.text = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"province"],[dic objectForKey:@"city"]];
         NSString *headImage = [LCWTools NSStringNotNull:[dic objectForKey:@"headimage"]];
         
-        [weakSelf.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
+        [weakSelf.headImage sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"defaultFace"]];
         
         userId = [dic objectForKey:@"uid"];//用户id
         

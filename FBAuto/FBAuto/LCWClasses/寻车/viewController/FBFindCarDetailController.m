@@ -148,7 +148,7 @@
         
         self.addressLabel.text = area;
         
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"detail_test.jpg"]];
+        [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"headimage"]] placeholderImage:[UIImage imageNamed:@"defaultFace"]];
         
         userId = [dic objectForKey:@"uid"];//用户id
         

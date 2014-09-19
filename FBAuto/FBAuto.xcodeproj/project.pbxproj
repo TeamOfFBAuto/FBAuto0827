@@ -198,6 +198,7 @@
 		139ED56B19BEB01D00C931D6 /* elogo440_120@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 139ED56A19BEB01D00C931D6 /* elogo440_120@2x.png */; };
 		13A1A9421980AC7A00E09666 /* LShareSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A1A9411980AC7A00E09666 /* LShareSheetView.m */; };
 		13A1A9451980ADB100E09666 /* LImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A1A9441980ADB100E09666 /* LImageButton.m */; };
+		13B626D219CC04DB008FB162 /* defaultFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B626D119CC04DB008FB162 /* defaultFace.png */; };
 		13C4D8751986573E00281521 /* XMPPMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C4D8741986573E00281521 /* XMPPMessageModel.m */; };
 		13C7172619824B5A008F7B42 /* QQConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C7170C19824B5A008F7B42 /* QQConnection.framework */; };
 		13C7172719824B5A008F7B42 /* SinaWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C7170D19824B5A008F7B42 /* SinaWeiboConnection.framework */; };
@@ -667,6 +668,7 @@
 		13A1A9411980AC7A00E09666 /* LShareSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LShareSheetView.m; sourceTree = "<group>"; };
 		13A1A9431980ADB100E09666 /* LImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LImageButton.h; sourceTree = "<group>"; };
 		13A1A9441980ADB100E09666 /* LImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LImageButton.m; sourceTree = "<group>"; };
+		13B626D119CC04DB008FB162 /* defaultFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultFace.png; sourceTree = "<group>"; };
 		13C4D8731986573E00281521 /* XMPPMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageModel.h; sourceTree = "<group>"; };
 		13C4D8741986573E00281521 /* XMPPMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageModel.m; sourceTree = "<group>"; };
 		13C7170C19824B5A008F7B42 /* QQConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QQConnection.framework; sourceTree = "<group>"; };
@@ -2012,6 +2014,7 @@
 		190BFD74195AA99D0098E0F4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				13B626D119CC04DB008FB162 /* defaultFace.png */,
 				136CAD5619C97C7C00E05A2F /* biankuang.png */,
 				13D5DF821961758E00804835 /* FBAuto_addFriend */,
 				13D5DF861961758E00804835 /* FBAuto_car_content */,
@@ -2382,6 +2385,7 @@
 				E37D2C9D1974CFA500EBA627 /* xuanze_down_44_44@2x.png in Resources */,
 				138B4AE41966A4BD00B974A5 /* face73.png in Resources */,
 				139ED55F19BEAAD600C931D6 /* Default-568h@2x.png in Resources */,
+				13B626D219CC04DB008FB162 /* defaultFace.png in Resources */,
 				138B4ADC1966A4BD00B974A5 /* face66.png in Resources */,
 				138B4AB41966A4BD00B974A5 /* face3.png in Resources */,
 				13D5E0071961758E00804835 /* huquyanzhengma_kedianji600_100@2x.png in Resources */,

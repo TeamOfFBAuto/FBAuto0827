@@ -65,7 +65,7 @@
     
     
     
-    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:[LCWTools headImageForUserId:aModel.buddyid]] placeholderImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aModel.face]]]];
+    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:[LCWTools headImageForUserId:aModel.buddyid]] placeholderImage:[UIImage imageNamed:@"defaultFace"]];
 }
 
 @end

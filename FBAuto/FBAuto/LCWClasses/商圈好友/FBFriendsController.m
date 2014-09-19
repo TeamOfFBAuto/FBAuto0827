@@ -183,8 +183,8 @@
     head.backgroundColor = [UIColor whiteColor];
     
 //    NSArray *titles = @[@"添加好友",@"按地区查找",@"联系客服"];
-//    NSArray *titles = @[@"添加好友",@"联系客服"];
-    NSArray *titles = @[@"添加好友",@"对话CEO"];
+    NSArray *titles = @[@"添加好友",@"联系客服"];
+//    NSArray *titles = @[@"添加好友",@"对话CEO"];
     for (int i = 0; i < titles.count; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(10, 10 + (10 + 45) * i, 300, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToDoSomething:) sectionStyle:Section_Normal image:nil];
         btn.tag = 100 + i;
