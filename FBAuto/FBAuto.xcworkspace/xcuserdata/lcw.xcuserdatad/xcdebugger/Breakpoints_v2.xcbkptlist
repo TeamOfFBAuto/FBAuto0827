@@ -25,7 +25,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "229"
             endingLineNumber = "229"
-            landmarkName = "-sendMessage:toUser:shareLink:messageBlock:"
+            landmarkName = "-registerNewuser:passWord:completionBlock:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
