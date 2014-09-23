@@ -8,7 +8,7 @@
 
 #import "FBBaseViewController.h"
 
-@interface FBFindCarDetailController : FBBaseViewController
+@interface FBFindCarDetailController : FBBaseViewController<MFMessageComposeViewControllerDelegate>
 
 //商家信息
 @property (strong, nonatomic) IBOutlet UIImageView *headImage;

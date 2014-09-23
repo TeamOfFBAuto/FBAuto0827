@@ -432,22 +432,22 @@
 {
     NSLog(@"applicationDidBecomeActive");
     
-    if (self.pushUserInfo) {
-        
-        [self dealOfflineMessage:self.pushUserInfo];
-        self.pushUserInfo = nil;
-    }
-    
-    //图标显示
-    application.applicationIconBadgeNumber = 0;
-    
-    [[XMPPServer shareInstance]loginTimes:10 loginBack:^(BOOL result) {
-        if (result) {
-            NSLog(@"连接并且登录成功");
-        }else{
-            NSLog(@"连接登录不成功");
-        }
-    }];
+//    if (self.pushUserInfo) {
+//        
+//        [self dealOfflineMessage:self.pushUserInfo];
+//        self.pushUserInfo = nil;
+//    }
+//    
+//    //图标显示
+//    application.applicationIconBadgeNumber = 0;
+//    
+//    [[XMPPServer shareInstance]loginTimes:10 loginBack:^(BOOL result) {
+//        if (result) {
+//            NSLog(@"连接并且登录成功");
+//        }else{
+//            NSLog(@"连接登录不成功");
+//        }
+//    }];
     
 }
 

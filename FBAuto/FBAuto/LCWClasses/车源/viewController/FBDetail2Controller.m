@@ -344,17 +344,19 @@
 }
 - (IBAction)clickToChat:(id)sender {
     
-    if ([self.phoneNumLabel.text isEqualToString:[[NSUserDefaults standardUserDefaults]stringForKey:XMPP_USERID]]) {
-        
-        [LCWTools alertText:@"本人发布信息"];
-        return;
-    }
+//    if ([self.phoneNumLabel.text isEqualToString:[[NSUserDefaults standardUserDefaults]stringForKey:XMPP_USERID]]) {
+//        
+//        [LCWTools alertText:@"本人发布信息"];
+//        return;
+//    }
+//    
+//    FBChatViewController *chat = [[FBChatViewController alloc]init];
+//    chat.chatWithUser = self.phoneNumLabel.text;
+//    chat.chatWithUserName = self.nameLabel.text;
+//    chat.chatUserId = userId;
+//    [self.navigationController pushViewController:chat animated:YES];
     
-    FBChatViewController *chat = [[FBChatViewController alloc]init];
-    chat.chatWithUser = self.phoneNumLabel.text;
-    chat.chatWithUserName = self.nameLabel.text;
-    chat.chatUserId = userId;
-    [self.navigationController pushViewController:chat animated:YES];
+    [self showSMSPicker:self.phoneNumLabel.text smsBody:@"短信内容"];
     
 }
 
@@ -464,5 +466,69 @@
     }];
 }
 
+#pragma mark - 发送短信
+
+//短信
+
+-(void)showSMSPicker:(NSString *)phoneNumber smsBody:(NSString *)smsBody{
+    
+    Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
+    if (messageClass != nil) {
+        // Check whether the current device is configured for sending SMS messages
+        if ([messageClass canSendText]) {
+            
+            [self displaySMSComposerSheet:phoneNumber smsBody:smsBody];
+        }
+        else {
+            
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@""message:@"设备不支持短信功能" delegate:self cancelButtonTitle:@"确定"otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    else {
+        
+    }
+}
+
+-(void)displaySMSComposerSheet:(NSString *)phoneNumber smsBody:(NSString *)smsBody
+
+{
+    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+    picker.messageComposeDelegate =self;
+    
+    //收件人
+    NSArray *receiveArr = [NSArray arrayWithObjects:phoneNumber, nil];
+    [picker setRecipients:receiveArr];
+    //短信内容
+    picker.body=smsBody;
+    
+    [self presentViewController:picker animated:YES completion:Nil];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    switch (result)
+    
+    {
+            
+        case MessageComposeResultCancelled:
+            
+            NSLog(@"Result: 取消短信发送");
+            break;
+            
+        case MessageComposeResultSent:
+            NSLog(@"Result: 短信发送成功");
+            break;
+            
+        case MessageComposeResultFailed:
+            NSLog(@"Result: 短信发送失败");
+            break;
+        default:
+            break;
+            
+    }
+    //退出发短信界面
+    [self dismissViewControllerAnimated:YES completion:Nil];
+}
 
 @end

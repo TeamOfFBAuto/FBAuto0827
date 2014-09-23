@@ -8,7 +8,7 @@
 
 #import "FBBaseViewController.h"
 
-@interface FBDetail2Controller : FBBaseViewController<UIScrollViewDelegate>
+@interface FBDetail2Controller : FBBaseViewController<UIScrollViewDelegate,MFMessageComposeViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *firstBgView;
 @property (strong, nonatomic) IBOutlet UIView *thirdBgView;
 @property (strong, nonatomic) IBOutlet UIScrollView *bigBgScroll;

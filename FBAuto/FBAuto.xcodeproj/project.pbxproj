@@ -11,6 +11,7 @@
 		1315537B1979243B0044C010 /* FindCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 131553791979243B0044C010 /* FindCarCell.m */; };
 		1315537C1979243B0044C010 /* FindCarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1315537A1979243B0044C010 /* FindCarCell.xib */; };
 		1315537F19792FC60044C010 /* LSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1315537E19792FC60044C010 /* LSearchView.m */; };
+		1315C71219D11FD4002F3D88 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1315C71119D11FD4002F3D88 /* MessageUI.framework */; };
 		132A81E019AEC2DD0035D0CE /* LDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 132A81DF19AEC2DD0035D0CE /* LDatePicker.m */; };
 		1336BC06196A88410011B4D9 /* duihuahuang1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1336BC04196A88410011B4D9 /* duihuahuang1@2x.png */; };
 		1336BC09196A8CE70011B4D9 /* FBAreaFriensController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1336BC08196A8CE70011B4D9 /* FBAreaFriensController.m */; };
@@ -418,6 +419,7 @@
 		1315537A1979243B0044C010 /* FindCarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindCarCell.xib; sourceTree = "<group>"; };
 		1315537D19792FC60044C010 /* LSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSearchView.h; sourceTree = "<group>"; };
 		1315537E19792FC60044C010 /* LSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSearchView.m; sourceTree = "<group>"; };
+		1315C71119D11FD4002F3D88 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		132A81DE19AEC2DD0035D0CE /* LDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDatePicker.h; sourceTree = "<group>"; };
 		132A81DF19AEC2DD0035D0CE /* LDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDatePicker.m; sourceTree = "<group>"; };
 		1336BC04196A88410011B4D9 /* duihuahuang1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "duihuahuang1@2x.png"; sourceTree = "<group>"; };
@@ -484,7 +486,6 @@
 		137FEB0B1974D48100CDBD89 /* CarType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarType.m; sourceTree = "<group>"; };
 		137FEB0D1974FB4800CDBD89 /* Menu_Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu_Car.h; sourceTree = "<group>"; };
 		137FEB0E1974FB4800CDBD89 /* Menu_Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu_Car.m; sourceTree = "<group>"; };
-		138074E4196CEB3F00AD3D03 /* FBFriendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendModel.h; sourceTree = SOURCE_ROOT; };
 		138074EE196D3DA100AD3D03 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		138074EF196D3DA100AD3D03 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		138074F1196D3E1000AD3D03 /* FBCityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBCityData.h; sourceTree = "<group>"; };
@@ -957,6 +958,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1315C71219D11FD4002F3D88 /* MessageUI.framework in Frameworks */,
 				13C7174419824C5B008F7B42 /* libsqlite3.dylib in Frameworks */,
 				13C7174219824C51008F7B42 /* libstdc++.dylib in Frameworks */,
 				13C7174019824C48008F7B42 /* Security.framework in Frameworks */,
@@ -1166,7 +1168,6 @@
 		138B49EC196552CE00B974A5 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				138074E4196CEB3F00AD3D03 /* FBFriendModel.h */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1920,6 +1921,7 @@
 		190BFD3D195AA0FB0098E0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1315C71119D11FD4002F3D88 /* MessageUI.framework */,
 				13C7174319824C5B008F7B42 /* libsqlite3.dylib */,
 				13C7174119824C51008F7B42 /* libstdc++.dylib */,
 				13C7173F19824C48008F7B42 /* Security.framework */,

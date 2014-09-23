@@ -179,17 +179,21 @@
 
 - (UIView *)tableHeaderView
 {
-    UIView *head = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 165 + 10 - 45 - 10)];
+    UIView *head = [[UIView alloc]init];
     head.backgroundColor = [UIColor whiteColor];
     
 //    NSArray *titles = @[@"添加好友",@"按地区查找",@"联系客服"];
-    NSArray *titles = @[@"添加好友",@"联系客服"];
+//    NSArray *titles = @[@"添加好友",@"联系客服"];
+     NSArray *titles = @[@"添加好友"];
+    
 //    NSArray *titles = @[@"添加好友",@"对话CEO"];
     for (int i = 0; i < titles.count; i ++) {
         Section_Button *btn = [[Section_Button alloc]initWithFrame:CGRectMake(10, 10 + (10 + 45) * i, 300, 45) title:[titles objectAtIndex:i] target:self action:@selector(clickToDoSomething:) sectionStyle:Section_Normal image:nil];
         btn.tag = 100 + i;
         [head addSubview:btn];
     }
+    
+    head.frame = CGRectMake(0, 0, 320, 10 + titles.count * (45 + 10));
 
     return head;
 }
